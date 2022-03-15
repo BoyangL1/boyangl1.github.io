@@ -1,2 +1,10 @@
-http://example.com/2022/03/14/hello-world/
-http://example.com/
+https://boyangl1.github.io/2022/03/14/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C/
+https://boyangl1.github.io/tags/index.html
+https://boyangl1.github.io/repository/index.html
+https://boyangl1.github.io/links/index.html
+https://boyangl1.github.io/categories/index.html
+https://boyangl1.github.io/books/index.html
+https://boyangl1.github.io/about/index.html
+https://boyangl1.github.io/404.html
+https://boyangl1.github.io/
+https://boyangl1.github.io/tags/%E5%9B%A0%E6%9E%9C%E6%8E%A8%E6%96%AD/
