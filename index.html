@@ -1,425 +1,876 @@
 <!DOCTYPE html>
-<html lang=en>
+<html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
-  <meta name="renderer" content="webkit">
-  <meta http-equiv="Cache-Control" content="no-transform" />
-  <meta http-equiv="Cache-Control" content="no-siteapp" />
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="format-detection" content="telephone=no,email=no,adress=no">
-  <!-- Color theme for statusbar -->
-  <meta name="theme-color" content="#000000" />
-  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
-  <meta http-equiv="window-target" content="_top" />
-  
-  
-  <title>Boyang&#39;s blog</title>
-  <meta name="description" content="blog of boyang">
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"boyangl1.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="李博洋的个人博客">
 <meta property="og:type" content="website">
-<meta property="og:title" content="blog of boyang">
+<meta property="og:title" content="Boyang&#39;s blog">
 <meta property="og:url" content="https://boyangl1.github.io/index.html">
-<meta property="og:site_name" content="blog of boyang">
-<meta property="og:description" content="blog of boyang">
-<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Boyang&#39;s blog">
+<meta property="og:description" content="李博洋的个人博客">
+<meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="Boyang Li">
 <meta property="article:tag" content="blog">
 <meta name="twitter:card" content="summary">
-  <!-- Canonical links -->
-  <link rel="canonical" href="https://boyangl1.github.io/index.html">
-  
-    <link rel="alternate" href="/atom.xml" title="blog of boyang" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png" type="image/x-icon">
-  
-  
-<link rel="stylesheet" href="/css/style.css">
 
-  
-  
-  
-  
-<meta name="generator" content="Hexo 6.1.0"></head>
+<link rel="canonical" href="https://boyangl1.github.io/">
 
 
-<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
-  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-  <div class="slimContent">
-    <div class="navbar-header">
-      
-      
-      <div class="profile-block text-center">
-        <a id="avatar" href="https://github.com/BoyangL1" target="_blank">
-          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
-        </a>
-        <h2 id="name" class="hidden-xs hidden-sm">李博洋</h2>
-        <h3 id="title" class="hidden-xs hidden-sm hidden-md">热爱生活，追求技术</h3>
-        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shenzhen, China</small>
-      </div>
-      
-      <div class="search" id="search-form-wrap">
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
 
-    <form class="search-form sidebar-form">
-        <div class="input-group">
-            <input type="text" class="search-form-input form-control" placeholder="Search" />
-            <span class="input-group-btn">
-                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
-            </span>
-        </div>
-    </form>
-    <div class="ins-search">
-  <div class="ins-search-mask"></div>
-  <div class="ins-search-container">
-    <div class="ins-input-wrapper">
-      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
-      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+  <title>Boyang's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Boyang's blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
-    <div class="ins-section-wrapper">
-      <div class="ins-section-container"></div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Boyang's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
     </div>
   </div>
 </div>
 
 
-</div>
-      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-    </div>
-    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
-      <ul class="nav navbar-nav main-nav ">
-        
-        
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
-          <a href="/.">
-            
-            <i class="icon icon-home-fill"></i>
-            
-            <span class="menu-title">Home</span>
-          </a>
-        </li>
-        
-        
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
         <li class="menu-item menu-item-archives">
-          <a href="/archives">
-            
-            <i class="icon icon-archives-fill"></i>
-            
-            <span class="menu-title">Archives</span>
-          </a>
-        </li>
-        
-        
-        <li class="menu-item menu-item-categories">
-          <a href="/categories">
-            
-            <i class="icon icon-folder"></i>
-            
-            <span class="menu-title">Categories</span>
-          </a>
-        </li>
-        
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags">
-            
-            <i class="icon icon-tags"></i>
-            
-            <span class="menu-title">Tags</span>
-          </a>
-        </li>
-        
-        
-        <li class="menu-item menu-item-repository">
-          <a href="/repository">
-            
-            <i class="icon icon-project"></i>
-            
-            <span class="menu-title">Repository</span>
-          </a>
-        </li>
-        
-        
-        <li class="menu-item menu-item-books">
-          <a href="/books">
-            
-            <i class="icon icon-book-fill"></i>
-            
-            <span class="menu-title">Books</span>
-          </a>
-        </li>
-        
-        
-        <li class="menu-item menu-item-links">
-          <a href="/links">
-            
-            <i class="icon icon-friendship"></i>
-            
-            <span class="menu-title">Links</span>
-          </a>
-        </li>
-        
-        
-        <li class="menu-item menu-item-about">
-          <a href="/about">
-            
-            <i class="icon icon-cup-fill"></i>
-            
-            <span class="menu-title">About</span>
-          </a>
-        </li>
-        
-      </ul>
-      
-	
-    <ul class="social-links">
-    	
-        <li><a href="https://github.com/BoyangL1" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
-        
-    </ul>
 
-    </nav>
-  </div>
-</header>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">2</span></a>
 
-  
-    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
-  <div class="slimContent">
-    
-      <div class="widget">
-    <h3 class="widget-title">Board</h3>
-    <div class="widget-body">
-        <div id="board">
-            <div class="content">
-                <p>欢迎来到李博洋的个人博客，这里有知识干货，有生活分享，期待与你的交流~</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-    
-      
-
-    
-      
-  <div class="widget">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget-body">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%A0%E6%9E%9C%E6%8E%A8%E6%96%AD/" rel="tag">因果推断</a><span class="tag-list-count">1</span></li></ul>
-    </div>
-  </div>
-
-
-    
-      
-  <div class="widget">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget-body tagcloud">
-      <a href="/tags/%E5%9B%A0%E6%9E%9C%E6%8E%A8%E6%96%AD/" style="font-size: 13px;">因果推断</a>
-    </div>
-  </div>
-
-    
-      
-  <div class="widget">
-    <h3 class="widget-title">Archive</h3>
-    <div class="widget-body">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a><span class="archive-list-count">1</span></li></ul>
-    </div>
-  </div>
-
-
-    
-      
-  <div class="widget">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget-body">
-      <ul class="recent-post-list list-unstyled no-thumbnail">
-        
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                
-              </p>
-              <p class="item-title">
-                <a href="/2022/03/14/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C/" class="title">结构因果模型</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2022-03-14T15:16:12.000Z" itemprop="datePublished">2022-03-14</time>
-              </p>
-            </div>
-          </li>
-          
-      </ul>
-    </div>
-  </div>
-  
-
-    
-  </div>
-</aside>
-
-  
-  <main class="main" role="main">
-  
-  
-    <div class="content">
-  <article id="post-结构因果" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
-    
-    <div class="article-header">
-      
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/14/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C/">结构因果模型</a>
-    </h1>
-  
-
-      
-      <div class="article-meta">
-        <span class="article-date">
-    <i class="icon icon-calendar-check"></i>
-	<a href="/2022/03/14/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C/" class="article-date">
-	  <time datetime="2022-03-14T15:16:12.000Z" itemprop="datePublished">2022-03-14</time>
-	</a>
-</span>
-        
-        
-  <span class="article-tag">
-    <i class="icon icon-tags"></i>
-	<a class="article-tag-link-link" href="/tags/%E5%9B%A0%E6%9E%9C%E6%8E%A8%E6%96%AD/" rel="tag">因果推断</a>
-  </span>
-
-
-        
-
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2022/03/14/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C/#comments" class="article-comment-link">Comments</a></span>
-        
-	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 0(words)</span>
-	
-	
-		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 1(minutes)</span>
-	
-
-      </div>
-    </div>
-    <div class="article-entry marked-body" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <div class="article-footer">
-      <blockquote class="mt-2x">
-  <ul class="post-copyright list-unstyled">
-    
-    <li class="post-copyright-link hidden-xs">
-      <strong>本文链接：</strong>
-      <a href="https://boyangl1.github.io/2022/03/14/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C/" title="结构因果模型" target="_blank" rel="external">https://boyangl1.github.io/2022/03/14/结构因果/</a>
-    </li>
-    
-    <li class="post-copyright-license">
-      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
-    </li>
+  </li>
   </ul>
-</blockquote>
+</nav>
 
 
-<div class="panel panel-default panel-badger">
-  <div class="panel-body">
-    <figure class="media">
-      <div class="media-left">
-        <a href="https://github.com/BoyangL1" target="_blank" class="img-burn thumb-sm visible-lg">
-          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
-        </a>
-      </div>
-      <div class="media-body">
-        <h3 class="media-heading"><a href="https://github.com/BoyangL1" target="_blank"><span class="text-dark">李博洋</span><small class="ml-1x">热爱生活，追求技术</small></a></h3>
-        <div>致力于城市计算方向，力求让城市更加智能</div>
-      </div>
-    </figure>
-  </div>
+
+
 </div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
 
 
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://boyangl1.github.io/2022/03/15/DeepIRL/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Boyang Li">
+      <meta itemprop="description" content="李博洋的个人博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boyang's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/03/15/DeepIRL/" class="post-title-link" itemprop="url">深度逆向强化学习公式推导</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-03-15 16:36:06 / 修改时间：16:36:58" itemprop="dateCreated datePublished" datetime="2022-03-15T16:36:06+08:00">2022-03-15</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>符号标识</p>
+<p><span class="math display">\[\begin{matrix}
+\ \xi = \left\{ s_{1},a_{1},\ldots,s_{t},a_{t} \right\}\ (1) \\
+\end{matrix}\]</span></p>
+<p><span class="math display">\[\begin{matrix}
+R_{\lambda} = \sum_{}^{}{r_{\lambda}(s_{t},a_{t})}\ \ (2) \\
+\end{matrix}\]</span></p>
+<p>最优化公式</p>
+<p><span class="math display">\[\begin{matrix}
+Max\ \sum_{Path\xi_{i}}^{}{- p\left( \xi_{i} \right)lgp\left( \xi_{i}
+\right)}\ \ \ (3) \\
+\end{matrix}\]</span></p>
+<p><span class="math display">\[\begin{matrix}
+s.t.\ \sum_{Path\xi_{i}}^{}{p\left( \xi_{i} \right)f_{\xi_{i}}} =
+\widetilde{f}\ (4) \\
+\end{matrix}\]</span></p>
+<p><span class="math display">\[\begin{matrix}
+\sum_{Path\xi_{i}}^{}{p\left( \xi_{i} \right) = 1}\ (5) \\
+\end{matrix}\]</span></p>
+<p>利用拉格朗日乘子法，该优化问题可以转化为：</p>
+<p><span class="math display">\[\begin{matrix}
+\min L = \sum_{\xi_{i}}^{}{plgp} - \sum_{\xi_{i} =
+1}^{n}{\lambda_{\xi_{i}}\left( pf_{\xi_{i}} - \widetilde{f} \right) -
+\lambda_{0}\left( \sum_{}^{}{p - 1} \right)}\ \ \ (6) \\
+\end{matrix}\]</span></p>
+<p>对概率p进行微分，并令导数为0，可以得到：</p>
+<p><span class="math display">\[\begin{matrix}
+\frac{\partial L}{\partial p} = \sum_{\xi_{i}}^{}{lgp} + 1 -
+\sum_{\xi_{i} = 1}^{n}{\lambda_{\xi_{i}}f_{\xi_{i}}} - \lambda_{0} = 0\
+(7) \\
+\end{matrix}\]</span></p>
+<p><span class="math display">\[\begin{matrix}
+p = \frac{\exp\left( \sum_{\xi_{i} =
+1}^{n}{\lambda_{\xi_{i}}f_{\xi_{i}}} \right)}{\exp\left( 1 - \lambda_{0}
+\right)}\ (8) \\
+\end{matrix}\]</span></p>
+<p>轨迹的加和同样等同于状态的加和，即<span
+class="math inline">\(\sum_{\xi_{i} =
+1}^{n}{\lambda_{\xi_{i}}f_{\xi_{i}}} = \sum_{j =
+1}^{n}{\lambda_{j}f_{j}}\)</span>，因此式(8)可改写为</p>
+<p><span class="math display">\[\begin{matrix}
+p = \frac{\exp\left( \sum_{j = 1}^{n}{\lambda_{j}f_{j}}
+\right)}{\exp\left( 1 - \lambda_{0} \right)} = \frac{1}{Z}\exp\left(
+\sum_{j = 1}^{n}{\lambda_{j}f_{j}} \right)\ (9) \\
+\end{matrix}\]</span></p>
+<p>将(9)带入(5)可得</p>
+<p><span class="math display">\[\begin{matrix}
+\sum_{Path\xi_{i}}^{}{\frac{1}{Z}\exp\left( \sum_{j =
+1}^{n}{\lambda_{j}f_{j}} \right)} = 1\ (10) \\
+\end{matrix}\]</span></p>
+<p>因此:</p>
+<p><span class="math display">\[\begin{matrix}
+Z = \sum_{Path\xi_{i}}^{}{\exp\left( \sum_{j = 1}^{n}{\lambda_{j}f_{j}}
+\right)}\ (11) \\
+\end{matrix}\]</span></p>
+<p>将(11)带入(9)可得：</p>
+<p><span class="math display">\[\begin{matrix}
+P_{\lambda} = P\left( \xi_{i}|\lambda \right) = \frac{\exp\left( \sum_{j
+= 1}^{n}{\lambda_{j}f_{j}} \right)}{\sum_{Path\xi_{i}}^{}{\exp\left(
+\sum_{j = 1}^{n}{\lambda_{j}f_{j}} \right)}}\ (12) \\
+\end{matrix}\]</span></p>
+<h2 id="最大似然">最大似然</h2>
+<p>利用最大似然函数对式(12)进行求解</p>
+<p><span class="math display">\[\begin{matrix}
+\lambda = \underset{\lambda}{argmax}\sum_{\xi \in \Xi}^{}{logp\left( \xi
+\middle| \lambda \right)}\ (13) \\
+\end{matrix}\]</span></p>
+<p>令<span class="math inline">\(L(\lambda) = \sum_{\xi \in
+\Xi}^{}{logp\left( \xi \middle| \lambda \right)}\)</span>则</p>
+<p><span class="math display">\[{L(\lambda) = \sum_{\xi \in
+\Xi}^{}{logp\left( \xi \middle| \lambda \right)}
+}{\begin{matrix}  = \sum_{\xi \in \Xi}^{}{\sum_{j =
+1}^{n}{\lambda_{j}f_{j}}} - \sum_{\xi \in \Xi}^{}{\log Z_{\lambda}}\  \\
+\end{matrix}
+}\begin{matrix}
+= \sum_{\xi \in \Xi}^{}{R_{\lambda}(\xi) - \sum_{\xi \in \Xi}^{}{\log
+Z_{\lambda}}}\ (14) \\
+\end{matrix}\]</span></p>
+<p>因此，对式(14)求导可得</p>
+<p><span class="math display">\[{\nabla L(\lambda) = \sum_{\xi \in
+\Xi}^{}\frac{dR_{\lambda}(\xi)}{d\lambda} - \sum_{\xi \in
+\Xi}^{}\frac{1}{\sum_{\Xi}^{}{\exp\left( R_{\lambda}(\xi)
+\right)}}\sum_{\xi \in \Xi}^{}{\exp\left( R_{\lambda}(\xi)
+\right)}\frac{dR_{\lambda}(\xi)}{d\lambda}\
+}{= \sum_{\xi \in \Xi}^{}\frac{dR_{\lambda}(\xi)}{d\lambda} - \sum_{\xi
+\in \Xi}^{}{\sum_{\xi \in \Xi}^{}{p\left( \xi \middle| \lambda
+\right)}\frac{dR_{\lambda}(\xi)}{d\lambda}}
+}{= \frac{dR_{\lambda}(\xi)}{d\lambda} - \sum_{\xi \in \Xi}^{}{p\left(
+\xi \middle| \lambda \right)\frac{dR_{\lambda}(\xi)}{d\lambda}}
+}\begin{matrix}
+= \widetilde{f} - \sum_{\xi \in \Xi}^{}{p\left( \xi \middle| \lambda
+\right)f_{\xi}}\ \ (15) \\
+\end{matrix}\]</span></p>
+<p>轨迹的加和同样等同于状态的加和，因此式(15)最终简化为</p>
+<p><span class="math display">\[\begin{matrix}
+\nabla L(\lambda) = \widetilde{f} - \sum_{s_{i}}^{}{D_{s_{i}}f_{s_{i}}}\
+(16) \\
+\end{matrix}\]</span></p>
+<p>此外，式子(15)还可以看作<span
+class="math inline">\(\frac{\partial\mathcal{L}_{\mathcal{D}}}{\partial
+R}\frac{\partial
+R}{\partial\lambda}\)</span>的形式，则式(15)可以改写为：</p>
+<p><span class="math display">\[{\nabla L(\lambda) = \sum_{\xi \in
+\Xi}^{}\frac{dR_{\lambda}(\xi)}{d\lambda} - \sum_{\xi \in
+\Xi}^{}{p\left( \xi \middle| \lambda
+\right)}\frac{dR_{\lambda}(\xi)}{d\lambda}
+}{\ \ \ \ \  = \sum_{\xi \in \Xi}^{}{\left( 1 - p\left( \xi \middle|
+\lambda \right) \right)\frac{dR_{\lambda}(\xi)}{d\lambda}}
+}{\ \ \ \ \  = \left( \mu_{D} - E\lbrack\mu\rbrack \right)\frac{\partial
+g(f,\lambda)}{\partial\lambda}}\]</span></p>
+<h2 id="最大后验概率">最大后验概率：</h2>
+<p><span class="math display">\[p(\lambda/\xi) =
+\frac{p(\xi|\lambda)p(\lambda)}{p(\xi)}\]</span></p>
+<p>利用最大后验概率对式(12)进行求解</p>
+<p><span class="math display">\[\lambda =
+\underset{\lambda}{argmax}\sum_{\xi \in \Xi}^{}{logp\left( \xi \middle|
+\lambda \right)}p(\lambda)\]</span></p>
+<p><span class="math display">\[{L(\lambda) = \sum_{\xi \in
+\Xi}^{}{logp\left( \xi \middle| \lambda \right)p(\lambda)}
+}{= \sum_{\xi \in \Xi}^{}\left( logp\left( \xi \middle| \lambda \right)
++ logp(\lambda) \right)
+}{= \sum_{\xi \in \Xi}^{}{(\mathcal{L}_{\mathcal{D}} +
+\mathcal{L}_{\lambda})}}\]</span></p>
+<p>因此</p>
+<p><span class="math display">\[{\nabla L(\lambda) = \sum_{\xi \in
+\Xi}^{}\left( \frac{\partial\mathcal{L}_{\mathcal{D}}}{\partial
+R}\frac{\partial R}{\partial\lambda}\  +
+\frac{\partial\mathcal{L}_{\lambda}}{\partial\lambda} \right)
+}{= \sum_{\xi \in \Xi}^{}{\left( 1 - p\left( \xi \middle| \lambda
+\right) \right)\frac{\partial g(f,\lambda)}{\partial\lambda}} +
+\frac{\partial\mathcal{L}_{\lambda}}{\partial\lambda}
+}{= \left( \mu_{D} - E\lbrack\mu\rbrack \right)\frac{\partial
+g(f,\lambda)}{\partial\lambda} +
+\frac{\partial\mathcal{L}_{\lambda}}{\partial\lambda}}\]</span></p>
+<p>其中<span
+class="math inline">\(\frac{\partial\mathcal{L}_{\lambda}}{\partial\lambda}\)</span>为关于参数<span
+class="math inline">\(\lambda\)</span>的正则化项</p>
+
+      
     </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
   </article>
   
-</div>
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://boyangl1.github.io/2022/03/15/%E6%9C%80%E5%A4%A7%E5%9B%A0%E6%9E%9C%E7%86%B5%E9%80%86%E5%90%91%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Boyang Li">
+      <meta itemprop="description" content="李博洋的个人博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boyang's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/03/15/%E6%9C%80%E5%A4%A7%E5%9B%A0%E6%9E%9C%E7%86%B5%E9%80%86%E5%90%91%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">最大因果熵逆向强化学习</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-03-15 13:26:28 / 修改时间：16:11:56" itemprop="dateCreated datePublished" datetime="2022-03-15T13:26:28+08:00">2022-03-15</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>最大因果熵逆向强化学习</p>
+<ol type="1">
+<li><strong>马尔科夫决策过程 Markov decision process (MDP)</strong></li>
+</ol>
+<blockquote>
+<p><strong>定义1：</strong> 马尔可夫决策过程定义为一个元组<span
+class="math inline">\(M = \left( S,A,P_{T},R,P_{0},S_{\phi}
+\right)\)</span></p>
+<p><span class="math inline">\(S\)</span>：有限或无限状态集合</p>
+<p><span class="math inline">\(A\)</span>：有限或无限的动作集合</p>
+<p><span class="math inline">\(P_{T}\)</span>：状态转移概率分布，<span
+class="math inline">\(P_{T}(S_{j}|A_{i},S_{i})\)</span>表示智能体在状态<span
+class="math inline">\(S_{i}\)</span>采取动作<span
+class="math inline">\(A_{i}\)</span>后转移到状态<span
+class="math inline">\(S_{j}\)</span>的概率</p>
+<p><span class="math inline">\(R\)</span>：<span
+class="math inline">\(R(S,A)\)</span>表示立即奖励函数</p>
+<p><span class="math inline">\(S_{\phi}\)</span>：最终状态集合</p>
+</blockquote>
+<ol start="2" type="1">
+<li><strong>强化学习 Reinforcement Learning（RL）</strong></li>
+</ol>
+<p>在RL中，其目标在于学习到一个策略<span
+class="math inline">\(\pi\)</span>，从而指导智能体的MDP，其目的在于最大化累计奖励函数，为了用公式表达这个过程，我们需要定义状态值函数以及状态-动作值函数：</p>
+<p><strong>定义2：</strong>
+状态值函数，表示从某一状态开始，采用策略<span
+class="math inline">\(\pi\)</span>获得的未来预期奖励。在离散且符合MDP的情况下，可以定义为以下迭代公式：</p>
+<p><span class="math display">\[\begin{matrix}
+V_{\pi}(S) = \sum_{A \in \mathcal{A}}^{}\left\lbrack \pi\left( A
+\middle| S \right)\left\lbrack R(S,A) + \sum_{\begin{matrix}
+S^{&#39;} \in S \\
+\  \\
+\end{matrix}}^{}{P_{T}\left( S^{&#39;} \middle| A,S \right)V_{\pi}\left(
+S^{&#39;} \right)} \right\rbrack \right\rbrack (1) \\
+\end{matrix}\]</span></p>
+<p><strong>定义3：</strong>
+Q函数，也被称作动作-状态值函数,包含依据策略<span
+class="math inline">\(\pi\)</span>在状态<span
+class="math inline">\(s\)</span>采用动作<span
+class="math inline">\(a\)</span>后获得的未来预期奖励。在离散且符合MDP的情况下，可以定义为以下公式：</p>
+<p><span class="math display">\[\begin{matrix}
+Q_{\pi} = \ R(S,A) + \sum_{\begin{matrix}
+S^{&#39;} \in S \\
+\  \\
+\end{matrix}}^{}{P_{T}\left( S^{&#39;} \middle| A,S \right)V_{\pi}\left(
+S^{&#39;} \right)} (2) \\
+\end{matrix}\]</span></p>
+<p>(2)式的第一项为在状态<span
+class="math inline">\(s\)</span>采取动作<span
+class="math inline">\(a\)</span>后的立即奖励，第二项为转移到状态<span
+class="math inline">\(s^{&#39;}\)</span>后的未来预期奖励。由此，可对式（1）进行重写为如下格式</p>
+<p><span class="math display">\[\begin{matrix}
+V_{\pi}(S) = \sum_{A \in \mathcal{A}}^{}{\pi\left( A \middle| S
+\right)Q_{\pi}(S,A)} (3) \\
+\end{matrix}\]</span></p>
+<p><strong>定义4：</strong>
+最优确定性策略表示为Q函数取最大值时的动作<span
+class="math inline">\(a\)</span>，定义为如下公式：</p>
+<p><span class="math display">\[\begin{matrix}
+{\overline{\pi}}^{*}(S) = \underset{A \in
+\mathcal{A}}{argmax}Q_{\pi}(S,A) (4) \\
+\end{matrix}\]</span></p>
+<p>马尔科夫决策过程可以映射为agent在一个grid
+world中通过强化学习来抵达目的地，其目标是：学习一个最优策略，找到当前状态下采取哪个动作能够获得最大的奖励值，以此类推形成一组最优动作序列。当该动作有助于抵达目标状态则指定一个正向的奖励值，否则是负向的惩罚值，最后确保累计得到的奖励值是最大化的。但是，当agent在完成比较复杂的任务时，这个过程中的奖励函数是很难指定，例如行人的出行决策，可能受到多种因素的影响，无法显示给定，因此我们希望找到一种方法可以推导从观测到的行人出行序列中推到出这个奖励函数，由此引出逆向强化学习。</p>
+<ol start="3" type="1">
+<li><strong>逆向强化学习 Inverse Reinforcement
+Learning（IRL）</strong></li>
+</ol>
+<p>逆向强化学习假设输入元组为<span
+class="math inline">\(MDP/R\)</span>，也就是<span
+class="math inline">\(MDP\)</span>中没有奖励函数<span
+class="math inline">\(R\)</span>。相反我们拥有一系列观测轨迹（序列、行为）：<span
+class="math inline">\(\mathcal{B =
+\{}B_{1},B_{2},\ldots,B_{n}\}\)</span>，其中<span
+class="math inline">\(\mathcal{B \ni}B = \left( \left( S_{1},A_{1}
+\right),\ldots,\left( S_{mB},A_{mB} \right) \right) \in (S \times
+A)^{mB}\)</span>。逆向强化学习的目的在于通过已知观测轨迹，学习到激励agent产生如此轨迹的奖励函数。</p>
+<ol type="1">
+<li><strong>特征匹配IRL算法</strong></li>
+</ol>
+<p><span class="math inline">\(f_{s,a}:S \times
+A\)</span>为给定观测轨迹元组的特征函数,通过多条已知观测轨迹，我们可以计算出经验特征值<span
+class="math inline">\(f_{\mathcal{B}} = \frac{1}{\left| \mathcal{B}
+\right|}\sum_{B\mathcal{\in B}}^{}f_{B}\)</span>，其中<span
+class="math inline">\(f_{B} = \frac{1}{|B|}\sum_{(S \times A) \in
+B}^{}f_{S,A}\)</span>。假设IRL学得了一个奖励函数<span
+class="math inline">\(\widehat{R}\)</span>，同时RL算法通过<span
+class="math inline">\(MDP/R \cup \widehat{R}\)</span>学到了策略函数<span
+class="math inline">\(\widehat{\pi}\)</span>，那么我们可以假设IRL满足以下约束：</p>
+<p><span class="math display">\[\begin{matrix}
+E\left\lbrack f_{s,a} \middle| \widehat{\pi} \right\rbrack =
+f_{\mathcal{B}} (5) \\
+\end{matrix}\]</span></p>
+<p>因此，特征匹配IRL算法（学徒算法、最大边际效应算法等）会通过以下两步进行学习直至收敛：</p>
+<ol type="1">
+<li><p>利用RL算法，通过当前奖励函数<span
+class="math inline">\(\widehat{R}\)</span>学习到策略函数<span
+class="math inline">\(\widehat{\pi}\)</span></p></li>
+<li><p>通过衡量当前策略函数<span
+class="math inline">\(\widehat{\pi}\)</span>生成的轨迹与已知轨迹的损失值来更新奖励函数<span
+class="math inline">\(\widehat{R}\)</span></p>
+<ol type="1">
+<li><strong>最大因果熵逆向强化学习 Maximum Causal Entropy Inverse
+Reinforcement Learning(MaxCausalEnt IRL)</strong></li>
+</ol></li>
+</ol>
+<p>特征匹配的IRL算法是病态的算法，对于同一系列轨迹可能存在多种不同可解释的奖励函数，为了解决奖励函数与观测轨迹之间的模糊性，MaxCausalEnt通过引入最大熵原理来解决这一问题。举例来说，对于观测轨迹中没有出现过的状态，MaxCausalEnt
+IRL算法对于未知动作的分配应当是等可能的。</p>
+<p>对于因果熵，我们首先考虑因果策略模型<span
+class="math inline">\(\pi(A_{t}|S_{1:t},\mathcal{A}_{1:t -
+1})\)</span>和标准策略模型<span
+class="math inline">\(\pi(A_{t}|S_{t})\)</span>,区别在于因果策略模型认为某一动作的选择与之前所有的动作和状态均有关而标准策略模型认为只和当前状态有关。然而，尽管因果假设更加强大，在IRL中完全应用因果条件会破坏Markovian假设，从而导致求解问题更加复杂。综上，我们可以将继承因果模型的思想，提出如下约束:</p>
+<p><span class="math display">\[\begin{matrix}
+\pi\left( A_{t} \middle| S_{1:t},\mathcal{A}_{1:t - 1} \right) =
+\pi\left( A_{t} \middle| S_{t} \right) (6) \\
+\end{matrix}\]</span></p>
+<p>接下来对该问题的基础参数进行建模：</p>
+<p><span class="math display">\[\begin{matrix}
+R_{\theta}(S,A) = \theta^{T}f_{S,A} (7) \\
+\end{matrix}\]</span></p>
+<p><span class="math display">\[\begin{matrix}
+V_{\pi\theta}^{soft}\left( S_{t} \right) = log\sum_{A_{t}\mathcal{\in
+A}}^{}e^{Q_{\pi\theta}^{soft}\left( A_{t},S_{t} \right)} (8) \\
+\end{matrix}\]</span></p>
+<p><span class="math display">\[\begin{matrix}
+Q_{\pi\theta}^{soft}\left( A_{t},S_{t} \right) = R_{\theta}\left(
+S_{t},A_{t} \right) + \sum_{S^{&#39;} \in
+S}^{}{P_{T}(S^{&#39;}|A_{t},S_{t})V_{\pi\theta}^{soft}\left( S^{&#39;}
+\right)} (9) \\
+\end{matrix}\]</span></p>
+<p><span class="math display">\[\begin{matrix}
+\pi_{\theta}\left( A_{t} \middle| S_{t} \right) =
+e^{Q_{\pi\theta}^{soft}\left( A_{t},S_{t} \right) -
+V_{\pi\theta}^{soft}\left( S^{&#39;} \right)} (10) \\
+\end{matrix}\]</span></p>
+<p><span class="math display">\[\begin{matrix}
+\mu(\pi) = E\left\lbrack \sum_{t =
+0}^{\infty}{\gamma^{&#39;}f_{S_{t},A_{t}}|\pi} \right\rbrack (11) \\
+\end{matrix}\]</span></p>
+<p>当给定m条观测轨迹时，依据式（11）观测轨迹的特征期望为：</p>
+<p><span class="math display">\[\begin{matrix}
+\widehat{\mu_{E}} = \frac{1}{m}\sum_{i = 1}^{m}{\sum_{t =
+0}^{\infty}{\gamma^{&#39;}f_{S_{t},A_{t}}^{i}}} (12) \\
+\end{matrix}\]</span></p>
+<p>从概率的角度理解该问题，可认为存在一个潜在的概率分布，在该分布下产生了观测专家轨迹，结合最大熵原理，可以写出如下的约束模型：</p>
+<p><span class="math display">\[\max{\  - plogp}\]</span></p>
+<p><span class="math display">\[s.t.\ \sum_{Path\ B}^{}{P(B)\mu(B) =
+\widehat{\mu_{E}}}\]</span></p>
+<p><span class="math display">\[\begin{matrix}
+\sum_{}^{}P = 1 (13) \\
+\end{matrix}\]</span></p>
+<p>利用拉格朗日法，该最优化问题可以转化为：</p>
+<p><span class="math display">\[\begin{matrix}
+\min L = \sum_{B}^{}{plogp} - \sum_{j = 1}^{n}{\theta_{j}\left( p\mu_{j}
+- \widehat{\mu_{E}} \right) - \theta_{0}\left( \sum_{}^{}p - 1 \right)}
+(14) \\
+\end{matrix}\]</span></p>
+<p>其中，拉格朗日函数的参数<span
+class="math inline">\(\lambda\)</span>恰好是奖励函数的参数<span
+class="math inline">\(\theta\)</span>。此外对于MDP问题来说，这个问题是凸函数，因此其最优解可以通过梯度优化的方式得到，但利用最大似然法求解式（14）中的参数时，会遇到未知的配分函数<span
+class="math inline">\(e^{(1 -
+\lambda_{0})}\)</span>，因此改为次梯度的方法求解:</p>
+<p><span class="math display">\[{ \nabla L_{Dual}(\theta) =
+f_{\mathcal{B}} - E\left\lbrack f(S,A) \middle| {\widehat{\pi}}_{\theta}
+\right\rbrack
+}{\begin{matrix}
+= f_{\mathcal{B}} - \sum_{(S,A)}^{}{P(S){\widehat{\pi}}_{\theta}\left( A
+\middle| S \right)f_{S,A}} (15) \\
+\end{matrix}
+}\begin{matrix}
+= f_{\mathcal{B}} - \sum_{(S,A)}^{}{D_{S}{\widehat{\pi}}_{\theta}\left(
+A \middle| S \right)f_{S,A}} (16) \\
+\end{matrix}\]</span></p>
+<p>次梯度为观测轨迹与生成轨迹的经验特征期望的差值,其中<span
+class="math inline">\(D_{S}\)</span>为状态<span
+class="math inline">\(S\)</span>的访问频次，以此来替代状态访问频率<span
+class="math inline">\(P(S)\)</span>。同过式（16）我们可以知道，为了计算次梯度，我们首先需要计算两个变量<span
+class="math inline">\(D_{S}\)</span>和<span
+class="math inline">\({\widehat{\pi}}_{\theta}\)</span>，因此MaxCausalEnt
+IRL算法的顶层设计伪代码如下：</p>
+<img src="/2022/03/15/%E6%9C%80%E5%A4%A7%E5%9B%A0%E6%9E%9C%E7%86%B5%E9%80%86%E5%90%91%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/image1.png" class="" title="这是一张图片">
+<ol type="1">
+<li><strong>最大熵逆向强化学习算法框架</strong></li>
+</ol>
+<p>最大熵逆向强化学习的输入为：</p>
+<ol type="1">
+<li><p><span class="math inline">\(MDP/R\)</span>（状态空间<span
+class="math inline">\(S\)</span>，动作空间<span
+class="math inline">\(A\)</span>，状态转移概率<span
+class="math inline">\(P_{T}\)</span>,最初状态分配<span
+class="math inline">\(P_{0}\)</span>,最终状态集合<span
+class="math inline">\(S_{\phi}\)</span>）</p></li>
+<li><p><span
+class="math inline">\(\mathcal{B}\)</span>(可观测轨迹、序列)</p></li>
+<li><p><span class="math inline">\(\mathcal{F =}\forall_{(S,A) \in S
+\times A}f_{S,A}\)</span>(状态动作对的特征函数)</p></li>
+</ol>
+<p>首先我们要进行梯度下降的计算，为了标记的简化，我们对式（16）进行如下简化定义：</p>
+<p><span class="math display">\[\begin{matrix}
+\nabla_{\theta}F(S,A) = D_{S}{\widehat{\pi}}_{\theta}\left( A \middle| S
+\right)f_{S,A} (17) \\
+\end{matrix}\]</span></p>
+<p>我们接下来定义梯度下降算法作为算法1的详细版本，其伪代码版本如下：</p>
+<img src="/2022/03/15/%E6%9C%80%E5%A4%A7%E5%9B%A0%E6%9E%9C%E7%86%B5%E9%80%86%E5%90%91%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/image2.png" class="" title="这是一张图片">
+<p>在这个算法中，我们引入了两个超参数：</p>
+<ol type="1">
+<li><p><span
+class="math inline">\(\lambda\)</span>-学习速率，通过交叉验证选择</p></li>
+<li><p><span
+class="math inline">\(t\)</span>-学习速率衰减，算法第10行说明随着迭代次数的增加，学习速率不断衰减，可以使得算法更易收敛</p></li>
+</ol>
+<p>在算法4-10行中，我们通过每一状态和动作对的加和来计算梯度，如果状态和动作空间不离散，或者空间过大难以迭代时，我们可以采取小批量随机梯度下降的算法，虽然每次迭代收敛会变慢，但整体算法时间会缩短。</p>
+<p>在算法中，我们并不知道<span
+class="math inline">\(\nabla_{\theta}F(S,A)\)</span>是如何计算的，其中涉及到<span
+class="math inline">\(D\)</span>和<span
+class="math inline">\({\widehat{\pi}}_{\theta}\)</span>两个参数，在式（8）（9）（10）中可以看出，如果我们知道了<span
+class="math inline">\(V_{ {\widehat{\pi}
+}_{\theta}}^{soft}\)</span>，我们就可以计算<span
+class="math inline">\({\widehat{\pi}}_{\theta}\)</span>，接下来我们介绍计算状态值函数<span
+class="math inline">\(V_{ {\widehat{\pi} }_{\theta}
+}^{soft}\)</span>的算法</p>
+<p>3，在此之前首先给出softmax的定义公式：</p>
+<p><span class="math display">\[\begin{matrix}
+soft\max(x,y) = \log\left( e^{x} + e^{y} \right) = \max(x,y) +
+\log\left( 1 + e^{\max(x,y) - \min(x,y)} \right) (18) \\
+\end{matrix}\]</span></p>
+<img src="/2022/03/15/%E6%9C%80%E5%A4%A7%E5%9B%A0%E6%9E%9C%E7%86%B5%E9%80%86%E5%90%91%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/image3.png" class="" title="这是一张图片">
+<p>在上述算法中，我们引入了一个新的超参数<span
+class="math inline">\(\phi\)</span>-表示种植状态的奖励函数，对于拥有一系列<span
+class="math inline">\(S_{\phi}\)</span>,<span
+class="math inline">\(\phi\)</span>可以被定义为如下公式：</p>
+<p><span class="math display">\[\begin{matrix}
+\phi(S) = \left\{ \begin{matrix}
+- \infty,\ \ \ \ \ \ \ \ if\ S \notin \mathcal{S}_{\phi} \\
+0,\ \ \ \ \ \ \ \ \ othterwise\  \\
+\end{matrix} \right.\  (19) \\
+\end{matrix}\]</span></p>
+<p>结合式（19）和算法8-12行，我们对该算法核心关键要素进行总结，即从最终状态开始迭代，不断为每个状态进行赋值，直至算法收敛。由于非最终状态的初始值设置为<span
+class="math inline">\(-
+\infty\)</span>，因此在每一次迭代中，只有通过潜在动作与有值的状态相接的状态才会更新状态值，通过不断迭代，寻找每一状态的值函数，当值函数的变化小于临界值时，算法结束。</p>
+<p>在算法三结束后，我们通过式子（8）-（10）的计算，可以得到<span
+class="math inline">\({\widehat{\pi}}_{\theta}\)</span>的计算值，为了计算式（17），我们还需要通过<span
+class="math inline">\({\widehat{\pi}}_{\theta}\)</span>计算状态访问频次，由此引出算法4，其伪代码如下：</p>
+<img src="/2022/03/15/%E6%9C%80%E5%A4%A7%E5%9B%A0%E6%9E%9C%E7%86%B5%E9%80%86%E5%90%91%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/image4.png" class="" title="这是一张图片">
+<ol type="1">
+<li><strong>最大熵深度逆向强化学习</strong></li>
+</ol>
+<p>在算法2-4中，我们利用全部状态和动作进行循环，求得<span
+class="math inline">\(\nabla
+F,D_{S},V(S)\)</span>等参数值，从这样的算法流程我们可以看出传统IRL在表征能力上具有一定的局限性，只能够应用在规模小、离散的任务上，而深度神经网络可以针对这个问题进行很好的改进。由于深度神经网络对高层非线性函数具有较好的表征能力，利用深度神经网络近似回报函数，可以通过神经元分层结构中的许多非线性结果的组合，使得其更贴近真实的奖励函数，从而提高IRL的非线性表征能力，同时深度神经网络对于大规模数据具有良好的算法处理能力，解决了IRL只能应用在小规模、离散任务的缺点。</p>
+<ol start="6" type="1">
+<li><strong>总结</strong></li>
+</ol>
+<p>最大熵逆向强化学习是建模序列化行为的重要工具，以马尔可夫决策过程为基准同时通过观测轨迹（序列、行为）学习奖励函数，进而对未来的轨迹进行预测，同时引入最大熵原理以解决多奖励函数均可解释可观测轨迹的两义性问题。</p>
+<p><strong>参考文献</strong></p>
+<p>[1] Heim E. A Practitioner's Guide to Maximum Causal Entropy Inverse
+Reinforcement Learning, Starting from Markov Decision
+Processes[Z].CARNEGIE-MELLON UNIV PITTSBURGH PA PITTSBURGH United
+States, 2019.</p>
+<p>[2] 陈希亮, 曹雷, 何明, 等.
+深度逆向强化学习研究综述[J].计算机工程与应用, 2018,54(05):24-35.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
 
   
 
-   
-</main>
 
-  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
-	
-	
-    <ul class="social-links">
-    	
-        <li><a href="https://github.com/BoyangL1" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
-        
-    </ul>
 
-    <div class="copyright">
-    	
-        <div class="publishby">
-        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
-        </div>
-    </div>
-</footer>
-  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+          </div>
+          
+
 <script>
-window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
 </script>
 
-<script src="/js/plugin.min.js"></script>
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Boyang Li</p>
+  <div class="site-description" itemprop="description">李博洋的个人博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
 
 
-<script src="/js/application.js"></script>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
 
 
-    <script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: 'Posts',
-            PAGES: 'Pages',
-            CATEGORIES: 'Categories',
-            TAGS: 'Tags',
-            UNTITLED: '(Untitled)',
-        },
-        ROOT_URL: '/',
-        CONTENT_URL: '/content.json',
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Boyang Li</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
     };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
 </script>
 
-<script src="/js/insight.js"></script>
+    
 
-
-
-
-
-
-   
-
-
-
-
-
-
-
-
+  
 
 </body>
 </html>
