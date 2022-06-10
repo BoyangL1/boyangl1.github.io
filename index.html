@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.boyangl1.cn","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.12.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="生命太短暂，不要去做一些根本没有人想要的东西。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Boyang&#39;s blog">
+<meta property="og:url" content="http://www.boyangl1.cn/index.html">
+<meta property="og:site_name" content="Boyang&#39;s blog">
+<meta property="og:description" content="生命太短暂，不要去做一些根本没有人想要的东西。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="李博洋">
+<meta property="article:tag" content="blog,李博洋,博洋,强化学习,因果推断,武汉大学,北京大学,boyang">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://www.boyangl1.cn/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"index.html","title":""}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Boyang's blog - 分享生活，交流知识</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Boyang's blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">分享生活，交流知识</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">6</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">2</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">6</span></a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="李博洋"
+      src="/images/cat.png">
+  <p class="site-author-name" itemprop="name">李博洋</p>
+  <div class="site-description" itemprop="description">生命太短暂，不要去做一些根本没有人想要的东西。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com//BoyangL1" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;&#x2F;BoyangL1" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:liboyang0209@gmail.com" title="E-Mail → mailto:liboyang0209@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://www.boyangl1.cn/2022/05/20/%E6%AF%95%E4%B8%9A%E5%90%88%E7%85%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="李博洋">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boyang's blog">
+      <meta itemprop="description" content="生命太短暂，不要去做一些根本没有人想要的东西。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Boyang's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/05/20/%E6%AF%95%E4%B8%9A%E5%90%88%E7%85%A7/" class="post-title-link" itemprop="url">愿此去繁花似锦，归来仍是少年！</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-05-20 18:02:23" itemprop="dateCreated datePublished" datetime="2022-05-20T18:02:23+08:00">2022-05-20</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="洋少和他的舔狗们">洋少和他的舔狗们</h1>
+<img src="/2022/05/20/%E6%AF%95%E4%B8%9A%E5%90%88%E7%85%A7/4.jpg" class="">
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/20/%E6%AF%95%E4%B8%9A%E5%90%88%E7%85%A7/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://www.boyangl1.cn/2022/05/15/GWR/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="李博洋">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boyang's blog">
+      <meta itemprop="description" content="生命太短暂，不要去做一些根本没有人想要的东西。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Boyang's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/05/15/GWR/" class="post-title-link" itemprop="url">地理加权回归模型</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-05-15 18:02:23" itemprop="dateCreated datePublished" datetime="2022-05-15T18:02:23+08:00">2022-05-15</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="引言">引言</h1>
+<p>空间异质性是地理学第二定律的核心。从地理信息科学角度，空间异质性主要包含两种类型，一是随空间变化，空间某些变量之间的关系发生了明显变化；二是随空间变化，空间某些变量的统计量（如：均值、方差）会出现平稳或者不平稳的变化。地理加权回归是空间计量学、地理空间统计学中为研究第一种空间异质性（即变量间关系的空间异质性）而提出的工具，在多元变量的空间插值或预测等方面具有重要作用。本文为相关原理的基本介绍。</p>
+<h2 id="全局空间最小二乘回归问题">全局空间最小二乘回归问题</h2>
+<p>在地学空间分析中，n组观测数据通常是在n个不同地理位置上获取的样本数据，全局空间回归模型就是假定回归参数与样本数据的地理位置无关，或者说在整个空间研究区域内保持稳定一致，那么在n个不同地理位置上获取的样本数据，就等同于在同一地理位置上获取的n个样本数据，其回归模型就是最小二乘法回归模型，采用最小二乘估计得到的回归参数户既是该点的最优无偏估计，也是研究区域内所有点上的最优无偏估计。</p>
+<p>而在实际问题研究中我们发现：回归参数在不同地理位置上往往表现为不同，也就是说回归参数随地理位置变化而变化，存在空间非平稳性，此时如果仍采用全局空间回归模型，得到的回归参数将是在整个研究区域内的参数平均值，无法反映回归参数的真实空间特征。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/15/GWR/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://www.boyangl1.cn/2022/04/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E5%8F%91%E7%8E%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="李博洋">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boyang's blog">
+      <meta itemprop="description" content="生命太短暂，不要去做一些根本没有人想要的东西。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Boyang's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/04/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E5%8F%91%E7%8E%B0/" class="post-title-link" itemprop="url">结构因果发现</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-04-15 13:26:28" itemprop="dateCreated datePublished" datetime="2022-04-15T13:26:28+08:00">2022-04-15</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="基于图模型的因果结构发现">基于图模型的因果结构发现</h1>
+<h2 id="因果发现的基本假设">因果发现的基本假设</h2>
+<p>马尔可夫等价类(Markov equivalent
+class)：拥有相同d分离结构的因果图并且具有相同条件独立性关系的因果图被称作马尔可夫等价类，无法根据条件独立性分辨因果方向。</p>
+<ul>
+<li><p>因果充分性假设(causal sufficiency
+assumption):没有未被观测到的混杂变量------该假设为弱假设。</p></li>
+<li><p>因果马尔可夫假设(causal Markov
+assumption)：所有因果图中的d分离结构均能表明观测数据分布<span
+class="math inline">\(P\)</span>中的条件独立性。</p></li>
+<li><p>因果信念假设(caudal faithfulness assumption)：所有观测分布<span
+class="math inline">\(P\)</span>中的条件独立性关系均能被因果图中的d分离结构表示。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/04/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E5%8F%91%E7%8E%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://www.boyangl1.cn/2022/03/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="李博洋">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boyang's blog">
+      <meta itemprop="description" content="生命太短暂，不要去做一些根本没有人想要的东西。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Boyang's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/03/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B/" class="post-title-link" itemprop="url">结构因果模型</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-03-15 10:39:00" itemprop="dateCreated datePublished" datetime="2022-03-15T10:39:00+08:00">2022-03-15</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="两大因果框架1">两大因果框架<span
+class="math inline">\(^{[1]}\)</span></h1>
+<p>因果科学中，目前使用范围最广的模型有两个，一个是著名统计学家DonaldRubin教授在1978年提出的潜在结果模型（Potential
+Outcome Model）；另一个是图灵奖获得者Judea
+Pearl教授在1995年提出的结构因果模型（Structural Causal
+Model，SCM）。这两个框架在不同的领域都有不同侧重的应用：计算机领域更多的是采用Pearl的框架；社会科学、计量经济学、流行病学等领域主要采用的则是Rubin的这套框架，这两套框架的本质其实是相同的，都是在观测数据中推测出因果关系，但采用的思想原理有所不同：SCM的关键在于图模型，来源于贝叶斯网络，将Bayes网络加上外部干预,用来定义外部干预的因果作用和描述多个变量之间的因果关系，利用因果网络不仅能定量评价因果作用,还能定性确定混杂因素,用于从数据挖掘因果关系；RCM的关键在于潜在结果，来源于统计学，该模型主要用在原因和结果变量已知的前提下,定量评价原因变量对结果变量的因果作用。</p>
+<img src="/2022/03/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B/image1.jpg" class="" title="Judea Pearl, Donald Rubin">
+<center>
+<p>
+Figure1 Judea Pearl, Donald Rubin
+</p>
+</center>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/03/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://www.boyangl1.cn/2022/02/15/DeepIRL/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="李博洋">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boyang's blog">
+      <meta itemprop="description" content="生命太短暂，不要去做一些根本没有人想要的东西。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Boyang's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/02/15/DeepIRL/" class="post-title-link" itemprop="url">深度逆向强化学习公式推导</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-02-15 16:36:06" itemprop="dateCreated datePublished" datetime="2022-02-15T16:36:06+08:00">2022-02-15</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="符号标识">符号标识</h2>
+<p><span class="math display">\[\begin{matrix}
+\xi = \{ s_{1},a_{1},\ldots,s_{t},a_{t} \}\tag{1} \\
+\end{matrix}\]</span></p>
+<p><span class="math display">\[\begin{matrix}
+R_{\lambda} = \sum_{}^{}{r_{\lambda}(s_{t},a_{t})}\ \tag{2} \\
+\end{matrix}\]</span></p>
+<h2 id="最优化公式">最优化公式</h2>
+<p><span class="math display">\[\begin{matrix}
+Max\ \sum_{Path\xi_{i}}^{}{- p\left( \xi_{i} \right)lgp\left( \xi_{i}
+\right)}\ \ \tag{3} \\
+\end{matrix}\]</span></p>
+<p><span class="math display">\[\begin{matrix}
+s.t.\ \sum_{Path\xi_{i}}^{}{p\left( \xi_{i} \right)f_{\xi_{i}}} =
+\widetilde{f}\tag{4} \\
+\end{matrix}\]</span></p>
+<p><span class="math display">\[\begin{matrix}
+\sum_{Path\xi_{i}}^{}{p\left( \xi_{i} \right) = 1}\tag{5} \\
+\end{matrix}\]</span>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/02/15/DeepIRL/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://www.boyangl1.cn/2022/01/15/%E6%9C%80%E5%A4%A7%E5%9B%A0%E6%9E%9C%E7%86%B5%E9%80%86%E5%90%91%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="李博洋">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boyang's blog">
+      <meta itemprop="description" content="生命太短暂，不要去做一些根本没有人想要的东西。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Boyang's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/01/15/%E6%9C%80%E5%A4%A7%E5%9B%A0%E6%9E%9C%E7%86%B5%E9%80%86%E5%90%91%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">最大因果熵逆向强化学习</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-01-15 13:26:28" itemprop="dateCreated datePublished" datetime="2022-01-15T13:26:28+08:00">2022-01-15</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>最大因果熵逆向强化学习</p>
+<ol type="1">
+<li><strong>马尔科夫决策过程 Markov decision process (MDP)</strong></li>
+</ol>
+<blockquote>
+<p><strong>定义1：</strong> 马尔可夫决策过程定义为一个元组<span
+class="math inline">\(M = \left( S,A,P_{T},R,P_{0},S_{\phi}
+\right)\)</span></p>
+<p><span class="math inline">\(S\)</span>：有限或无限状态集合</p>
+<p><span class="math inline">\(A\)</span>：有限或无限的动作集合</p>
+<p><span class="math inline">\(P_{T}\)</span>：状态转移概率分布，<span
+class="math inline">\(P_{T}(S_{j}|A_{i},S_{i})\)</span>表示智能体在状态<span
+class="math inline">\(S_{i}\)</span>采取动作<span
+class="math inline">\(A_{i}\)</span>后转移到状态<span
+class="math inline">\(S_{j}\)</span>的概率</p>
+<p><span class="math inline">\(R\)</span>：<span
+class="math inline">\(R(S,A)\)</span>表示立即奖励函数</p>
+<p><span class="math inline">\(S_{\phi}\)</span>：最终状态集合
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/01/15/%E6%9C%80%E5%A4%A7%E5%9B%A0%E6%9E%9C%E7%86%B5%E9%80%86%E5%90%91%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李博洋</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.1/es5/tex-mml-chtml.js","integrity":"sha256-hlC2uSQYTmPsrzGZTEQEg9PZ1a/+SV6VBCTclohf2og="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

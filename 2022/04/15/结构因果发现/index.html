@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.boyangl1.cn","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.12.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="基于图模型的因果结构发现 因果发现的基本假设 马尔可夫等价类(Markov equivalent class)：拥有相同d分离结构的因果图并且具有相同条件独立性关系的因果图被称作马尔可夫等价类，无法根据条件独立性分辨因果方向。  因果充分性假设(causal sufficiency assumption):没有未被观测到的混杂变量------该假设为弱假设。 因果马尔可夫假设(cau">
+<meta property="og:type" content="article">
+<meta property="og:title" content="结构因果发现">
+<meta property="og:url" content="http://www.boyangl1.cn/2022/04/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E5%8F%91%E7%8E%B0/index.html">
+<meta property="og:site_name" content="Boyang&#39;s blog">
+<meta property="og:description" content="基于图模型的因果结构发现 因果发现的基本假设 马尔可夫等价类(Markov equivalent class)：拥有相同d分离结构的因果图并且具有相同条件独立性关系的因果图被称作马尔可夫等价类，无法根据条件独立性分辨因果方向。  因果充分性假设(causal sufficiency assumption):没有未被观测到的混杂变量------该假设为弱假设。 因果马尔可夫假设(cau">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.boyangl1.cn/2022/04/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E5%8F%91%E7%8E%B0/image1.jpg">
+<meta property="og:image" content="http://www.boyangl1.cn/2022/04/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E5%8F%91%E7%8E%B0/image2.jpg">
+<meta property="og:image" content="http://www.boyangl1.cn/2022/04/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E5%8F%91%E7%8E%B0/image3.png">
+<meta property="og:image" content="http://www.boyangl1.cn/2022/04/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E5%8F%91%E7%8E%B0/image4.png">
+<meta property="og:image" content="http://www.boyangl1.cn/2022/04/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E5%8F%91%E7%8E%B0/image5.png">
+<meta property="og:image" content="http://www.boyangl1.cn/2022/04/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E5%8F%91%E7%8E%B0/image6.png">
+<meta property="og:image" content="http://www.boyangl1.cn/2022/04/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E5%8F%91%E7%8E%B0/image7.png">
+<meta property="article:published_time" content="2022-04-15T05:26:28.000Z">
+<meta property="article:modified_time" content="2022-05-17T03:47:57.047Z">
+<meta property="article:author" content="李博洋">
+<meta property="article:tag" content="因果发现">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.boyangl1.cn/2022/04/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E5%8F%91%E7%8E%B0/image1.jpg">
+
+
+<link rel="canonical" href="http://www.boyangl1.cn/2022/04/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E5%8F%91%E7%8E%B0/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://www.boyangl1.cn/2022/04/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E5%8F%91%E7%8E%B0/","path":"2022/04/15/结构因果发现/","title":"结构因果发现"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>结构因果发现 | Boyang's blog</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Boyang's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">分享生活，交流知识</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">6</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">2</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">6</span></a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E5%9B%BE%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%9B%A0%E6%9E%9C%E7%BB%93%E6%9E%84%E5%8F%91%E7%8E%B0"><span class="nav-number">1.</span> <span class="nav-text">基于图模型的因果结构发现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%A0%E6%9E%9C%E5%8F%91%E7%8E%B0%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%81%87%E8%AE%BE"><span class="nav-number">1.1.</span> <span class="nav-text">因果发现的基本假设</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E6%9D%A1%E4%BB%B6%E7%8B%AC%E7%AB%8B%E6%A3%80%E9%AA%8C%E7%9A%84%E5%9B%A0%E6%9E%9C%E5%8F%91%E7%8E%B0constraint-based-algorithms"><span class="nav-number">1.2.</span> <span class="nav-text">基于条件独立检验的因果发现(Constraint-based
+Algorithms)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pc%E7%AE%97%E6%B3%95"><span class="nav-number">1.2.1.</span> <span class="nav-text">PC算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB%E7%9A%84%E7%A1%AE%E7%AB%8B"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">依赖关系的确立</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E7%8B%AC%E7%AB%8B%E6%80%A7%E6%A3%80%E9%AA%8C%E7%AE%97%E6%B3%95"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">条件独立性检验算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BE%9D%E8%B5%96%E5%9B%A0%E6%9E%9C%E5%85%B3%E7%B3%BB%E6%96%B9%E5%90%91%E7%A1%AE%E7%AB%8B"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">依赖(因果)关系方向确立</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E8%AF%84%E5%88%86%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%9B%A0%E6%9E%9C%E5%8F%91%E7%8E%B0scored-based-algorithms"><span class="nav-number">1.3.</span> <span class="nav-text">基于评分模型的因果发现(Scored-based
+Algorithms)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ges%E7%AE%97%E6%B3%95"><span class="nav-number">1.3.1.</span> <span class="nav-text">GES算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#meek%E9%A2%84%E6%B5%8B"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">Meek预测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B4%9D%E5%8F%B6%E6%96%AF%E8%AF%84%E5%88%86%E6%A0%87%E5%87%86%E7%9A%84%E6%B8%90%E8%BF%91%E8%A1%8C%E4%B8%BA"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">贝叶斯评分标准的渐近行为</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%A4%E9%98%B6%E6%AE%B5%E7%9A%84%E8%B4%AA%E5%A9%AA%E7%AD%89%E4%BB%B7%E6%90%9C%E7%B4%A2%E7%AE%97%E6%B3%95"><span class="nav-number">1.3.1.3.</span> <span class="nav-text">两阶段的贪婪等价搜索算法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E7%BB%93%E6%9E%84%E6%96%B9%E7%A8%8B%E7%9A%84%E5%9B%A0%E6%9E%9C%E5%8F%91%E7%8E%B0sem-based-or-fcm-based-algorithms"><span class="nav-number">1.4.</span> <span class="nav-text">基于结构方程的因果发现(SEM-based
+or FCM-based Algorithms)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#lingam%E7%AE%97%E6%B3%95"><span class="nav-number">1.4.1.</span> <span class="nav-text">LiNGAM算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E5%81%87%E8%AE%BE"><span class="nav-number">1.4.1.1.</span> <span class="nav-text">模型假设</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8Eica%E7%AE%97%E6%B3%95%E7%9A%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B%E8%AF%86%E5%88%AB"><span class="nav-number">1.4.1.2.</span> <span class="nav-text">基于ICA算法的因果模型识别</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8Edlrl%E7%9A%84%E5%9B%A0%E6%9E%9C%E7%BB%93%E6%9E%84%E5%8F%91%E7%8E%B0"><span class="nav-number">2.</span> <span class="nav-text">基于DL\RL的因果结构发现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8B%AC%E7%AB%8B%E5%9B%A0%E6%9E%9C%E6%9C%BA%E5%88%B6independence-causal-machanismicm"><span class="nav-number">2.1.</span> <span class="nav-text">独立因果机制（Independence
+Causal Machanism，ICM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8Edl%E7%9A%84%E5%9B%A0%E6%9E%9C%E5%8F%91%E7%8E%B0"><span class="nav-number">2.2.</span> <span class="nav-text">基于DL的因果发现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E5%BC%8F%E5%9B%A0%E6%9E%9C%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9Ccausal-generative-neural-networks"><span class="nav-number">2.2.1.</span> <span class="nav-text">生成式因果神经网络(Causal
+generative neural networks)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8Erl%E7%9A%84%E5%9B%A0%E6%9E%9C%E5%8F%91%E7%8E%B0"><span class="nav-number">2.3.</span> <span class="nav-text">基于RL的因果发现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E7%BC%96%E7%A0%81%E5%99%A8%E5%BC%8F%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%9514"><span class="nav-number">2.3.1.</span> <span class="nav-text">自编码器式强化学习算法[14]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%84%E5%88%86%E5%87%BD%E6%95%B0%E6%97%A0%E7%8E%AF%E6%80%A7%E5%92%8C%E5%A5%96%E5%8A%B1"><span class="nav-number">2.3.2.</span> <span class="nav-text">评分函数、无环性和奖励</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%84%E5%88%86%E5%87%BD%E6%95%B0"><span class="nav-number">2.3.2.1.</span> <span class="nav-text">评分函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%A0%E7%8E%AF%E6%80%A7"><span class="nav-number">2.3.2.2.</span> <span class="nav-text">无环性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A5%96%E5%8A%B1"><span class="nav-number">2.3.2.3.</span> <span class="nav-text">奖励</span></a></li></ol></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="李博洋"
+      src="/images/cat.png">
+  <p class="site-author-name" itemprop="name">李博洋</p>
+  <div class="site-description" itemprop="description">生命太短暂，不要去做一些根本没有人想要的东西。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com//BoyangL1" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;&#x2F;BoyangL1" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:liboyang0209@gmail.com" title="E-Mail → mailto:liboyang0209@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.boyangl1.cn/2022/04/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E5%8F%91%E7%8E%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="李博洋">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boyang's blog">
+      <meta itemprop="description" content="生命太短暂，不要去做一些根本没有人想要的东西。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="结构因果发现 | Boyang's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          结构因果发现
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-04-15 13:26:28" itemprop="dateCreated datePublished" datetime="2022-04-15T13:26:28+08:00">2022-04-15</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="基于图模型的因果结构发现">基于图模型的因果结构发现</h1>
+<h2 id="因果发现的基本假设">因果发现的基本假设</h2>
+<p>马尔可夫等价类(Markov equivalent
+class)：拥有相同d分离结构的因果图并且具有相同条件独立性关系的因果图被称作马尔可夫等价类，无法根据条件独立性分辨因果方向。</p>
+<ul>
+<li><p>因果充分性假设(causal sufficiency
+assumption):没有未被观测到的混杂变量------该假设为弱假设。</p></li>
+<li><p>因果马尔可夫假设(causal Markov
+assumption)：所有因果图中的d分离结构均能表明观测数据分布<span
+class="math inline">\(P\)</span>中的条件独立性。</p></li>
+<li><p>因果信念假设(caudal faithfulness assumption)：所有观测分布<span
+class="math inline">\(P\)</span>中的条件独立性关系均能被因果图中的d分离结构表示。
+<span id="more"></span></p></li>
+</ul>
+<h2
+id="基于条件独立检验的因果发现constraint-based-algorithms">基于条件独立检验的因果发现(Constraint-based
+Algorithms)</h2>
+<p>这一类算法通过找到三种结构来构建因果图，寻找方式就是通过条件独立的检验，一般的方式都是从一个无向的全链接图出发开始寻找，通过一系列规则最终生成一个图。基于条件独立检验的因果发现算法需要满足5.1中的三大基本假设，因此该类方法通常存在以下缺点：</p>
+<ol type="1">
+<li><p>不能存在未观测的混杂变量，该条件在大数据的情况下很难满足，但存在如FCI的算法放宽了该限制。</p></li>
+<li><p>对于分叉结构以及对撞结构，该类算法无法根据条件独立性分辨马尔可夫等价类，因此对局部因果关系的判别不足。</p></li>
+<li><p>根据因果信念假设，只能根据条件独立性来判断因果关系，因此需要非常多且高质量的数据，如果数据较少，则条件独立性假设测试可能会互斥。</p></li>
+</ol>
+<h3 id="pc算法">PC算法</h3>
+<p>PC 算法仍是将完全图作为初始骨架图,
+然后从空集开始逐步增大分离集的大小,不断删除骨架图中的边,
+使得每个结点的邻居数不断减少,寻找两个节点的分离集限定在它们的邻居集的子集范围内,目的是避免高维变量的条件独立检验。</p>
+<h4 id="依赖关系的确立">依赖关系的确立</h4>
+<p>设<span class="math inline">\(V\)</span>是输入点集，有以下步骤：</p>
+<ul>
+<li><p>在V上生成完全无向图 <span
+class="math inline">\(G\)</span></p></li>
+<li><p>对于<span class="math inline">\(G\)</span>中两个相邻点<span
+class="math inline">\(i,j\)</span>，如果<span
+class="math inline">\(i\)</span>和<span
+class="math inline">\(j\)</span>在给定节点<span
+class="math inline">\(k\)</span>时条件独立，则删除<span
+class="math inline">\(i\)</span>和<span
+class="math inline">\(j\)</span>之间的边</p></li>
+</ul>
+<p>这样会得到一个无向图，图中的无向边表示它连接的两个节点之间有依赖（因果）关系，这样的无向图叫骨架（skeleton）。PC
+算法把上述过程转化为了 d 分隔问题。</p>
+<h4 id="条件独立性检验算法">条件独立性检验算法</h4>
+<p>用O(i,j)表示能d分隔i和j的点集，用adj(G,x)表示图G中节点x的相邻点集，PC算法具体流程为：</p>
+<img src="/2022/04/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E5%8F%91%E7%8E%B0/image1.jpg" class="" title="这是一张图片">
+<center>
+<p>
+图1 PC算法
+</p>
+</center>
+<h4 id="依赖因果关系方向确立">依赖(因果)关系方向确立</h4>
+<p>经过5.2.1.2，我们得到了一个无向图，现在我们要利用d分隔原理来确定图中边的依赖方向，把骨架扩展为<span
+class="math inline">\(DAG\)</span>。由于我们已经记录了d分隔<span
+class="math inline">\(X\)</span>和<span
+class="math inline">\(Y\)</span>的点集<span
+class="math inline">\(O\)</span>，因此我们可以用d分隔的结论反推出无向图中边的方向，方向判断方法可以转换为以下三条规则：</p>
+<ul>
+<li><p>规则1：如果存在<span class="math inline">\(X \rightarrow Y -
+Z\)</span>，把<span class="math inline">\(Y - Z\)</span>变为<span
+class="math inline">\(Y \rightarrow Z\)</span></p></li>
+<li><p>规则2：如果存在<span class="math inline">\(X \rightarrow Z
+\rightarrow Y\)</span>，把<span class="math inline">\(X -
+Y\)</span>变为<span class="math inline">\(X \rightarrow
+Y\)</span></p></li>
+<li><p>规则3：如果存在<span class="math inline">\(X - Z_{1} \rightarrow
+Y\)</span>，<span class="math inline">\(X - Z_{2} \rightarrow
+Y\)</span>，且<span
+class="math inline">\(Z_{1}Z_{2}\)</span>不相邻，把<span
+class="math inline">\(X - Y\)</span>变为<span class="math inline">\(X
+\rightarrow Y\)</span></p></li>
+</ul>
+<img src="/2022/04/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E5%8F%91%E7%8E%B0/image2.jpg" class="" title="这是一张图片">
+<center>
+<p>
+图2 扩展无向图
+</p>
+</center>
+<p>由此我们可以得到一个完全部分有向无环图(CPDAG)，即边集<span
+class="math inline">\(E\)</span>中包含有向边和无向边，且<span
+class="math inline">\(E\)</span>中的无向边可逆，有向边不可逆。</p>
+<p>有向边的可逆与不可逆：对于有向无环图<span class="math inline">\(G =
+(V,E)\)</span>中的任意有向边<span class="math inline">\(V_{i}
+\rightarrow V_{j} \in E\)</span>，如果存在图<span
+class="math inline">\(G^{&#39;} = (V,E^{&#39;})\)</span>与<span
+class="math inline">\(G\)</span>等价，且<span
+class="math inline">\(V_{j} \rightarrow V_{i} \in
+E^{&#39;}\)</span>，则称<span class="math inline">\(V_{i} \rightarrow
+V_{j}\)</span>是可逆的，否则不可逆。</p>
+<p>无向边的可逆与不可逆：对任意无向边<span class="math inline">\(V_{i} -
+V_{j} \in E\)</span>，若存在<span class="math inline">\(G_{1} =
+(V,E_{1})\)</span>、<span class="math inline">\(G_{2} =
+(V,E_{2})\)</span>均与<span
+class="math inline">\(G\)</span>等价，且<span
+class="math inline">\(V_{i} \rightarrow V_{j} \in E_{1}\)</span>、<span
+class="math inline">\(V_{i} \rightarrow V_{j} \in
+E_{2}\)</span>，则称无向边<span class="math inline">\(V_{i} -
+V_{j}\)</span>在<span
+class="math inline">\(G\)</span>中可逆，否则不可逆。</p>
+<p>PC 算法得到的图是含有无向边的。这是因为依据 d
+分隔确定的条件独立性所构造的网络结构不具有唯一性，它们只是真实的因果图的马尔科夫等价类。</p>
+<p>此外还有许多基于PC算法的变种算法，如FCI算法用以在未观测混杂变量和样本选择偏差存在的情形下学习因果结构,
+该方法在 PC 邻接搜索的基础上,
+利用额外的条件独立性检验以处理潜在混杂变量。</p>
+<h2
+id="基于评分模型的因果发现scored-based-algorithms">基于评分模型的因果发现(Scored-based
+Algorithms)</h2>
+<p>该类方法是根据评分选择最佳网络. 为每个网络赋一个评分
+(如后验概率、BIC(Bayesian information criterion) 和 AIC (Akaike
+information criterion)等),
+搜索最佳评分的有向无环图,常采用贪心法等启发式搜索方法。在整个网络空间搜索最佳评分的网络是一个非常困难的问题.此类方法通过定义可分解的评分准则来评价数据和网络的拟合度,并以该准则指导最优网络结构的搜索。当定义的评分准则满足评分等价性,即等价类中的
+DAG (Directed Acylic
+Graph)拥有相同的分数时,该准则可用于指导因果结构的学习。该类方法仍然存在如下缺点：</p>
+<ol type="1">
+<li><p>无法区分马尔可夫等价类</p></li>
+<li><p>由于要找到最优分数，就要搜索全部的图，这是一个NP-hard的问题，复杂度极高且容易陷入局部最优。</p></li>
+</ol>
+<h3 id="ges算法">GES算法</h3>
+<p>两阶段的贪婪等价搜索算法 (greedy equivalence search,
+GES)是该类型的一个代表性方法, 它基于观测数据, 从
+DAG空间中搜索获取真实分布的完备图,但该方法尚无法处理未观测混杂变量、样本选择偏差等问题。</p>
+<p>GES算法建立在Meek预测的理论基础上，因此我们首先简要介绍一下Meek预测的基本内容：如果DAG<span
+class="math inline">\(\mathcal{\ H}\)</span>是另一个DAG <span
+class="math inline">\(\mathcal{G}\)</span>的独立图(independence
+map)，即<span
+class="math inline">\(\mathcal{H}\)</span>结构中隐含的任何独立性均被<span
+class="math inline">\(\mathcal{G}\)</span>的结构隐含。那么在<span
+class="math inline">\(\mathcal{G}\)</span>中存在一系列有限的边集合可以被添加或者反转方向，并且(1)在每一条可被修改的边被添加或者反转方向后，<span
+class="math inline">\(\mathcal{H}\)</span>仍然是<span
+class="math inline">\(\mathcal{G}\)</span>的独立图；(2)在所有修改后<span
+class="math inline">\(\mathcal{G = H}\)</span>。</p>
+<p>在Meek预测为真后，又提出了一个两步贪心算法来使用BIC指标去辨别DAG的等价类，该算法可被总结为以下两步：</p>
+<ol type="1">
+<li><p>从不具有依赖关系的等价类（空图）出发，每次通过考虑所有可能的单条边的添加来贪心地添加依赖关系，从而得到打分函数局部最大的结构图</p></li>
+<li><p>我们从当前等价类出发，利用贪心原理逐步删除有向边，直到打分函数不再变化，得到最终的因果结构图。</p></li>
+</ol>
+<p>上述GES算法可被一句话总结为：从空图出发，逐步添加当前最需要的边，直到达到打分函数局部最优，然后逐步删除不需要的边，得到最终的因果图。</p>
+<h4 id="meek预测">Meek预测</h4>
+<p>Meek预测描述了独立图之间的相对关系，如果<span class="math inline">\(G
+\leq
+H\)</span>，那么在G中存在一系列有限的边集合可以被添加或者反转方向，并且(1)在每一条可被修改的边被添加或者反转方向后，H仍然是G的独立图；(2)在所有修改后G=H。下方是Meek预测修改边(添加、反向)的具体算法，其中输入是DAG<span
+class="math inline">\(\ G\)</span>以及其独立图<span
+class="math inline">\(H\)</span>，输出是<span
+class="math inline">\(G\)</span>修改边后的等价类<span
+class="math inline">\(G^{&#39;}\)</span>。</p>
+<img src="/2022/04/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E5%8F%91%E7%8E%B0/image3.png" class="" title="这是一张图片">
+<center>
+<p>
+图3 边修正算法
+</p>
+</center>
+<h4 id="贝叶斯评分标准的渐近行为">贝叶斯评分标准的渐近行为</h4>
+<p>我们利用BIC去评价DAG <span
+class="math inline">\(G\)</span>相对于预测图<span
+class="math inline">\(G^{h}\)</span>的相对后验或者log相对后验，其中<span
+class="math inline">\(G\)</span>中的独立性约束与生成式分布结果的独立性约束相同。因此可以利用预测图<span
+class="math inline">\(G^{h}\)</span>的log相对后验来构建BIC：</p>
+<p><span class="math display">\[\begin{matrix}
+S_{B}(G,D) = logp\left( G^{h} \right) + \log{p\left( D \middle| G^{h}
+\right)}\tag{1} \\
+\end{matrix}\]</span></p>
+<p>其中<span class="math inline">\(p(G^{h})\)</span>是<span
+class="math inline">\(G^{h}\)</span>的相对先验概率，<span
+class="math inline">\(p\left( D \middle| G^{h}
+\right)\)</span>是边际似然值------衡量<span
+class="math inline">\(G^{h}\)</span>和数据<span
+class="math inline">\(D\)</span>的拟合程度。此外，BIC评分准则还应具有以下性质：</p>
+<ol type="1">
+<li><p>如果DAG <span
+class="math inline">\(H\)</span>符合数据D的分布概率<span
+class="math inline">\(p\)</span>，而<span
+class="math inline">\(G\)</span>不符合，则<span
+class="math inline">\(S(H,D) &gt; S(G,D)\)</span></p></li>
+<li><p>如果<span class="math inline">\(H\)</span>和<span
+class="math inline">\(G\)</span>均符合，但<span
+class="math inline">\(G\)</span>的参数值更少，则<span
+class="math inline">\(S(H,D) &lt; S(G,D)\)</span></p></li>
+</ol>
+<p>因此式(26)的BIC方程可以利用拉普拉斯积分进行近似，因此将式(26)转化为以下形式：</p>
+<p><span class="math display">\[\begin{matrix}
+S_{B}(G,D) = logp\left( D \middle| \ \widehat{\theta},G^{h} \right) -
+\frac{d}{2}logm + O(1)\tag{2} \\
+\end{matrix}\]</span></p>
+<p>其中<span
+class="math inline">\(\widehat{\theta}\)</span>是最大似然函数的参数，<span
+class="math inline">\(d\)</span>是<span
+class="math inline">\(G\)</span>的维度，<span
+class="math inline">\(m\)</span>是数据集<span
+class="math inline">\(D\)</span>中的数据数量。因此，根据BIC的性质我们可以得到以下结论：DAG模型<span
+class="math inline">\(G\)</span>的(1)BIC分数增加来作为添加任何消除独立性约束边的结构，结果图<span
+class="math inline">\(G^{&#39;}\)</span>仍然保持在相同的生成分布中，并且(2)减少上述添加的边不会消除这种约束条件。</p>
+<h4 id="两阶段的贪婪等价搜索算法">两阶段的贪婪等价搜索算法</h4>
+<p>我们使用贝叶斯评分准则<span
+class="math inline">\(S_{B}(\varepsilon,D)\)</span>来评价马尔可夫等价类<span
+class="math inline">\(\varepsilon\)</span>。如果<span
+class="math inline">\(\varepsilon^{*\
+}\)</span>表示生成分布P的完美图(数据生成分布P的每一项独立性约束都可以被图表达)的等价类，那么对于其他任图的等价类<span
+class="math inline">\(\varepsilon\)</span>均有<span
+class="math inline">\(S_{B}\left( \varepsilon^{*},D \right) &gt;
+S_{B}(\varepsilon,D)\)</span>。</p>
+<p>GES算法一共有两个阶段，在第一个阶段中不断添加边来搜索BIC最大的等价类，一旦达到局部最大值则进行第二个阶段，不断减少边，直到BIC再次达到局部最大值，得到最终的因果图。</p>
+<p>第一个阶段中，我们使用<span class="math inline">\(\varepsilon
+\rightarrow \varepsilon^{+}(\varepsilon) \rightarrow
+\varepsilon^{&#39;}\)</span>,其中<span
+class="math inline">\(\varepsilon^{+}(\varepsilon)\)</span>是<span
+class="math inline">\(\varepsilon\)</span>的所有相邻等价类，其中<span
+class="math inline">\(\varepsilon^{&#39;}\)</span>由<span
+class="math inline">\(\varepsilon^{+}(\varepsilon)\)</span>中的一个来修改边得到的，当前仅当从DAG
+<span class="math inline">\(G \in
+\varepsilon\)</span>出发，依据5.3.1.1中的算法，我们可以通过添加单条边达到DAG
+<span class="math inline">\(G \in
+\varepsilon^{&#39;}\)</span>。同样在第二个阶段中，我们进行与第一个阶段相似的删除操作<span
+class="math inline">\(\varepsilon \rightarrow
+\varepsilon^{-}(\varepsilon) \rightarrow
+\varepsilon^{&#39;}\)</span>。</p>
+<img src="/2022/04/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E5%8F%91%E7%8E%B0/image4.png" class="" title="这是一张图片">
+<center>
+<p>
+图4 贪婪搜索图
+</p>
+</center>
+<p>对上述算法进行简要的总结，Meek预测首先描述了在不违反生成分布P的情况下如何对生成图<span
+class="math inline">\(G\)</span>的边进行修改；BIC准则描述了对于局部等价类的评分准则是一样的，并且BIC分数的变化不会影响关于生成分布的约束条件。在此基础上提出了GES算法，通过两步贪心操作来得到最终的因果图。</p>
+<h2
+id="基于结构方程的因果发现sem-based-or-fcm-based-algorithms">基于结构方程的因果发现(SEM-based
+or FCM-based Algorithms)</h2>
+<p>结构方程将结果变量<span
+class="math inline">\(Y\)</span>与直接原因变量集合<span
+class="math inline">\(X\)</span>和噪声项<span
+class="math inline">\(\varepsilon\)</span>用结构方程<span
+class="math inline">\(Y = f(X,\varepsilon)\)</span>联系起来，其中<span
+class="math inline">\(X\)</span><span
+class="math inline">\(\varepsilon\)</span>相互独立。因果方向的可判定问题是SEM
+研究中的一项重要课题，LiNGAM算法研究发现当噪声项服从非
+Gauss分布或者函数方程满足非线性约束时,由于原因变量和噪声项间的独立性仅在正确的因果方向下成立,使得变量间的因果方向是可判定的。</p>
+<h3 id="lingam算法">LiNGAM算法</h3>
+<p>LiNGAM作为该研究方向的一个代表性模型, LiNGAM的全称是Linear
+Non-Gaussian Acyclic
+Model，即线性非高斯无环模型。它建模连续随机变量间的因果关系,假设变量间线性关联且噪声项服从非
+Gauss 分布. 独立成分分析技术(independent component analysis, ICA) 被用于
+LiNGAM 的模型选择,但由于超参数选择问题, ICA
+算法常常陷入局部最优而无法收敛于最优解。</p>
+<h4 id="模型假设">模型假设</h4>
+<ul>
+<li><p>因果单向假设：观测变量<span class="math inline">\(\{ x_{i}|i \in
+\{ 1,\ldots,m\}\}\)</span>按一定的因果顺序<span
+class="math inline">\(k(i)\)</span>进行排序，在这个排序中，原因变量必在结果变量前面，换句话说，各观测变量的因果图模型必定是有向无环图（DAG，directed
+acyclic graph），这是因果发现中最基本的假设。</p></li>
+<li><p>因果充分性假设：在模型中，变量集<span
+class="math inline">\(V\)</span>中的任意两个变量的直接原因都存在于<span
+class="math inline">\(V\)</span>，即不存在未被观测到的混淆变量。这是结构方程模型通用的重要假设之一，如果被观测到的变量集不具有因果充分性，则模型中可能含有未观测到的因变量，从而干扰模型的效果。</p></li>
+<li><p>数据产生方式假设：</p>
+<ul>
+<li>数据的生成方式是线性的，原因变量与结果变量之间的函数关系服从线性关系，即：</li>
+</ul></li>
+</ul>
+<p><span class="math display">\[\begin{matrix}
+x_{i} = \sum_{k(j) &lt; k(i)}^{}{b_{ij}x_{j}} + e_{i} + c_{i}\tag{3} \\
+\end{matrix}\]</span></p>
+<ul>
+<li><p>噪声<span
+class="math inline">\(e_{i}\)</span>之间互相独立，这是求解结构方程的前提条件</p></li>
+<li><p>噪声<span
+class="math inline">\(e_{i}\)</span>服从非高斯分布，使得因果模型具有唯一解</p></li>
+</ul>
+<h4 id="基于ica算法的因果模型识别">基于ICA算法的因果模型识别</h4>
+<p>独立成分分析（ICA，independent
+componentanalysis），是近年来出现的一种强有力的数据分析工具，由
+Hyvarinen 提出。ICA
+又称为盲信号处理，原本是用于从多个混杂的信号中分离出源信号。ICA的目的是将输入的系统的信号<span
+class="math inline">\(x(t)\)</span>进行转换，变为相互之间独立的信号<span
+class="math inline">\(s(t)\)</span>。
+基于非高斯假设，分离出方差相同、服从非高斯分布的源信号。对源信号的非高斯假设是算法的前提，如果源信号服从高斯分布，则可以通过在源信号空间里进行旋转，以得到多个不同的解，只有服从非高斯分布才能得到唯一解。解决线性发现问题的关键是要认识到观测变量是扰动变量的线性函数，且扰动变量相互独立并且非高斯分布的。如果我们对式(28)进行预处理，减去每个变量<span
+class="math inline">\(x_{i}\)</span>的平均值，从而可以消除常数项<span
+class="math inline">\(c_{i}\)</span>，从而将式(28)用矩阵表示为：</p>
+<p><span class="math display">\[\begin{matrix}
+x = Bx + e\tag{4} \\
+\end{matrix}\]</span></p>
+<p>其中，<span
+class="math inline">\(B\)</span>是表示因果权重的矩阵(通常需要对变量进行排序，使得因果权重矩阵为对角线为零的下三角矩阵)，对<span
+class="math inline">\(x\)</span>进行求解，我们可以得到下面的方程：</p>
+<p><span class="math display">\[\begin{matrix}
+x = Ae\tag{5} \\
+\end{matrix}\]</span></p>
+<p>其中，<span class="math inline">\(A = (I - B)^{-
+1}\)</span>，由于<span
+class="math inline">\(e\)</span>之间相互独立且服从非高斯分布，于是可以利用ICA求解唯一的<span
+class="math inline">\(A\)</span>值，同时得到其逆矩阵<span
+class="math inline">\(W = A^{- 1} = I -
+B\)</span>。此时，求解权重矩阵<span
+class="math inline">\(B\)</span>还需要面临两个问题：</p>
+<ul>
+<li><p>由于得到的结果中，源信号的排序是随机的，所以我们需要对<span
+class="math inline">\(W\)</span>进行排序使得符合我们的要求（对角线尽量不为零）</p></li>
+<li><p>通常假设个源信号是服从单位方差的，但实际上在 LiNGAM
+中并未对方差做出假设，这样的差异导致的一个结果就是<span
+class="math inline">\(W\)</span>的对角线并非全为一。根据<span
+class="math inline">\(B\)</span>因果权重矩阵的性质以及因果单向假设，<span
+class="math inline">\(W\)</span>的对角线必须全为一，ICA的结果并不满足这一要求。</p></li>
+</ul>
+<p>因此，需要对<span class="math inline">\(W\)</span>进行如下变换：</p>
+<ol type="1">
+<li><p>对<span
+class="math inline">\(W\)</span>进行排序得到对角线不为零的矩阵<span
+class="math inline">\(\overset{\sim}{W}\)</span></p></li>
+<li><p>对<span
+class="math inline">\(\overset{\sim}{W}\)</span>，每一行都除以对角元素，得到对角线为一的矩阵<span
+class="math inline">\({\overset{\sim}{W}}^{&#39;}\)</span></p></li>
+</ol>
+<p>因此，基于上述原理，LiNGAM的全局算法流程如下：</p>
+<ol type="1">
+<li><p>对于输入的数据矩阵<span class="math inline">\(X(m \times n,m \ll
+n)\)</span>，其中一列为一个样本向量<span
+class="math inline">\(x\)</span>，先进行归一化（除以每一行的均值），以消去其偏置；利用
+ICA 算法对<span class="math inline">\(X =
+AS\)</span>进行求解，得到相互独立的非高斯噪声<span
+class="math inline">\(S\)</span>，以及矩阵<span
+class="math inline">\(A\)</span>，并求得其逆矩阵<span
+class="math inline">\(W\)</span>；</p></li>
+<li><p>对<span
+class="math inline">\(W\)</span>进行排序得到对角线不为零的矩阵<span
+class="math inline">\(\overset{\sim}{W}\)</span>，为了方便计算，可将问题转化为：<span
+class="math inline">\(\min_{\overset{\sim}{W}}{\sum_{i}^{}\frac{1}{|\overset{\sim}{W_{ii}}|}\
+}\)</span></p></li>
+<li><p>对<span
+class="math inline">\(\overset{\sim}{W}\)</span>，每一行都除以对角元素，得到对角线为一的矩阵<span
+class="math inline">\({\overset{\sim}{W}}^{&#39;}\)</span></p></li>
+<li><p>估计权重矩阵<span
+class="math inline">\(B\)</span>，可表示为 <span
+class="math inline">\(\widehat{B} = I - {\overset{\sim}{W}}^{&#39;}\
+\)</span></p></li>
+<li><p>最后，对 <span
+class="math inline">\(\widehat{B}\)</span>安装因果关系排序，可表示为<span
+class="math inline">\(\overset{\sim}{B} =
+P\widehat{B}P^{T}\)</span>，其中<span
+class="math inline">\(\overset{\sim}{B}\)</span>接近于一个严格的下三角矩阵，由于通常情况下<span
+class="math inline">\(\widehat{B}\)</span>的元素均不为零，问题可以转化为最大化<span
+class="math inline">\(\sum_{i \leq
+j}^{}{\overset{\sim}{B}}_{ij}^{2}\)</span></p></li>
+</ol>
+<h1 id="基于dlrl的因果结构发现">基于DL\RL的因果结构发现</h1>
+<h2
+id="独立因果机制independence-causal-machanismicm">独立因果机制（Independence
+Causal Machanism，ICM</h2>
+<p>在利用DL\RL进行因果推断以前，我们需要对变量间的因果关系进行一个描述，从而保证式(2)的因果分解是有意义的。在噪声独立的情况下，根据因果图对联合分布进行因果分解总是可行的，因此需要考虑式(2)中因子的独立机制：</p>
+<ul>
+<li><p>一个系统的变量的因果生成过程是由一系列自主模块构成，它们不会影响彼此，也无法提供彼此的信息</p>
+<ul>
+<li><p>改变(干预)一个机制<span
+class="math inline">\(P(X_{i}|{PA}_{i})\)</span>，不会改变其他机制<span
+class="math inline">\(P(X_{j}|{PA}_{j})(i \neq j)\)</span></p></li>
+<li><p>知道其他机制<span class="math inline">\(P(X_{i}|{PA}_{i})(i \neq
+j)\)</span>不会提供<span
+class="math inline">\(P(X_{j}|{PA}_{j})\)</span>的任何信息</p></li>
+</ul></li>
+</ul>
+<p>我们通常认为现实世界的分布都是因果机制的产物，这种分布的变化，将总是由于至少一个机制的变化。我们首先考虑一个因果的因子化，假设较小的变化往往以一种稀疏或局部的方式表现出来，即它们通常不应该同时影响所有因素，将此类因果分解称为独立因果分解；相反，如果我们考虑一个非因果的因子化，那么当我们改变负责系统统计依赖性的物理机制之一时，许多项将同时受到影响，这样的因式化可以称为纠缠因果分解（entangled
+）。</p>
+<img src="/2022/04/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E5%8F%91%E7%8E%B0/image5.png" class="" title="这是一张图片">
+<center>
+<p>
+图5 一个生成式分布P由多个独立因果机制Q构成
+</p>
+</center>
+<p>此外，机制之间的依赖性(Measures of dependence of
+mechanisms)与随机变量的统计依赖性并不一致。在一个因果图中，即使机制<span
+class="math inline">\(p(X_{i}|{PA}_{i})\)</span>和<span
+class="math inline">\(p(X_{j}|{PA}_{j})\)</span>是独立的，随机变量<span
+class="math inline">\(X_{i}\)</span>和<span
+class="math inline">\(X_{j}\)</span>之间也可能存在依赖性。同样，噪声<span
+class="math inline">\(U_{i}\)</span>的独立性也与<span
+class="math inline">\(X_{i}\)</span>的独立性无关。直观来讲，噪声项<span
+class="math inline">\(U_{i}\)</span>提供并参数化了机制<span
+class="math inline">\(P(X_{i}|{PA}_{i})\)</span>中的不确定性，并且保证了不同机制存在相互独立的不确定性。在这种意义上，ICM原则包含了在SCM的特殊情况中------如果噪声项不独立，因果机制就不独立了。</p>
+<h2 id="基于dl的因果发现">基于DL的因果发现</h2>
+<p>深度学习模型凭借其强大的表征能力在图像分类，语音识别等领域展现巨大的预测能力，但由于其经常将相关性关系认为因果关系，因此可能会对政策制定、行为决策等造成灾难性后果。近来，存在利用神经网络构建因果关系的新发展趋势，如CGNN模型构建了一个生成式网络，通过反向传播训练来最小化观测数据和生成数据之间的最大平均差异(MMD)。该方法建立在5.4的基础上，利用神经网络来拟合结构方程<span
+class="math inline">\(X =
+f({PA}_{X},\varepsilon)\)</span>。通过考虑分布不对称性和条件独立性，解决了双变量和多变量以及混杂因素的情况，不仅估计隐藏在数据下的因果图，而且估计数据的联合概率分布。</p>
+<h3
+id="生成式因果神经网络causal-generative-neural-networks">生成式因果神经网络(Causal
+generative neural networks)</h3>
+<p>该类方法的原理在于将因果图<span
+class="math inline">\(\mathcal{G}\)</span>表示为生成式概率分布<span
+class="math inline">\(P(X),X \in
+(x_{1},..,x_{d})\)</span>，基于独立因果机制和因果模型的乘积法则可分解为<span
+class="math inline">\(\prod_{i =
+1}^{}{P(x_{i}|pa_{i})}\)</span>。通过观察因果图模型和结构方程，我们可以利用一系列网络 <span
+class="math inline">\(\widehat{f} =
+(\widehat{f_{1}},\ldots,\widehat{f_{d}})\)</span>来表达生成式分布 <span
+class="math inline">\(\widehat{P}\)</span>，其中神经网络被定义为 <span
+class="math inline">\(\widehat{X_{i}} =
+\widehat{f_{i}}({\widehat{X}}_{Pa(i:G)},E_{i})\)</span>，<span
+class="math inline">\(E_{i}\sim\varepsilon\)</span>。</p>
+<p>CGNN利用神经网络拟合的数据分布来近似真实的数据分布，因此损失函数就可以被定义为两类分布之间的差，网络的目标就是最小化这个损失函数，损失函数表达为：</p>
+<p><span class="math display">\[\begin{matrix}
+S\left( \widehat{G},D \right) = - {\widehat{MMD}}_{k}\left(
+D,\widehat{D} \right) - \lambda\left| \widehat{G} \right|\tag{6} \\
+\end{matrix}\]</span></p>
+<p>其中<span class="math inline">\(|\widehat{G}|\)</span>是 <span
+class="math inline">\(\widehat{G}\)</span>的edge个数，其中<span
+class="math inline">\(MMD\)</span>表示为如下公式：</p>
+<p><span class="math display">\[\begin{matrix}
+{\widehat{MMD}}_{k} = \frac{1}{n^{2}}\sum_{i,j = 1}^{n}{k\left(
+x_{i},x_{j} \right) + \frac{1}{n^{2}}\sum_{i,j = 1}^{n}{k\left(
+{\widehat{x}}_{i},{\widehat{x}}_{j} \right) - \frac{2}{n^{2}}\sum_{i,j =
+1}^{n}{k\left( x_{i},{\widehat{x}}_{j} \right)}}}\tag{7} \\
+\end{matrix}\]</span></p>
+<p>式(32)中<span
+class="math inline">\(k\)</span>是高斯核函数，用来衡量距离，<span
+class="math inline">\(MMD\)</span>用来衡量两个分布的接近程度。本质上是将FCM与Score-based的思想结合起来，利用神经网络拟合<span
+class="math inline">\(f({PA}_{x},E_{x})\)</span>的值，用<span
+class="math inline">\(S(\widehat{G},D)\)</span>衡量每条因果方向边的打分，通过不同因果方向的打分来区分马尔可夫等价类。CGNN的具体实现思路如下：</p>
+<p>首先输入一个因果框架，即先验无向因果图，这个图一般由专家知识得到，CGNN之后采取和score-based相似的搜索策略，一共有三步：</p>
+<ol type="1">
+<li><p>对于相邻变量<span class="math inline">\(X_{i}\)</span>和<span
+class="math inline">\(X_{j}\)</span>，通过两个变量做一个成对反向CGNN，然后两个方向分别训练的，得到最优损失，选择较小的损失作为因果方向</p></li>
+<li><p>顺着目前因果图的任意一个节点，寻找是否成环，有则反转，保证最终的是无环图</p></li>
+<li><p>对于目前的图，不断反转某个边然后再训练，如果最后损失减少则接受当前反转。</p></li>
+</ol>
+<p>对于可能存在的混杂因素，将FCM方程扩展为<span
+class="math inline">\(X_{i} \leftarrow
+f_{i}(X_{pa(i;G)},E_{i,Ne(i:s)},E_{i})\)</span>，其中<span
+class="math inline">\(Ne(i;S) \in \{ 1,\ldots,d\}\)</span>是<span
+class="math inline">\(X_{i}\)</span>相邻变量的下标指数。每一个<span
+class="math inline">\(E_{i,j}\sim\varepsilon\)</span>代表了<span
+class="math inline">\(X_{i},X_{j}\)</span>的共因。因此，当考虑混杂变量时，就把噪声也作为独立变量放进图中进行训练。</p>
+<h2 id="基于rl的因果发现">基于RL的因果发现</h2>
+<p>强化学习是机器学习中更为接近因果研究的一个领域，它常常会直接有效的估计do-probabilities，即干预效果。例如on-policy学习就直接估计当前策略干预的do-probabilities。但当涉及off-policy学习或者离线强化学习时，与因果相关的问题就变得十分精妙。强化学习和因果结合的可以大致分为两类：一是在强化学习中结合因果发现，例如智能体可以学到环境的因果模型；二是学习利用因果模型进行规划和行动。已经有越来越多的证据表明，使用恰当的结构化表征是很有帮助的。利用强化学习来进行因果关系的挖掘非常直观，因为智能体的每一个动作都可以看作一个干预，而环境给予的奖励可以看作因果图的分数。基于这个思路，华为诺亚实验室给出了结合强化学习Actor-Critic算法和Score-based因果发现算法的模型。</p>
+<h3
+id="自编码器式强化学习算法14">自编码器式强化学习算法<sup>[14]</sup></h3>
+<p>尽管如5.3.1的基于评分的因果发现算法在有限样本和特定模型假设上取得了很好的成果，但仍陷于条件独立假设的诸多假设而不能适应诸多场景。因此本文利用强化学习来寻找最好评分的DAG，其自动编码器模型将观测数据作为输入，将因果图邻接矩阵作为输出，其中图的评分综合了先验评分函数（BIC）和两项保证无环性的惩罚项。与普通RL不同的是，本模型将图的评分作为最大奖励，并将最终因果图作为输出。</p>
+<img src="/2022/04/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E5%8F%91%E7%8E%B0/image6.png" class="" title="这是一张图片">
+<center>
+<p>
+图6 基于RL的自动编码器因果发现模型
+</p>
+</center>
+<h3 id="评分函数无环性和奖励">评分函数、无环性和奖励</h3>
+<h4 id="评分函数">评分函数</h4>
+<p>在本文中，我们采用BIC作为先验分数函数，有向图<span
+class="math inline">\(\mathcal{G}\)</span>的BIC指标定义如下：</p>
+<p><span class="math display">\[\begin{matrix}
+\mathcal{S}_{BIC}\left( \mathcal{G} \right) = - 2logp\left(
+X;\widehat{\theta}\mathcal{,G} \right) + d_{\theta}logm\tag{8} \\
+\end{matrix}\]</span></p>
+<p>其中<span
+class="math inline">\(\theta\)</span>是最大似然估计的参数，<span
+class="math inline">\(d\)</span>是参数的维度，当我们假设噪声是<span
+class="math inline">\(i.i.d\)</span>高斯加性噪声并且方差相同时，式(33)可以转化为下式：</p>
+<p><span class="math display">\[\begin{matrix}
+\mathcal{S}_{BIC}\left( \mathcal{G} \right) = mdlog\left( \frac{\sum_{i
+= 1}^{d}{RSS_{i}}}{md} \right) + elogm \\
+\end{matrix} \tag{9}\]</span></p>
+<p>其中<span class="math inline">\(RSS = \sum_{k = 1}^{m}\left(
+x_{i}^{k} - {\widehat{x}}_{i}^{k} \right)^{2}\)</span>，表示第<span
+class="math inline">\(i\)</span>个变量与真实分布的残差值，<span
+class="math inline">\(e\)</span>表示边的数量。式(34)的第一项用来衡量生成图分布与真实数据分布的距离，第二项作为惩罚项对边的数量进行惩罚。</p>
+<h4 id="无环性">无环性</h4>
+<p>如何保证因果图的无环性约束？在GES算法中，在添加每条边时显式地检查是否保证无环，在本算法中，可以在打分函数中通过添加惩罚项来保证无环。根据图论，如果邻接矩阵满足<span
+class="math inline">\(h(A) = trace\left( e^{A} \right) - d =
+0\)</span>，则邻接矩阵无环。但是该值可能很小，导致我们需要在惩罚项中添加一个较大的权重并遍历所有DAG，因此我们可以通过一个指示函数来优化该惩罚项。</p>
+<h4 id="奖励">奖励</h4>
+<p>奖励函数综合了分数函数和无环性约束，定义为如下公式：</p>
+<p><span class="math display">\[\begin{matrix}
+reward = - \left\lbrack \mathcal{S}\left( \mathcal{G} \right) +
+\lambda_{1}I\left( \mathcal{G \notin}{DAG}_{s} \right) + \lambda_{2}h(A)
+\right\rbrack\tag{10} \\
+\end{matrix}\]</span></p>
+<p>同时，由于<span
+class="math inline">\(\mathcal{S(G)}\)</span>和无环性约束的范围不一样，需要把<span
+class="math inline">\(\mathcal{S}\)</span>约束到特定的范围<span
+class="math inline">\(\mathcal{S}_{0}\frac{\mathcal{S
+-}\mathcal{S}_{L}}{\mathcal{S}_{U} -
+\mathcal{S}_{L}}\)</span>，因此最佳得分的范围在<span
+class="math inline">\(\lbrack
+0,\mathcal{S}_{0}\rbrack\)</span>。我们令<span
+class="math inline">\(\pi(.|s)\)</span>表示策略，令<span
+class="math inline">\(\psi\)</span>表示神经网络参数，因此我们的预期奖励被定义为如下公式：</p>
+<p><span class="math display">\[\begin{matrix}
+J\left( \psi \middle| s \right) = E_{A\sim\pi\left( . \middle| s
+\right)}\left\{ - \left\lbrack S\left( \mathcal{G} \right) +
+\lambda_{1}I\left( \mathcal{G \notin}DAG_{s} \right) + \lambda_{2}h(A)
+\right\rbrack \right\}\tag{11} \\
+\end{matrix}\]</span></p>
+<p>综合6.3.2.1-6.3.2.3的讨论，该RL算法的具体流程如下：</p>
+<img src="/2022/04/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E5%8F%91%E7%8E%B0/image7.png" class="" title="这是一张图片">
+<center>
+<p>
+图7 基于自动编码器RL算法流程
+</p>
+</center>
+<p>既然我们最后的输出是一个拥有最好评分的DAG而非策略，因此最终的输出图可能包含许多虚假边，因此剪枝仍是必要的。在接下来的步骤中，采用GES算法第二步相似的操作，对于有因果关系的双变量，通过移除父变量来衡量结果图的表现，如果因果关系没改变则保留该次剪枝操作。对于线性系统，剪枝可通过简单地为估计系数设定阈值来实现。</p>
+<p>总结来说，本算法利用Actor-Critic框架来构建RL算法，其中Actor采用了自编码器模型，Critic采用了双层前向反馈神经网络，奖励通过整合先验分数函数和无环性约束来保证因果图的正确性。</p>
+<p><strong>参考文献</strong></p>
+<p>[1] 苗旺, 刘春辰, 耿直. 因果推断的统计方法. 中国科学（数学）,
+2018,48(12):1753-1778.</p>
+<p>[2] Pearl J. Causal inference in statistics: An overview. Statistics
+Surveys, 2009, 3(none).</p>
+<p>[3] Pearl J, Glymour M, Jewell N P. Causal inference in statistics: A
+primer: John Wiley &amp; Sons, 2016.</p>
+<p>[4] Glymour C, Zhang K, Spirtes P. Review of Causal Discovery Methods
+Based on Graphical Models. Front Genet, 2019, 10.</p>
+<p>[5] Ramsey J, Glymour M, Sanchez-Romero R, et al. A million variables
+and more: the Fast Greedy Equivalence Search algorithm for
+learninghigh-dimensional graphical causal models, with an application to
+functional magnetic resonance images. International Journal of Data
+Science and Analytics, 2017, 3(2):121-129.</p>
+<p>[6] Spirtes P, Glymour C. An Algorithm for Fast Recovery of Sparse
+Causal Graphs. Soc Sci Comput Rev, 1991, 9(1):62-72.</p>
+<p>[7] Spirtes P, Glymour C N, Scheines R, et al. Causation, prediction,
+and search: MIT press, 2000.</p>
+<p>[8] Chickering D M. Optimal structure identification with greedy
+search. J Mach Learn Res, 2002, 3(Nov):507-554.</p>
+<p>[9] Harada K, Fujisawa H. Sparse estimation of Linear Non-Gaussian
+Acyclic Model for Causal Discovery. Neurocomputing (Amsterdam), 2021,
+459:223-233.</p>
+<p>[10] Parascandolo G, Kilbertus N, Rojas-Carulla M, et al. Learning
+Independent Causal Mechanisms. 2017.</p>
+<p>[11] Schölkopf B. Causality for Machine Learning. 2019.</p>
+<p>[12] Scholkopf B, Locatello F, Bauer S, et al. Toward Causal
+Representation Learning. P Ieee, 2021, 109(5):612-634.</p>
+<p>[13] Goudet O, Kalainathan D, Caillou P, et al. Causal Generative
+Neural Networks. 2018.</p>
+<p>[14] Zhu S, Ng I, Chen Z. Causal discovery with reinforcement
+learning. arXiv preprint arXiv:1906.04477, 2019.</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>只想买点薯条</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="李博洋 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="李博洋 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E5%9B%A0%E6%9E%9C%E5%8F%91%E7%8E%B0/" rel="tag"># 因果发现</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/03/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B/" rel="prev" title="结构因果模型">
+                  <i class="fa fa-chevron-left"></i> 结构因果模型
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/05/15/GWR/" rel="next" title="地理加权回归模型">
+                  地理加权回归模型 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李博洋</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.1/es5/tex-mml-chtml.js","integrity":"sha256-hlC2uSQYTmPsrzGZTEQEg9PZ1a/+SV6VBCTclohf2og="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

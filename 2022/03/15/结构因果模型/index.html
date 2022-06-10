@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.boyangl1.cn","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.12.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="两大因果框架\(^{[1]}\) 因果科学中，目前使用范围最广的模型有两个，一个是著名统计学家DonaldRubin教授在1978年提出的潜在结果模型（Potential Outcome Model）；另一个是图灵奖获得者Judea Pearl教授在1995年提出的结构因果模型（Structural Causal Model，SCM）。这两个框架在不同的领域都有不同侧重的应用：计算机领域更">
+<meta property="og:type" content="article">
+<meta property="og:title" content="结构因果模型">
+<meta property="og:url" content="http://www.boyangl1.cn/2022/03/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B/index.html">
+<meta property="og:site_name" content="Boyang&#39;s blog">
+<meta property="og:description" content="两大因果框架\(^{[1]}\) 因果科学中，目前使用范围最广的模型有两个，一个是著名统计学家DonaldRubin教授在1978年提出的潜在结果模型（Potential Outcome Model）；另一个是图灵奖获得者Judea Pearl教授在1995年提出的结构因果模型（Structural Causal Model，SCM）。这两个框架在不同的领域都有不同侧重的应用：计算机领域更">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.boyangl1.cn/2022/03/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B/image1.jpg">
+<meta property="og:image" content="http://www.boyangl1.cn/2022/03/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B/image2.png">
+<meta property="og:image" content="http://www.boyangl1.cn/2022/03/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B/image3.png">
+<meta property="og:image" content="http://www.boyangl1.cn/2022/03/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B/image4.png">
+<meta property="og:image" content="http://www.boyangl1.cn/2022/03/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B/image5.png">
+<meta property="og:image" content="http://www.boyangl1.cn/2022/03/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B/image6.png">
+<meta property="og:image" content="http://www.boyangl1.cn/2022/03/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B/image7.png">
+<meta property="og:image" content="http://www.boyangl1.cn/2022/03/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B/image8.png">
+<meta property="og:image" content="http://www.boyangl1.cn/2022/03/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B/image9.png">
+<meta property="og:image" content="http://www.boyangl1.cn/2022/03/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B/image10.png">
+<meta property="og:image" content="http://www.boyangl1.cn/2022/03/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B/image11.png">
+<meta property="og:image" content="http://www.boyangl1.cn/2022/03/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B/image12.png">
+<meta property="og:image" content="http://www.boyangl1.cn/2022/03/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B/image13.png">
+<meta property="article:published_time" content="2022-03-15T02:39:00.000Z">
+<meta property="article:modified_time" content="2022-05-17T03:53:04.815Z">
+<meta property="article:author" content="李博洋">
+<meta property="article:tag" content="因果推断">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.boyangl1.cn/2022/03/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B/image1.jpg">
+
+
+<link rel="canonical" href="http://www.boyangl1.cn/2022/03/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://www.boyangl1.cn/2022/03/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B/","path":"2022/03/15/结构因果模型/","title":"结构因果模型"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>结构因果模型 | Boyang's blog</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Boyang's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">分享生活，交流知识</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">6</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">2</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">6</span></a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%A4%E5%A4%A7%E5%9B%A0%E6%9E%9C%E6%A1%86%E6%9E%B61"><span class="nav-number">1.</span> <span class="nav-text">两大因果框架\(^{[1]}\)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%9F%E8%AE%A1%E5%8F%8A%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B2"><span class="nav-number">2.</span> <span class="nav-text">统计及因果模型\(^{[2]}\)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E7%8E%87%E4%B8%8E%E7%BB%9F%E8%AE%A1"><span class="nav-number">2.1.</span> <span class="nav-text">概率与统计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.2.</span> <span class="nav-text">结构因果模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%A0%E6%9E%9C%E7%BB%93%E6%9E%84%E5%81%87%E8%AE%BE"><span class="nav-number">2.2.1.</span> <span class="nav-text">因果结构假设</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B9%98%E7%A7%AF%E5%88%86%E8%A7%A3"><span class="nav-number">2.2.2.</span> <span class="nav-text">乘积分解</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%BE%E6%A8%A1%E5%9E%8B%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">图模型及其应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%9A%84%E8%81%94%E7%B3%BB"><span class="nav-number">3.1.</span> <span class="nav-text">模型与数据的联系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%93%BE%E7%BB%93%E6%9E%84%E4%B8%8E%E5%88%86%E5%8F%89%E7%BB%93%E6%9E%84"><span class="nav-number">3.2.</span> <span class="nav-text">链结构与分叉结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E6%92%9E%E7%BB%93%E6%9E%84"><span class="nav-number">3.3.</span> <span class="nav-text">对撞结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#d-%E5%88%86%E7%A6%BB"><span class="nav-number">3.4.</span> <span class="nav-text">d-分离</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E6%A3%80%E9%AA%8C%E4%B8%8E%E5%9B%A0%E6%9E%9C%E6%90%9C%E7%B4%A2"><span class="nav-number">3.5.</span> <span class="nav-text">模型检验与因果搜索</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B9%B2%E9%A2%84%E7%9A%84%E6%95%88%E6%9E%9C"><span class="nav-number">4.</span> <span class="nav-text">干预的效果</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%B2%E9%A2%84"><span class="nav-number">4.1.</span> <span class="nav-text">干预</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%A1%E6%AD%A3%E5%85%AC%E5%BC%8F"><span class="nav-number">4.2.</span> <span class="nav-text">校正公式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%A1%E6%AD%A3or%E4%B8%8D%E6%A0%A1%E6%AD%A3"><span class="nav-number">4.2.1.</span> <span class="nav-text">校正OR不校正</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E9%87%8D%E5%B9%B2%E9%A2%84%E5%92%8C%E6%88%AA%E6%96%AD%E8%A7%84%E5%88%99"><span class="nav-number">4.2.2.</span> <span class="nav-text">多重干预和截断规则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E9%97%A8%E5%87%86%E5%88%99"><span class="nav-number">4.3.</span> <span class="nav-text">后门准则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E9%97%A8%E5%87%86%E5%88%99"><span class="nav-number">4.4.</span> <span class="nav-text">前门准则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%B9%E5%AE%9A%E5%8F%98%E9%87%8F%E6%95%88%E5%BA%94%E5%92%8C%E6%9D%A1%E4%BB%B6%E5%B9%B2%E9%A2%84"><span class="nav-number">4.5.</span> <span class="nav-text">特定变量效应和条件干预</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E5%AE%9A%E5%8F%98%E9%87%8F%E6%95%88%E5%BA%94"><span class="nav-number">4.5.1.</span> <span class="nav-text">特定变量效应</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E5%B9%B2%E9%A2%84"><span class="nav-number">4.5.2.</span> <span class="nav-text">条件干预</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%86%E6%A6%82%E7%8E%87%E5%8A%A0%E6%9D%83"><span class="nav-number">4.6.</span> <span class="nav-text">逆概率加权</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%AD%E4%BB%8B"><span class="nav-number">4.7.</span> <span class="nav-text">中介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%BF%E6%80%A7%E7%B3%BB%E7%BB%9F%E4%B8%AD%E7%9A%84%E5%9B%A0%E6%9E%9C%E6%8E%A8%E6%96%AD"><span class="nav-number">4.8.</span> <span class="nav-text">线性系统中的因果推断</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E7%B3%BB%E6%95%B0%E4%B8%8E%E5%9B%9E%E5%BD%92%E7%B3%BB%E6%95%B0"><span class="nav-number">4.8.1.</span> <span class="nav-text">结构系数与回归系数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E7%B3%BB%E6%95%B0%E7%9A%84%E5%9B%A0%E6%9E%9C%E8%A7%A3%E9%87%8A"><span class="nav-number">4.8.2.</span> <span class="nav-text">结构系数的因果解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%86%E5%88%AB%E7%BB%93%E6%9E%84%E7%B3%BB%E6%95%B0%E5%92%8C%E5%9B%A0%E6%9E%9C%E6%95%88%E5%BA%94"><span class="nav-number">4.8.3.</span> <span class="nav-text">识别结构系数和因果效应</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#x-y%E6%B2%A1%E6%9C%89%E7%9B%B4%E6%8E%A5%E6%95%88%E5%BA%94"><span class="nav-number">4.8.3.1.</span> <span class="nav-text">x-&gt;y没有直接效应</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#x-y%E6%9C%89%E7%9B%B4%E6%8E%A5%E6%95%88%E5%BA%94"><span class="nav-number">4.8.3.2.</span> <span class="nav-text">x-&gt;y有直接效应</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#x-y%E9%97%B4%E6%8E%A5%E6%95%88%E5%BA%94%E6%97%A0%E6%B3%95%E8%AF%86%E5%88%AB"><span class="nav-number">4.8.3.3.</span> <span class="nav-text">x-&gt;y间接效应无法识别</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E6%80%A7%E7%B3%BB%E7%BB%9F%E7%9A%84%E4%B8%AD%E4%BB%8B"><span class="nav-number">4.8.4.</span> <span class="nav-text">线性系统的中介</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%8D%E4%BA%8B%E5%AE%9E%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A83"><span class="nav-number">5.</span> <span class="nav-text">反事实及其应用\(^{[3]}\)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E4%BA%8B%E5%AE%9E"><span class="nav-number">5.1.</span> <span class="nav-text">反事实</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E4%BA%8B%E5%AE%9E%E7%9A%84%E5%AE%9A%E4%B9%89%E4%B8%8E%E8%AE%A1%E7%AE%97"><span class="nav-number">5.2.</span> <span class="nav-text">反事实的定义与计算</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E4%BA%8B%E5%AE%9E%E7%9A%84%E7%BB%93%E6%9E%84%E6%80%A7%E8%A7%A3%E9%87%8A"><span class="nav-number">5.2.1.</span> <span class="nav-text">反事实的结构性解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E4%BA%8B%E5%AE%9E%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%AE%9A%E7%90%86"><span class="nav-number">5.2.2.</span> <span class="nav-text">反事实的基本定理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E4%BA%8B%E5%AE%9E%E7%9A%84%E4%B8%89%E4%B8%AA%E6%AD%A5%E9%AA%A4"><span class="nav-number">5.2.3.</span> <span class="nav-text">反事实的三个步骤</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%9E%E7%A1%AE%E5%AE%9A%E6%80%A7%E7%9A%84%E5%8F%8D%E4%BA%8B%E5%AE%9E"><span class="nav-number">5.3.</span> <span class="nav-text">非确定性的反事实</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E4%BA%8B%E5%AE%9E%E7%9A%84%E5%9B%BE%E5%BD%A2%E5%8C%96%E8%A1%A8%E7%A4%BA"><span class="nav-number">5.3.1.</span> <span class="nav-text">反事实的图形化表示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E6%A8%A1%E5%9E%8B%E4%B8%AD%E7%9A%84%E5%8F%8D%E4%BA%8B%E5%AE%9E"><span class="nav-number">5.3.2.</span> <span class="nav-text">实验模型中的反事实</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E6%80%A7%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%8F%8D%E4%BA%8B%E5%AE%9E"><span class="nav-number">5.3.3.</span> <span class="nav-text">线性系统的反事实</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="李博洋"
+      src="/images/cat.png">
+  <p class="site-author-name" itemprop="name">李博洋</p>
+  <div class="site-description" itemprop="description">生命太短暂，不要去做一些根本没有人想要的东西。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com//BoyangL1" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;&#x2F;BoyangL1" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:liboyang0209@gmail.com" title="E-Mail → mailto:liboyang0209@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.boyangl1.cn/2022/03/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="李博洋">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boyang's blog">
+      <meta itemprop="description" content="生命太短暂，不要去做一些根本没有人想要的东西。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="结构因果模型 | Boyang's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          结构因果模型
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-03-15 10:39:00" itemprop="dateCreated datePublished" datetime="2022-03-15T10:39:00+08:00">2022-03-15</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="两大因果框架1">两大因果框架<span
+class="math inline">\(^{[1]}\)</span></h1>
+<p>因果科学中，目前使用范围最广的模型有两个，一个是著名统计学家DonaldRubin教授在1978年提出的潜在结果模型（Potential
+Outcome Model）；另一个是图灵奖获得者Judea
+Pearl教授在1995年提出的结构因果模型（Structural Causal
+Model，SCM）。这两个框架在不同的领域都有不同侧重的应用：计算机领域更多的是采用Pearl的框架；社会科学、计量经济学、流行病学等领域主要采用的则是Rubin的这套框架，这两套框架的本质其实是相同的，都是在观测数据中推测出因果关系，但采用的思想原理有所不同：SCM的关键在于图模型，来源于贝叶斯网络，将Bayes网络加上外部干预,用来定义外部干预的因果作用和描述多个变量之间的因果关系，利用因果网络不仅能定量评价因果作用,还能定性确定混杂因素,用于从数据挖掘因果关系；RCM的关键在于潜在结果，来源于统计学，该模型主要用在原因和结果变量已知的前提下,定量评价原因变量对结果变量的因果作用。</p>
+<img src="/2022/03/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B/image1.jpg" class="" title="Judea Pearl, Donald Rubin">
+<center>
+<p>
+Figure1 Judea Pearl, Donald Rubin
+</p>
+</center>
+<span id="more"></span>
+<p>由于SCM的因果图与强化学习的结构图有着天然的相似性，两者的结合会碰撞什么的火花？因此本文作为Judea
+Pearl的《Causal Inference In
+Statistics》的阅读笔记，记录结构因果模型的主要思想。结构因果模型的主要研究内容如下图所示：</p>
+<img src="/2022/03/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B/image2.png" class="" title="结构因果模型主要研究内容">
+<center>
+<p>
+Figure2 结构因果模型主要研究内容
+</p>
+</center>
+<h1 id="统计及因果模型2">统计及因果模型<span
+class="math inline">\(^{[2]}\)</span></h1>
+<p>我们需要理解数据，进而总结出经验与教训以指导行动与决策。因果关系与传统的统计学结合后能揭示世界的运行机制，仅凭传统方法是无法做到的。由辛普森悖论我们可以得出：相关不是因果，所以不能仅根据数据确定因果关系。本书对因果关系的定义为：如果变量<span
+class="math inline">\(Y\)</span>的值以某种形式依赖于变量<span
+class="math inline">\(X\)</span>的值，则变量<span
+class="math inline">\(X\)</span>就是变量<span
+class="math inline">\(Y\)</span>的原因。</p>
+<h2 id="概率与统计">概率与统计</h2>
+<p><span class="math display">\[\begin{matrix}
+P\left( A \middle| B,C \right) = P\left( A \middle| C \right)\ and\
+P\left( B \middle| A,C \right) = P\left( B \middle| C \right) \tag{1} \\
+\end{matrix}\]</span></p>
+<p>如果两个事件在给定另一个条件时独立，则称其关系为【条件独立】；若无需给定任何条件则称其关系为【边缘独立】。式（1）表示条件独立。</p>
+<h2 id="结构因果模型">结构因果模型</h2>
+<h3 id="因果结构假设">因果结构假设</h3>
+<p>结构因果模型（SCM）包含两个变量集<span
+class="math inline">\(U\)</span>和<span
+class="math inline">\(V\)</span>以及一组函数<span
+class="math inline">\(f = \{ f_{X}:W_{X} \rightarrow X|X \in
+V\}\)</span>，其中<span class="math inline">\(W_{X} \subseteq (U \cup V)
+- \{ X\}\)</span>。</p>
+<p>变量集<span
+class="math inline">\(U\)</span>中的变量称为外生变量，有时也被称为误差项或省略因素，它可能是未知
+or/and 随机的，我们并不关心它们变化的原因；变量集<span
+class="math inline">\(V\)</span>中的变量称为内生变量，每个内生变量<span
+class="math inline">\(V\)</span>与其它内生变量以及外生变量的关系由其对应函数<span
+class="math inline">\(f_{X}\)</span>定量地给出，如果所有外生变量的取值都是已知的（一般不可能做到），则每个内生变量的取值也可以确定下来。</p>
+<p>图模型是定性的，包含的信息比结构因果模型更少，它允许我们快速方便地确定变量间的关系，而且现实中因果关系的知识往往也是定性描述的。本书主要讨论有向无环图的结构因果模型。</p>
+<h3 id="乘积分解">乘积分解</h3>
+<p>联合分布有三种表达方式，一是建立表格，为所有可能的取值组合都分配一个概率值；二是利用结构因果模型的
+n
+个函数+误差项的概率分析计算出联合分布的所有概率；三是图模型+乘积分解法则。方式一在处理多变量问题时需要巨大的存储空间；方式二中函数形式和分布可能是未知的或者难以表达的。</p>
+<p><span class="math display">\[\begin{matrix}
+P\left( x_{1},x_{2},\ldots,x_{n} \right) = \prod_{i}^{}{P\left( x_{i}
+\middle| pa_{i} \right)} \tag{2} \\
+\end{matrix}\]</span></p>
+<p>乘积分解法则指出，对于任意有向无环图模型，变量的联合分布均可通过式（2）所示的各节点的条件分布概率之积计算出，此时我们不需要像方式一那样创建一个巨大的概率表，而仅需要保存多个小规模的条件概率分布表，必要时再调用计算即可。</p>
+<p>图的深层意义是将一个复杂的"高维"分布估计问题变为多个简单的"低维"分布估计问题，我们不再需要数据覆盖全体变量的所有取值组合来计算频次，而仅仅需要在每个子问题中考虑部分变量的取值组合，对于每个问题而言可用的数据更多了，频次统计的准确性由此得到了提升。</p>
+<h1 id="图模型及其应用">图模型及其应用</h1>
+<h2 id="模型与数据的联系">模型与数据的联系</h2>
+<p>通过图模型的结构可以预测数据中的独立性质。通过数据中的独立性质可以判断假设的模型是否正确。两者是一种假设检验的关系，我们通过数据来判断接受该图模型的概率。</p>
+<h2 id="链结构与分叉结构">链结构与分叉结构</h2>
+<img src="/2022/03/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B/image3.png" class="" title="链结构">
+<center>
+<p>
+Figure3 链结构
+</p>
+</center>
+<p>链结构是指由三个节点和两条边组成，并且中间变量有一条边进入和一条边射出的结构；链结构中的条件独立性是指对任意图模型而言，如果两个变量<span
+class="math inline">\(X\)</span>和<span
+class="math inline">\(Z\)</span>之间只有一条单向路径且<span
+class="math inline">\(Y\)</span>是截断该路径的任何一组变量，则<span
+class="math inline">\(X\)</span>和<span
+class="math inline">\(Z\)</span>在给定<span
+class="math inline">\(Y\)</span>的条件下独立。</p>
+<img src="/2022/03/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B/image4.png" class="" title="分叉结构">
+<center>
+<p>
+Figure4 分叉结构
+</p>
+</center>
+<p>分叉结构是指由三个节点和两条边组成，并且有两个箭头从中间变量射出的结构；分叉结构中的条件独立性是指对任意图模型而言，如果变量<span
+class="math inline">\(X\)</span>是<span
+class="math inline">\(Y\)</span>和<span
+class="math inline">\(Z\)</span>的共同原因，并且<span
+class="math inline">\(Y\)</span>和<span
+class="math inline">\(Z\)</span>之间只有一条路径，则 <span
+class="math inline">\(Y\)</span>和<span
+class="math inline">\(Z\)</span>在给定<span
+class="math inline">\(X\)</span>的条件下独立。</p>
+<p>因果模型除了可以看作解释了数据背后的因果关系，也可以看作数据产生的机制。即便我们只知道图结构，不知道完整的结构因果模型，我们也可以了解到数据中变量的独立性；特别地，不同的结构因果模型可以对应相同的图结构。</p>
+<h2 id="对撞结构">对撞结构</h2>
+<img src="/2022/03/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B/image5.png" class="" title="对撞结构">
+<center>
+<p>
+Figure5 对撞结构
+</p>
+</center>
+<p>对撞结构是指由三个节点和两条边组成，并且其中一个节点接收来自两个节点射出的边的结构；对状结构中的条件独立性是指对任意图模型而言，如果变量<span
+class="math inline">\(Z\)</span>是变量 X和<span
+class="math inline">\(Y\)</span>之间的对撞节点，且<span
+class="math inline">\(X\)</span>和<span
+class="math inline">\(Y\)</span>之间只有一条路径，则<span
+class="math inline">\(X\)</span>和<span
+class="math inline">\(Y\)</span>无（需）条件（就）独立，但给定<span
+class="math inline">\(Z\)</span>或<span
+class="math inline">\(Z\)</span>的任何子孙为条件就变得相互依赖（以共同效应为条件时两个独立变量会变得相互依赖）。</p>
+<p>对撞结构中的条件独立性对因果关系的研究非常重要，可以用于测试数据集是否由某个因果模型生成，从数据中发现模型；或者在混杂情况下确定要检测的变量以及如何估计因果效应（后门准则），从而彻底解决辛普森悖论，这些都会在后文中讲到。</p>
+<h2 id="d-分离">d-分离</h2>
+<p>前面借助链结构，分叉结构和对撞结构判定条件独立性的三条准则都要求两个变量之间只有一条路径，但在大多数的图模型中，变量之间可能会有多条路径，每条路径上可能有多个不同结构，此时我们可以使用d-分离（d
+for "dimensional"，也即有向分离）来判定两个变量的依赖关系。</p>
+<p>d-分离：当且仅当以下条件成立时，一条路径被一组节点<span
+class="math inline">\(Z\)</span>阻隔：</p>
+<ol type="1">
+<li><p>路径中包含链结构或分叉结构，且中间节点属于<span
+class="math inline">\(Z\)</span></p></li>
+<li><p>路径中包含对撞结构，且对撞节点的及其子孙节点都不属于<span
+class="math inline">\(Z\)</span></p></li>
+<li><p>路径中包含对撞结构，且Z为空</p></li>
+</ol>
+<p>当<span class="math inline">\(X\)</span>和<span
+class="math inline">\(Y\)</span>之间的所有路径都被<span
+class="math inline">\(Z\)</span>阻断时，我们说<span
+class="math inline">\(X\)</span>和<span
+class="math inline">\(Y\)</span>是d-分离的，<span
+class="math inline">\(X\)</span>和<span
+class="math inline">\(Y\)</span>以<span
+class="math inline">\(Z\)</span>为条件独立（<span
+class="math inline">\(Z\)</span>为空集则为边缘独立）；否则<span
+class="math inline">\(X\)</span>和<span
+class="math inline">\(Y\)</span>是d-连通的，两个变量有可能是相互依赖的。</p>
+<p>实际上，拿到一个图模型，要判断两个变量的依赖关系，首先就要找出它们之间的所有路径，然后逐条路径分析。如果要边缘独立（没有条件变量），就看路径中有没有对撞结构，每条路径都有，那就边缘独立；如果要条件独立，就对路径中的每个节点逐一分析，如果对撞节点及其子孙不属于条件变量，并且有非对撞节点属于条件变量，那路径就被阻断；全部路径均被阻断就可以得到条件独立性，本质上还是利用前面两节给出的三种结构的条件独立性。</p>
+<h2 id="模型检验与因果搜索">模型检验与因果搜索</h2>
+<p>因果模型在对应数据集中蕴含可被检验的蕴含式：<span
+class="math inline">\(p \rightarrow q\)</span>，当且仅当<span
+class="math inline">\(p\)</span>为真且<span
+class="math inline">\(q\)</span>为假时该命题为假。我们可以用d-分离检验和排除很多可能的模型，最终得到可以产生数据集的若干模型，也即我们可以从数据集出发反推出因果模型来解释数据。</p>
+<ul>
+<li><p>假设<span class="math inline">\(p\)</span>：图模型<span
+class="math inline">\(G\)</span>视作生成数据集<span
+class="math inline">\(S\)</span>的因果模型</p></li>
+<li><p>结论<span
+class="math inline">\(q\)</span>：由d-分离准则就可以从<span
+class="math inline">\(G\)</span>中得到若干变量之间的条件独立，将这种条件独立设为<span
+class="math inline">\(q\)</span></p></li>
+</ul>
+<p>我们可以直接将联合分布进行参数化（比如线性高斯模型），在估计参数后，我们可以评估观测样本由该模型生成的可能性；这种模型检验是全局性的，相比而言，d-分离是一种局部性的模型检验，存在以下优点：</p>
+<ul>
+<li><p>d-分离是一种非参数方法，不依赖于具体的变量间函数；</p></li>
+<li><p>d-分离是一种局部性检验方法，它允许我们识别模型中的特定区域并修复该区域（添加/删除哪些边），得到新的模型；</p></li>
+<li><p>全局性方法（如直接拟合联合分布）只能告诉我们模型是否和数据匹配，无法告知我们具体信息。</p></li>
+<li><p>如果联合分布不可计算，比如某些误差项相关或者某些变量不可观测，全局性方法就不能检验模型的任何一个部分，此时局部性方法仍然可以在模型的其余部分工作。</p></li>
+</ul>
+<p>与数据集相符，能经过检验的模型可能不止一个，这是因为有些图有不可区分的蕴含式，这样的一组图称为等价类，比如两个有相同的的边（方向可能不同）以及相同的对撞结构的图必然同属一个等价类，并且有着相同的d-分离条件集，从而有着相同的可检验的蕴含式集（比如：<span
+class="math inline">\(G_{1}:A \rightarrow B \leftarrow C \rightarrow
+D\)</span>和<span class="math inline">\(G_{2}:A \rightarrow B \leftarrow
+C \leftarrow D\)</span>）</p>
+<h1 id="干预的效果">干预的效果</h1>
+<h2 id="干预">干预</h2>
+<p>许多统计研究的最终目的是预测干预措施的效果，随机对照试验是解决该问题的一个黄金准则，除了输入变量，其它影响输出变量的因素要么不变，要么随机变化，所以输出变量的任何改变必然是由输入变量的改变引起的。在无法进行随机对照试验的情况下，我们可以实施观测性研究，也即仅仅利用记录下的数据进行分析，不进行真实的干预。这种研究方法的难点在于如何将因果关系从相关关系中提取出来。</p>
+<img src="/2022/03/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B/image6.png" class="" title="X作为条件概率和干预变量">
+<center>
+<p>
+Figure6 X作为条件概率和干预变量
+</p>
+</center>
+<p>应当注意的是，对变量<span
+class="math inline">\(X\)</span>进行干预和以变量<span
+class="math inline">\(Y\)</span>为条件是不同的。如果我们对变量 <span
+class="math inline">\(X\)</span>进行干预，图模型会发生相应的改变，指向<span
+class="math inline">\(X\)</span>的入边被删除了，研究的对象仍然是整体，但<span
+class="math inline">\(X\)</span>不再为响应其他变量的变化而变化；而如果我们要研究条件概率，则模型仍然保持原本的形式。条件概率只是将关注的问题缩小为原问题的子集，改变了对图模型的关注重点，没有改变图模型本身。</p>
+<p>为了区分，我们引入<span
+class="math inline">\(do\)</span>算子，用<span
+class="math inline">\(do(X = x)\)</span>表示对变量<span
+class="math inline">\(X\)</span>的干预（将其固定为<span
+class="math inline">\(x\)</span>）。因此<span class="math inline">\(P(Y
+= y|X = x)\)</span>表示在<span class="math inline">\(X =
+x\)</span>的条件下<span class="math inline">\(Y =
+y\)</span>的概率；<span class="math inline">\(P(Y = y|do(X =
+x))\)</span>表示通过干预使<span class="math inline">\(X =
+x\)</span>时<span class="math inline">\(Y = y\)</span>的概率。</p>
+<p>一种特殊的情况是<span
+class="math inline">\(X\)</span>没有入边，此时对<span
+class="math inline">\(X\)</span>进行干预不会影响图模型，可以直接用条件概率计算因果效应：</p>
+<p><span class="math display">\[\begin{matrix}
+P\left( Y = y \middle| do(X = x) \right) = P\left( Y = y \middle| X = x
+\right)\tag{3} \\
+\end{matrix}\]</span></p>
+<p>如何从观测数据中推测出因果关系，有两点需要注意：</p>
+<ol type="1">
+<li><p>假设的图应当是实际问题的有效表示（否则分析就是无效的）；</p></li>
+<li><p>假设的干预不会造成其它影响（否则干预的就不止一个变量了），如果干预会改变其它变量的值，则这种改变必须在模型中表示出来。</p></li>
+</ol>
+<h2 id="校正公式">校正公式</h2>
+<p>我们首先利用概率定义平均因果效应<span class="math inline">\(ACE =
+P\left( Y \middle| do(X = 1) \right) - P(Y|do(X = 0))\)</span>。图Figure
+6中给出了对<span
+class="math inline">\(X\)</span>进行干预后的模型，我们使用<span
+class="math inline">\(P_{m}\)</span>表示干预后模型的概率，也称为操纵概率，<span
+class="math inline">\(P_{m}\)</span>的定义如下：</p>
+<p><span class="math display">\[\begin{matrix}
+P_{m}\left( Y = y \middle| X = x \right) = P\left( Y = y \middle| do(X =
+x) \right)\tag{4} \\
+\end{matrix}\]</span></p>
+<p>此外，我们还需要利用两个不变性：</p>
+<ol type="1">
+<li><p>边缘概率<span class="math inline">\(P(Z =
+z)\)</span>在干预前后不变，因为移除<span
+class="math inline">\(Z\)</span>到<span
+class="math inline">\(X\)</span>的边并不影响确定<span
+class="math inline">\(Z\)</span>值的过程</p></li>
+<li><p>条件概率<span class="math inline">\(P(Y = y|Z = z,X =
+x)\)</span>在干预前后不变，因为无论<span
+class="math inline">\(X\)</span>是自发变化还是被控制，<span
+class="math inline">\(Y\)</span>对<span
+class="math inline">\(X\)</span>的响应函数<span class="math inline">\(Y
+= f(x,z,u_{y})\)</span>都不变</p></li>
+</ol>
+<blockquote>
+<p>该不变性表示为如下两个方程：</p>
+</blockquote>
+<p><span class="math display">\[\begin{matrix}
+P_{m}\left( Y = y \middle| Z = z,X = x \right) = P\left( Y = y \middle|
+Z = z,X = x \right)\tag{5} \\
+\end{matrix}\]</span></p>
+<p><span class="math display">\[\begin{matrix}
+P_{m}(Z = z) = P(Z = z)\tag{6} \\
+\end{matrix}\]</span></p>
+<p>又因为<span class="math inline">\(Z\)</span>和<span
+class="math inline">\(X\)</span>在干预后是d-分离的，因此<span
+class="math inline">\(P_{m}\left( Z = z \middle| X = x \right) = P_{m}(Z
+= z) = P(Z = z)\)</span>，因此可以进行如下转换来消除<span
+class="math inline">\(do\)</span>算子：</p>
+<p><span class="math display">\[{ P\left( Y = y \middle| do(X = x)
+\right)}{ = P_{m}\left( Y = y \middle| X = x \right)}{=
+\sum_{Z}^{}{P_{m}\left( Y = y \middle| X = x,Z = z \right)P_{m}\left( Z
+= z \middle| X = x \right)}
+}{= \sum_{Z}^{}{P_{m}\left( Y = y \middle| X = x,Z = z \right)P_{m}(Z =
+z)}
+}\begin{matrix}
+  = \sum_{Z}^{}{P\left( Y = y \middle| X = x,Z = z \right)}P(Z = z) (7)
+\end{matrix}\]</span></p>
+<p>式（7）被称为校正公式，意义在于：</p>
+<ol type="1">
+<li><p>移除了<span
+class="math inline">\(do\)</span>算子，无需真实干预</p></li>
+<li><p>把<span class="math inline">\(P_{m}\)</span>换回<span
+class="math inline">\(P\)</span>，观测数据都是由<span
+class="math inline">\(P\)</span>生成的</p></li>
+</ol>
+<p>式（7）的其实是在<span
+class="math inline">\(Z\)</span>的每一种取值下计算<span
+class="math inline">\(X\)</span>和Y关系，然后再求平均，整个过程被定义为"对Z的校正"。</p>
+<h3 id="校正or不校正">校正OR不校正</h3>
+<p>由式（7）导出如下更一般化的校正公式：</p>
+<p><span class="math display">\[\begin{matrix}
+P\left( Y = y \middle| do(X = x) \right) = \sum_{Z}^{}{P\left( Y = y
+\middle| X = x,PA = z \right)P(PA = z)}\tag{8} \\
+\end{matrix}\]</span></p>
+<p>如果对该式乘上<span class="math inline">\(P(X = x|PA =
+z)\)</span>再除以<span class="math inline">\(P(X = x|PA =
+z)\)</span>，可以得到另一个形式：</p>
+<p><span class="math display">\[\begin{matrix}
+P\left( y \middle| do(x) \right) = \sum_{Z}^{}\frac{P(X = x,Y = y,PA =
+z)}{P\left( X = x \middle| PA = z \right)}\tag{9} \\
+\end{matrix}\]</span></p>
+<p>其中<span class="math inline">\(P\left( X = x \middle| PA = z
+\right)\)</span>称为倾向分数，表示逆概率权重。</p>
+<p>校正公式需要找出<span
+class="math inline">\(X\)</span>的所有父节点<span
+class="math inline">\(PA\)</span>，并计算<span
+class="math inline">\(PA\)</span>的所有可能取值组合下的条件概率，在现实中我们往往无法做到这一点（比如<span
+class="math inline">\(PA\)</span>中存在不可观测的变量），幸运的是，我们可以通过校正模型中的其它变量达到同样的目的（后门准则）。</p>
+<h3 id="多重干预和截断规则">多重干预和截断规则</h3>
+<p>由式（9）可得，在联合概率可得的情况下，我们只需要知道所有的条件概率<span
+class="math inline">\(P(x|z)\)</span>即可预测出对<span
+class="math inline">\(X\)</span>干预的效果。类似地，当我们希望对多个变量进行干预，同时指定多个变量值时，我们可以先根据乘积分解法写出干预前的联合分布，然后再删除与干预集<span
+class="math inline">\(X\)</span>对应的元素，得到：</p>
+<p><span class="math display">\[\begin{matrix}
+P\left( x_{1},x_{2},\ldots,x_{n} \middle| do(x) \right) =
+\prod_{i}^{}{P\left( x_{i} \middle| pa_{i} \right)\ for\ all\ i\ with\
+X_{i}\ not\ in\ X}\tag{10} \\
+\end{matrix}\]</span></p>
+<p>该公式称为截断公式，或g-公式，当研究干预集<span
+class="math inline">\(X\)</span>对某个具体变量的因果效用时，只需把<span
+class="math inline">\(x_{1},x_{2},\ldots,x_{n}\)</span>的无关变化求和消掉即可。</p>
+<h2 id="后门准则">后门准则</h2>
+<p>校正公式（8）告诉我们，要估计一个变量对另一个变量的因果效应就要对该变量的父节点变量进行校正。然而，
+在实际问题中，变量的父节点可能是不可观测的，此时要计算因果效应就需要找到一个替代的变量集合用于校正，这正是后门准则的作用。后门路径给出了替代集合<span
+class="math inline">\(Z\)</span>的两个要求：</p>
+<ol type="1">
+<li><p><span class="math inline">\(Z\)</span>中不能包含<span
+class="math inline">\(X\)</span>的后代节点</p></li>
+<li><p><span class="math inline">\(Z\)</span>阻隔了<span
+class="math inline">\(X\)</span>和<span
+class="math inline">\(Y\)</span>之间所有包含指向<span
+class="math inline">\(X\)</span>的箭头的路径</p></li>
+</ol>
+<img src="/2022/03/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B/image7.png" class="" title="后门路径图">
+<center>
+<p>
+Figure7 后门路径图
+</p>
+</center>
+<p>以Figure7为例，当研究<span class="math inline">\(X\)</span>对<span
+class="math inline">\(Y\)</span>的因果效应时，根据校正公式需要对<span
+class="math inline">\(Z\)</span>进行校正，但由于<span
+class="math inline">\(Z\)</span>不可观测，校正公式无法使用。根据后门准则，<span
+class="math inline">\(W\)</span>阻隔了<span
+class="math inline">\(X\)</span>对<span
+class="math inline">\(Y\)</span>的后门路径，只保留了一条因果路径，因此可通过校正<span
+class="math inline">\(W\)</span>来计算因果效应：</p>
+<p><span class="math display">\[\begin{matrix}
+P\left( Y = y \middle| do(X = x) \right) = \sum_{w}^{}{P\left( Y = y
+\middle| X = x,W = w \right)P(W = w)}\tag{11} \\
+\end{matrix}\]</span></p>
+<p>后门准则的优点在于：</p>
+<ol type="1">
+<li><p>可以选择观测成本较低的/错误较少的/更易计算的变量（集）来做校正；</p></li>
+<li><p>可以利用等价性检验模型是否准确，如果模型与数据不相符，那它很可能是错误的。</p></li>
+</ol>
+<h2 id="前门准则">前门准则</h2>
+<img src="/2022/03/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B/image8.png" class="" title="前门路径图">
+<center>
+<p>
+Figure8 前门路径图
+</p>
+</center>
+<p>后门准则提供了一个寻找校正变量的简单方法，但并不是所有问题都能找到符合后门准则的变量。如Figure
+8（a）所示，由于<span
+class="math inline">\(U\)</span>无法观测，因此我们无法d-分隔<span
+class="math inline">\(X\)</span>到<span
+class="math inline">\(Y\)</span>的后门路径，因此无法确定<span
+class="math inline">\(X\)</span>和<span
+class="math inline">\(Y\)</span>的相关性中多少归因于<span
+class="math inline">\(X\)</span>多少归因于<span
+class="math inline">\(U\)</span>。</p>
+<p>为了解决这个问题，我们引入中介变量<span
+class="math inline">\(Z\)</span>，对应Figure
+8（b），尽管此时仍然不符合后门准则，但我们可以使用前门准则------通过两次后门准则计算出因果效应。</p>
+<p>前门路径给出了替代集合<span
+class="math inline">\(Z\)</span>的三个要求：</p>
+<ol type="1">
+<li><p><span class="math inline">\(Z\)</span>分隔了所有<span
+class="math inline">\(X\)</span>到<span
+class="math inline">\(Y\)</span>的离散路径</p></li>
+<li><p>没有从<span class="math inline">\(X\)</span>到<span
+class="math inline">\(Z\)</span>的后门路径</p></li>
+<li><p>所有从<span class="math inline">\(Z\)</span>到<span
+class="math inline">\(Y\)</span>的后门路径都被<span
+class="math inline">\(X\)</span>阻隔</p></li>
+</ol>
+<p>前门准则：如果<span
+class="math inline">\(Z\)</span>满足上述三条前面路径，则<span
+class="math inline">\(X\)</span>和<span
+class="math inline">\(Y\)</span>之间的因果效应被定义为如下公式：</p>
+<p><span class="math display">\[\begin{matrix}
+P\left( y \middle| do(x) \right) = \sum_{z}^{}{P\left( z \middle| x
+\right)}\sum_{x^{&#39;}}^{}{P\left( y \middle| x^{&#39;},z
+\right)P\left( x^{&#39;} \right)}\tag{12} \\
+\end{matrix}\]</span></p>
+<p>式（12）的成立由下方三个公式进行推导：</p>
+<p><span class="math display">\[\begin{matrix}
+P\left( Y = y \middle| do(X = x) \right) = \sum_{Z}^{}{P\left( Y = y
+\middle| do(Z = z) \right)P\left( Z = z \middle| do(X = x)
+\right)}\tag{13.1}\\
+\end{matrix}\]</span></p>
+<p><span class="math display">\[\begin{matrix}
+P\left( Y = y \middle| do(X = x) \right) = P\left( Z = z \middle| X = x
+\right)\tag{13.2} \\
+\end{matrix}\]</span></p>
+<p><span class="math display">\[\begin{matrix}
+P\left( Z = z \middle| do(Z = z) \right) = \sum_{x}^{}{P\left( Y = y
+\middle| Z = z,X = x \right)}\tag{13.3} \\
+\end{matrix}\]</span></p>
+<p>也就是说<span class="math inline">\(X\)</span>对<span
+class="math inline">\(Y\)</span>的因果效应是可以通过中介<span
+class="math inline">\(Z\)</span>来传递的，<span
+class="math inline">\(X\)</span>对<span
+class="math inline">\(Z\)</span>的影响乘上<span
+class="math inline">\(Z\)</span>对<span
+class="math inline">\(Y\)</span>的影响就可以得到<span
+class="math inline">\(X\)</span>对<span
+class="math inline">\(Y\)</span>的影响。式（13.1）的计算过程首先通过干预<span
+class="math inline">\(X\)</span>来得到<span
+class="math inline">\(Z\)</span>的取值<span
+class="math inline">\(z\)</span>，这就相当于把<span
+class="math inline">\(Z\)</span>干预为<span
+class="math inline">\(z\)</span>。两个因果效应分别可以使用式（13.2）和（13.3）的后门校正公式计算出来，这就是所谓的"两次使用后门准则"。</p>
+<p>前门准则指出了在无法使用后门准则时如何识别矫正变量，找出这些变量后利用前门准则即可计算出因果效应。式（12）的<span
+class="math inline">\(x\)</span>和<span
+class="math inline">\(x^{&#39;}\)</span>应当注意区分，<span
+class="math inline">\(x\)</span>是指把<span
+class="math inline">\(X\)</span>的干预值，而<span
+class="math inline">\(x^{&#39;}\)</span>是式（13.3）使用后门准则时的校正值。</p>
+<h2 id="特定变量效应和条件干预">特定变量效应和条件干预</h2>
+<h3 id="特定变量效应">特定变量效应</h3>
+<p>前面小节的因果效应是从整体考虑的，但有些情况下我们会对整体的某个子集感兴趣，此时需要计算z-特定效应：</p>
+<p><span class="math display">\[{ P\left( Y = y \middle| do(X = x),Z = z
+\right)
+}\begin{matrix}
+= \sum_{x}^{}{P\left( Y = y \middle| X = x,S = s,Z = z \right)P\left( S
+= s \middle| Z = z \right)} \tag{14} \\
+\end{matrix}\]</span></p>
+<p>与校正公式(7)相比，将校正变量由<span
+class="math inline">\(Z\)</span>换成了<span
+class="math inline">\(S\)</span>，特定效应可看作"部分的整体"。</p>
+<h3 id="条件干预">条件干预</h3>
+<p>基于特定变量效应，我们可以进一步讨论条件干预的因果效应，也即被干预的变量<span
+class="math inline">\(X\)</span>以别的<span
+class="math inline">\(Z\)</span>为条件而动态变化时的因果效应<span
+class="math inline">\(P(Y = y|do(X =
+g(Z))\)</span>。应当注意到，识别条件干预模型等价于识别特定变量效应之和，因此条件干预模型定义如下：</p>
+<p><span class="math display">\[{P\left( Y = y \middle| do\left( X =
+g(Z) \right) \right)
+}{  = \sum_{z}^{}{P\left( Y = y \middle| do\left( X = g(Z) \right),Z = z
+\right)}P\left( Z = z \middle| do\left( X = g(Z) \right) \right)
+}\begin{matrix}
+= \sum_{z}^{}{P\left( Y = y \middle| do\left( X = g(z) \right),Z = z
+\right)P(Z = z)} (15) \\
+\end{matrix}\]</span></p>
+<p>其中第一个等式利用了条件概率的定义：</p>
+<p><span class="math display">\[\begin{matrix}
+P\left( Y = y \middle| do\left( X = g(Z) \right),Z = z \right) =
+\frac{P\left( Y = y,Z = z \middle| do\left( X = g(Z) \right)
+\right)}{P\left( Z = z \middle| do\left( X = g(Z) \right)
+\right)}\tag{16} \\
+\end{matrix}\]</span></p>
+<p>第二个等式利用了<span class="math inline">\(Z\)</span>发生于<span
+class="math inline">\(X\)</span>前这一事实，所以对<span
+class="math inline">\(X\)</span>的干预不影响<span
+class="math inline">\(Z\)</span>的分布：</p>
+<p><span class="math display">\[\begin{matrix}
+P\left( Z = z \middle| do\left( X = g(Z) \right) \right) = P(Z =
+z)\tag{17} \\
+\end{matrix}\]</span></p>
+<p>条件干预中的<span
+class="math inline">\(Z\)</span>与式（7）中的校正变量<span
+class="math inline">\(Z\)</span>的不同之处在于，条件干预只影响自变量，而混杂变量同时影响因果。</p>
+<h2 id="逆概率加权">逆概率加权</h2>
+<p>前面几节中，无论时后门准则、前门准则还是条件干预，只要能找到一组符合其中一个准则的协变量<span
+class="math inline">\(Z\)</span>，就可以代入校正公式中计算出所需的因果效应。但从公式上看，对<span
+class="math inline">\(Z\)</span>的校正需要<span
+class="math inline">\(Z\)</span>的所有取值组合下的条件概率。如果<span
+class="math inline">\(Z\)</span>的取值组合有很多（随着 <span
+class="math inline">\(Z\)</span>中元素数量指数级增长），那么校正公式的计算量也会越来越大，需要的数据也会越来越多；如果每个<span
+class="math inline">\(Z\)</span>只有很少的样本，那么估计的条件概率将会非常不可靠。</p>
+<p>针对上述问题，我们将式（8）转化为式（9），我们如果能获得函数<span
+class="math inline">\(g(x,z) = P(X = x|Z =
+z)\)</span>的可靠估计，那么就可以计算出因果效应。尽管重加权后仍需对<span
+class="math inline">\(Z\)</span>求和，但此时仅考虑数据集中存在的<span
+class="math inline">\(z\)</span>，无需穷尽<span
+class="math inline">\(Z\)</span>的所有取值组合。注意，逆概率加权仅在<span
+class="math inline">\(Z\)</span>满足后门准则时有效，否则会引入更多偏差。</p>
+<h2 id="中介">中介</h2>
+<img src="/2022/03/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B/image9.png" class="" title="中介变量的影响">
+<center>
+<p>
+Figure9 中介变量的影响
+</p>
+</center>
+<p>前面讨论了如何估计<span class="math inline">\(X\)</span>对<span
+class="math inline">\(Y\)</span>的效应，但在现有问题中，我们更能希望区分<span
+class="math inline">\(X\)</span>对<span
+class="math inline">\(Y\)</span>的直接和间接效应。例如在Figure
+9第一幅图中，为了计算性别对雇佣的直接影响，我们只需计算<span
+class="math inline">\(P\left( Y = hiring \middle| X = male,Z = high\
+qualificataion \right) - P(Y = hiri|X = female,Z = high\
+qualificatian)\)</span>。但在Figure 9中，由于潜在混杂因子<span
+class="math inline">\(Income\)</span>的影响，我们无法直接计算出直接效应，因为无论是否控制变量<span
+class="math inline">\(Z:Z \leftarrow Qualification\)</span>，<span
+class="math inline">\(Gender\)</span>和<span
+class="math inline">\(Hiring\)</span>之间均会存在多条因果路径：</p>
+<ol type="1">
+<li><p>以<span class="math inline">\(Z\)</span>为条件，<span
+class="math inline">\(Z\)</span>为对撞节点，打开伪路径<span
+class="math inline">\(X \rightarrow Z \leftarrow I \rightarrow
+Y\)</span></p></li>
+<li><p>不以<span
+class="math inline">\(Z\)</span>为条件，间接效应通过<span
+class="math inline">\(X \rightarrow Z \rightarrow
+Y\)</span>传播，无法计算直接效应</p></li>
+</ol>
+<blockquote>
+<p>针对这种情况我们可以直接计算受控直接效应（CDE or DE）：</p>
+</blockquote>
+<p><span class="math display">\[\begin{matrix}
+CDE = P\left( Y = y \middle| do(X = x),do(Z = z) \right) - P\left( Y = y
+\middle| do\left( X = x^{&#39;} \right),do(Z = z) \right)\tag{18} \\
+\end{matrix}\]</span></p>
+<p>在该公式中我们直接控制了中介变量<span
+class="math inline">\(Z\)</span>的取值，而不仅仅是以<span
+class="math inline">\(Z\)</span>为条件。接下来就是消除两个<span
+class="math inline">\(do\)</span>算子。</p>
+<ol type="1">
+<li><p><span class="math inline">\(X\)</span>无后门路径，所以<span
+class="math inline">\(P\left( Y = y \middle| do(X = x),do(Z = z) \right)
+= P(Y = y|X = x,dp(Z = z))\)</span>，消掉了一个<span
+class="math inline">\(do\)</span></p></li>
+<li><p><span class="math inline">\(Z\)</span>有两条后门路径：</p>
+<ol type="a">
+<li><p><span class="math inline">\(Z \leftarrow X \rightarrow
+Y\)</span>被条件变量<span class="math inline">\(X\)</span>阻断</p></li>
+<li><p><span class="math inline">\(Z \leftarrow I \rightarrow
+Y\)</span>可以通过校正变量<span
+class="math inline">\(I\)</span>阻断</p></li>
+</ol></li>
+</ol>
+<p>因此我们可以直接通过下式计算出受控直接效应：</p>
+<p><span class="math display">\[\begin{matrix}
+\sum_{i}^{}{\left\lbrack P\left( Y = y \middle| X = x,Z = z,I = i
+\right) - P\left( Y = y \middle| X = x^{&#39;},Z = z,I = i \right)
+\right\rbrack P(I = i)} \tag{19} \\
+\end{matrix}\]</span></p>
+<blockquote>
+<p>当模型满足这两个条件时，受控直接效应是可识别的：</p>
+<p>1.存在变量（集）<span
+class="math inline">\(S_{1}\)</span>阻断了中介变量<span
+class="math inline">\(Z\)</span>到<span
+class="math inline">\(Y\)</span>的所有后门路径；</p>
+<p>2.在删除掉所有指向<span
+class="math inline">\(Z\)</span>的箭头后，存在变量（集）<span
+class="math inline">\(S_{2}\)</span>阻断了<span
+class="math inline">\(X\)</span>到<span
+class="math inline">\(Y\)</span>的所有后门路径。</p>
+</blockquote>
+<h2 id="线性系统中的因果推断">线性系统中的因果推断</h2>
+<p>本节内容在RCM中讨论较多，因此本节重点讨论结构因果模型与线性回归模型的侧重点以及互相转化的方式。利用线性系统来做因果分析，能有效地扩展非参数方法。书中模型给了一个很强的假设，即：变量之间的关系是线性的，所有误差项符合高斯分布。</p>
+<h3 id="结构系数与回归系数">结构系数与回归系数</h3>
+<p>回归方程是描述性的，本身不对因果做假设。回归系数和结构系数本质上是不同的，前者是统计的，后者是因果的。尽管回归方程本身不包含因果关系，但前面讨论的因果效应基本上都是用条件概率计算出来的，而在线性系统中，这些条件概率可用回归系数得出（条件概率-&gt;条件期望-&gt;回归方程-&gt;回归系数），而回归系数又可以通过最小二乘得到。</p>
+<p>如果变量<span class="math inline">\(Y\)</span>与<span
+class="math inline">\(X_{i}\)</span>在其他所有<span
+class="math inline">\(X_{j}\)</span>条件下独立，那么回归方程中的<span
+class="math inline">\(r_{i}\)</span>就应当等于零。可以利用该性质检验模型。</p>
+<h3 id="结构系数的因果解释">结构系数的因果解释</h3>
+<p>在线性系统中，不管扰动是否相关，受控直接效应的计算结果均是图模型中<span
+class="math inline">\(X \rightarrow
+Y\)</span>的结构系数。在线性系统中，<span
+class="math inline">\(X\)</span>对<span
+class="math inline">\(Y\)</span>的总效应是<span
+class="math inline">\(X\)</span>到<span
+class="math inline">\(Y\)</span>的每条非后门路径上的各边结构系数的乘积之和。</p>
+<h3 id="识别结构系数和因果效应">识别结构系数和因果效应</h3>
+<p>可识别性问题：从观测数据中识别出结构系数，进而估计总效应和直接效应。其实就是把估计系数简化为估计回归系数。下面给出三个例子来说明如何根据观测数据利用回归方程来估计结构系数。</p>
+<h4 id="x-y没有直接效应">x-&gt;y没有直接效应</h4>
+<img src="/2022/03/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B/image10.png" class="" title="没有直接效应">
+<center>
+<p>
+Figure10 没有直接效应
+</p>
+</center>
+<p>要计算<span class="math inline">\(X\)</span>对<span
+class="math inline">\(Y\)</span>的总效应，我们可以直接利用后门准则得出应该校正变量<span
+class="math inline">\(T\)</span>，此时需要拟合的回归方程为<span
+class="math inline">\(y = r_{X}X + r_{T}T +
+\epsilon\)</span>，得到的<span
+class="math inline">\(r_{X}\)</span>就是总效应，由于没有<span
+class="math inline">\(X\)</span>到<span
+class="math inline">\(Y\)</span>的边，所以<span
+class="math inline">\(X\)</span>到<span
+class="math inline">\(Y\)</span>的总效应为零。</p>
+<h4 id="x-y有直接效应">x-&gt;y有直接效应</h4>
+<img src="/2022/03/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B/image11.png" class="" title="有直接和间接效应">
+<center>
+<p>
+Figure11 有直接和间接效应
+</p>
+</center>
+<p>与计算总效应略有不同，计算直接效应的步骤为：</p>
+<ol type="1">
+<li><p>直接删除<span class="math inline">\(X\)</span>到<span
+class="math inline">\(Y\)</span>的边，记作<span
+class="math inline">\(G_{a}\)</span></p></li>
+<li><p>在<span class="math inline">\(G_{a}\)</span>中找出能使<span
+class="math inline">\(X\)</span>和<span
+class="math inline">\(Y\)</span>d-分离的变量集<span
+class="math inline">\(W\)</span></p></li>
+<li><p>干预<span class="math inline">\(W\)</span>，用<span
+class="math inline">\(X\)</span>和<span
+class="math inline">\(W\)</span>回归<span
+class="math inline">\(Y\)</span>，得到的方程中<span
+class="math inline">\(X\)</span>的系数就是直接效应</p></li>
+</ol>
+<p>上述过程也称为可识别性的回归准则（The Regression Rule for
+Identification）。在上面的例子中，<span
+class="math inline">\(W\)</span>就是符合要求的变量，所以回归方程为<span
+class="math inline">\(y = r_{X}X + r_{W}W + \epsilon\)</span>，得到的
+<span class="math inline">\(r_{X}\)</span>就是直接效应。</p>
+<p>根据已有的观测，我们可以找到两个有趣的发现。第一，在线性系统中，回归是识别和估计因果效应的主要手段。为了预测效应，我们要做的有两点（1）什么变量需要被包含进该等式（2）哪些变量的系数代表了感兴趣的效应；第二，如果<span
+class="math inline">\(U_{i}\)</span>相互独立，并且图中所有变量都可被观测，那么每一个结构系数都可以被识别出来。</p>
+<h4 id="x-y间接效应无法识别">x-&gt;y间接效应无法识别</h4>
+<img src="/2022/03/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B/image12.png" class="" title="间接效应无法识别">
+<center>
+<p>
+Figure12 间接效应无法识别
+</p>
+</center>
+<p><span
+class="math inline">\(X\)</span>有一条后门路径，并且该路径上有不可观测变量，此时计算直接效应的步骤如下：</p>
+<ol type="1">
+<li><p>直接删除<span class="math inline">\(X\)</span>到<span
+class="math inline">\(Y\)</span>的边得到<span
+class="math inline">\(G_{a}\)</span></p></li>
+<li><p>在<span class="math inline">\(G_{a}\)</span>中找出工具变量<span
+class="math inline">\(Z\)</span>，它跟<span
+class="math inline">\(X\)</span>是d-连通的，并且跟<span
+class="math inline">\(Y\)</span>是d-分离的</p></li>
+<li><p>用 <span class="math inline">\(Z\)</span>分别对<span
+class="math inline">\(X\)</span>和<span
+class="math inline">\(Y\)</span>回归，得到<span class="math inline">\(y
+= r_{1}z + \epsilon_{1}\)</span>和<span class="math inline">\(x = r_{2}z
++ \epsilon_{2}\)</span></p></li>
+<li><p>算出直接效应<span class="math inline">\(\alpha =
+r_{2}/r_{1}\)</span></p></li>
+</ol>
+<h3 id="线性系统的中介">线性系统的中介</h3>
+<p>在线性系统中，中介分析要比非线性或者非参数化系统中的分析都更简单。3.8.3节已经给出了如何对观测数据使用回归分析来得到<span
+class="math inline">\(X\)</span>对<span
+class="math inline">\(Y\)</span>的总效应<span
+class="math inline">\(\tau\)</span>和直接效应<span
+class="math inline">\(DE\)</span>，只要效应可识别，那么干预问题就可以规约为估计相关系数。而在线性系统中，间接效应可以直接用插值<span
+class="math inline">\(IE = \tau - DE\)</span>得到。</p>
+<p>在非线性系统中，直接效应定义为<span class="math inline">\(DE =
+P\left( Y = y \middle| do(X = x),do(Z = z) \right) - P(Y = y|do\left( X
+= x^{&#39;} \right),do(Z =
+z))\)</span>。即使该效应可以识别，且能通过<span
+class="math inline">\(do\)</span>操作规约为条件期望，效应仍然依赖于特定取值<span
+class="math inline">\(x,x^{&#39;},z\)</span>。而且，非线性系统中，间接效应不能直接由<span
+class="math inline">\(\tau - DE\)</span>得到。</p>
+<h1 id="反事实及其应用3">反事实及其应用<span
+class="math inline">\(^{[3]}\)</span></h1>
+<h2 id="反事实">反事实</h2>
+<p>反事实和干预的本质区别是什么？反事实研究的是发生在两个不同世界中的事情，是过去未曾发生的事情；干预研究的是一个世界中的事情，目的在于从观测数据中发现涉及干预的因果关系，或干预现在预测未来。干预是真实发生的，而反事实是未曾发生的。</p>
+<h2 id="反事实的定义与计算">反事实的定义与计算</h2>
+<h3 id="反事实的结构性解释">反事实的结构性解释</h3>
+<p>对于外生变量<span class="math inline">\(U =
+u\)</span>唯一确定的个体，用<span
+class="math inline">\(X(u),Y(u)\)</span>表示此时内生变量<span
+class="math inline">\(X\)</span>和<span
+class="math inline">\(Y\)</span>的唯一观测值。反事实语句：在外生变量<span
+class="math inline">\(U = u\)</span>不变的情况下，如果<span
+class="math inline">\(X\)</span>取值为<span
+class="math inline">\(x\)</span>则<span
+class="math inline">\(Y\)</span>取值为<span
+class="math inline">\(y\)</span>的情况可记作<span
+class="math inline">\(Y_{x}(u) =
+y\)</span>。原事实的结构方程定义如下：</p>
+<p><span class="math display">\[\begin{matrix}
+X = aU\tag{20.1} \\
+\end{matrix}\]</span></p>
+<p><span class="math display">\[\begin{matrix}
+Y = bX + U\tag{20.2} \\
+\end{matrix}\]</span></p>
+<p>当我们计算反事实时，对应的结构方程为：</p>
+<p><span class="math display">\[\begin{matrix}
+X = x\tag{20.3} \\
+\end{matrix}\]</span></p>
+<p><span class="math display">\[\begin{matrix}
+Y_{X} = bX + U\tag{20.4} \\
+\end{matrix}\]</span></p>
+<p>按照上述结构方程，尽管反事实时假设的，但并非是不可计算的，因为他仍然遵循模型定下的结构。每个结构方程都为所有可能的事实赋予了确定的值。</p>
+<p>干预时将<span class="math inline">\(X\)</span>固定为<span
+class="math inline">\(x\)</span>和反事实计算时将<span
+class="math inline">\(X\)</span>替换为x有何不同？两者是等价的，但在干预时我们只考虑了计算<span
+class="math inline">\(E(Y|do(X = x))\)</span>或者<span
+class="math inline">\(P(Y|Do(X =
+x))\)</span>这样的概率真实值；而反事实则考虑了个体水平，真正计算了对<span
+class="math inline">\(U = u\)</span>的个体进行干预<span
+class="math inline">\(X = x\)</span>时得到的假设值<span
+class="math inline">\(Y_{x}(u)\)</span>。</p>
+<h3 id="反事实的基本定理">反事实的基本定理</h3>
+<p>反事实遵循两条基本原则：</p>
+<p><span class="math display">\[\begin{matrix}
+Y_{x}(u) = Y_{M_{x}}(u)\tag{21} \\
+\end{matrix}\]</span></p>
+<p><span class="math display">\[\begin{matrix}
+if\ X = x,then\ Y_{x} = Y\tag{22} \\
+\end{matrix}\]</span></p>
+<p>式（21）为反事实的定义，将反事实问题<span
+class="math inline">\(Y_{x}(u)\)</span>定义为"修改后的模型<span
+class="math inline">\(M_{x}\)</span>中<span
+class="math inline">\(Y\)</span>的解",其中<span
+class="math inline">\(M_{x}\)</span>表示用<span class="math inline">\(X
+= x\)</span>替换原模型结构方程后得到的模型。</p>
+<p><span class="math display">\[\begin{matrix}
+Y + {XY}_{1} + (1 - X)Y_{0}\tag{23} \\
+\end{matrix}\]</span></p>
+<h3 id="反事实的三个步骤">反事实的三个步骤</h3>
+<p>反事实的三个步骤：</p>
+<ol type="1">
+<li><p>溯因：用证据<span class="math inline">\(E = e\)</span>确定<span
+class="math inline">\(U\)</span>的取值<span
+class="math inline">\(u\)</span></p></li>
+<li><p>作用：修改模型<span class="math inline">\(M\)</span>，将变量<span
+class="math inline">\(X\)</span>对应的方程替换为<span
+class="math inline">\(X = x\)</span>，得到修改的模型<span
+class="math inline">\(M_{x}\)</span></p></li>
+<li><p>预测：使用<span class="math inline">\(M_{x}\)</span>和<span
+class="math inline">\(U = u\)</span>计算出<span
+class="math inline">\(Y\)</span>的取值，也即<span
+class="math inline">\(Y_{x}(u)\)</span></p></li>
+</ol>
+<h2 id="非确定性的反事实">非确定性的反事实</h2>
+<p>反事实并不一定是确定性的，它可能以某概率发生。比如证据可能对应总体中的一个小群体，无法确认一个唯一的个体<span
+class="math inline">\(u\)</span>，这个小群体中的每个个体有着不同的<span
+class="math inline">\(u\)</span>，对应不同的外生概率<span
+class="math inline">\(P(U =
+u)\)</span>，这就为内生变量也引入了概率分布。</p>
+<p>与确定性模型不同，此时我们感兴趣的问题可能是：假定观测到个体特征<span
+class="math inline">\(E =
+e\)</span>（不一定包含所有的内生变量），如果当初<span
+class="math inline">\(X\)</span>取值为<span
+class="math inline">\(x\)</span>，那该个体的<span
+class="math inline">\(Y\)</span>的期望是多少？也即求<span
+class="math inline">\(E(Y_{X = x}|E = e)\)</span>。</p>
+<h3 id="反事实的图形化表示">反事实的图形化表示</h3>
+<img src="/2022/03/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B/image13.png" class="" title="反事实的图形化">
+<center>
+<p>
+Figure13 反事实的图形化
+</p>
+</center>
+<p>如何通过三部法修改因果模型：移除所有指向<span
+class="math inline">\(X\)</span>的边，将<span
+class="math inline">\(X\)</span>到<span
+class="math inline">\(Y\)</span>的路径上的节点替换。此时影响<span
+class="math inline">\(Y_{x}\)</span>的变量就是在<span
+class="math inline">\(M_{x}\)</span>的父节点集以及<span
+class="math inline">\(X = x\)</span>到<span
+class="math inline">\(Y_{x}\)</span>路径上节点的父节点，在Figure
+19中就是<span class="math inline">\(\{
+Z_{3},W_{2},U_{3},U_{Y}\}\)</span>，其中<span
+class="math inline">\(U_{3}\)</span>和<span
+class="math inline">\(U_{Y}\)</span>分别是<span
+class="math inline">\(W_{3}\)</span>和<span
+class="math inline">\(Y_{x}\)</span>的外生变量。</p>
+<p>后门准则的反事实解释（<span
+class="math inline">\(X\)</span>的条件可忽略性定理）：在原模型<span
+class="math inline">\(M\)</span>上满足后门准则的变量（集）<span
+class="math inline">\(Z\)</span>在<span
+class="math inline">\(M_{x}\)</span>上能阻断<span
+class="math inline">\(X\)</span>到<span
+class="math inline">\(Y_{x}\)</span>的路径。因此在给定<span
+class="math inline">\(Z\)</span>的条件下，反事实<span
+class="math inline">\(Y_{x}\)</span>条件独立于变量<span
+class="math inline">\(X\)</span>。</p>
+<p><span class="math display">\[\begin{matrix}
+P\left( Y_{x} \middle| X,Z \right) = P\left( Y_{x} \middle| Z
+\right)\tag{24} \\
+\end{matrix}\]</span></p>
+<p>当我们需要从观察研究中估计反事实的概率时，该定理就非常有用了，它表明我们可以用校正公式来计算反事实：</p>
+<p><span class="math display">\[{ P\left( Y_{x} = y \right) =
+\sum_{z}^{}{P\left( Y_{x} \middle| Z = z \right)P(z)}
+}{ = \sum_{z}^{}{P\left( Y_{x} \middle| Z = z,X = x \right)P(z)}
+}\begin{matrix}
+= \sum_{z}^{}{P\left( Y = y \middle| Z = z,X = x \right)P(z)} (25) \\
+\end{matrix}\]</span></p>
+<h3 id="实验模型中的反事实">实验模型中的反事实</h3>
+<p>理论上，我们仅有的反事实与观测数据之间的联系就是式（22）的一致性原则，除此之外，个体的大部分反事实都是无法观测的。幸运的是，我们可以从群体水平上了解这些反事实的信息，估计它们的概率和期望。</p>
+<h3 id="线性系统的反事实">线性系统的反事实</h3>
+<p>令<span class="math inline">\(\tau\)</span>为<span
+class="math inline">\(X\)</span>对<span
+class="math inline">\(Y\)</span>总体效应的的差值<span
+class="math inline">\(\tau = E\left\lbrack Y \middle| do(x + 1)
+\right\rbrack - E\lbrack Y|do(x)\rbrack\)</span>，那么对于任意<span
+class="math inline">\(Z = e\)</span>，我们可以得到<span
+class="math inline">\(E\left\lbrack Y_{X = x} \middle| Z = e
+\right\rbrack = E\left\lbrack Y \middle| Z = e \right\rbrack + \tau(x -
+E\lbrack X|Z = e\rbrack)\)</span></p>
+<p>在线性系统中，给定<span class="math inline">\(Z =
+e\)</span>，只要<span class="math inline">\(E(Y|do(X =
+x))\)</span>可识别，则任何形如<span class="math inline">\(E(Y_{X = x}|Z
+= e)\)</span>的反事实都是可识别的。</p>
+<p><strong>参考文献</strong></p>
+<p>[1] 苗旺, 刘春辰, 耿直. 因果推断的统计方法. 中国科学（数学）,
+2018,48(12):1753-1778.</p>
+<p>[2] Pearl J. Causal inference in statistics: An overview. Statistics
+Surveys, 2009, 3(none).</p>
+<p>[3] Pearl J, Glymour M, Jewell N P. Causal inference in statistics: A
+primer: John Wiley &amp; Sons, 2016.</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>只想买点薯条</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="李博洋 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="李博洋 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E5%9B%A0%E6%9E%9C%E6%8E%A8%E6%96%AD/" rel="tag"># 因果推断</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/02/15/DeepIRL/" rel="prev" title="深度逆向强化学习公式推导">
+                  <i class="fa fa-chevron-left"></i> 深度逆向强化学习公式推导
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/04/15/%E7%BB%93%E6%9E%84%E5%9B%A0%E6%9E%9C%E5%8F%91%E7%8E%B0/" rel="next" title="结构因果发现">
+                  结构因果发现 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李博洋</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.1/es5/tex-mml-chtml.js","integrity":"sha256-hlC2uSQYTmPsrzGZTEQEg9PZ1a/+SV6VBCTclohf2og="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
