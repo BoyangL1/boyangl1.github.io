@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.boyangl1.cn","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.12.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="介绍 概率图模型(PGM,probabilistic graphical model)是一种用于学习这些带有依赖的模型的强大框架。概率图模型（或简称图模型）在形式上是由图结构组成的。图的每个节点都关联了一个随机变量，而图的边则被用于编码这些随机变量之间的关系。概率图模型可以简单的理解为&quot;概率+结构&quot;，即利用图模型来结构化各变量的概率并有效、清晰的描述变量间的相互依赖关系，同时还能进行高效的推理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="概率图模型">
+<meta property="og:url" content="http://www.boyangl1.cn/2022/07/15/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/index.html">
+<meta property="og:site_name" content="Boyang&#39;s blog">
+<meta property="og:description" content="介绍 概率图模型(PGM,probabilistic graphical model)是一种用于学习这些带有依赖的模型的强大框架。概率图模型（或简称图模型）在形式上是由图结构组成的。图的每个节点都关联了一个随机变量，而图的边则被用于编码这些随机变量之间的关系。概率图模型可以简单的理解为&quot;概率+结构&quot;，即利用图模型来结构化各变量的概率并有效、清晰的描述变量间的相互依赖关系，同时还能进行高效的推理">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.boyangl1.cn/2022/07/15/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/1.png">
+<meta property="og:image" content="http://www.boyangl1.cn/2022/07/15/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/2.jpg">
+<meta property="og:image" content="http://www.boyangl1.cn/2022/07/15/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/3.png">
+<meta property="og:image" content="http://www.boyangl1.cn/2022/07/15/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/4.jpg">
+<meta property="og:image" content="http://www.boyangl1.cn/2022/07/15/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/5.jpg">
+<meta property="og:image" content="http://www.boyangl1.cn/2022/07/15/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/6.jpg">
+<meta property="og:image" content="http://www.boyangl1.cn/2022/07/15/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/7.png">
+<meta property="og:image" content="http://www.boyangl1.cn/2022/07/15/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/8.png">
+<meta property="article:published_time" content="2022-07-15T10:02:23.000Z">
+<meta property="article:modified_time" content="2022-07-25T00:58:59.889Z">
+<meta property="article:author" content="李博洋">
+<meta property="article:tag" content="机器学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.boyangl1.cn/2022/07/15/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/1.png">
+
+
+<link rel="canonical" href="http://www.boyangl1.cn/2022/07/15/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://www.boyangl1.cn/2022/07/15/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/","path":"2022/07/15/概率图模型/","title":"概率图模型"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>概率图模型 | Boyang's blog</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Boyang's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">分享生活，交流知识</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">7</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">2</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">9</span></a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%89%E5%90%91%E5%9B%BE%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">有向图模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B4%9D%E5%8F%B6%E6%96%AF%E7%BD%91%E7%BB%9C"><span class="nav-number">2.1.</span> <span class="nav-text">贝叶斯网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E7%8B%AC%E7%AB%8B%E6%80%A7"><span class="nav-number">2.2.</span> <span class="nav-text">条件独立性</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%97%A0%E5%90%91%E5%9B%BE%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.</span> <span class="nav-text">无向图模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E9%9A%8F%E6%9C%BA%E5%9C%BA"><span class="nav-number">3.1.</span> <span class="nav-text">马尔可夫随机场</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%A2%E4%B8%8E%E6%9E%81%E5%A4%A7%E5%9B%A2"><span class="nav-number">3.2.</span> <span class="nav-text">团与极大团</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hammerseley-clifford%E5%AE%9A%E7%90%86"><span class="nav-number">3.3.</span> <span class="nav-text">Hammerseley-Clifford定理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E7%A6%BB%E9%9B%86"><span class="nav-number">3.4.</span> <span class="nav-text">分离集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E6%80%A7"><span class="nav-number">3.5.</span> <span class="nav-text">马尔可夫性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%BF%E5%87%BD%E6%95%B0%E7%9A%84%E9%80%89%E6%8B%A9"><span class="nav-number">3.6.</span> <span class="nav-text">势函数的选择</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E4%B8%8E%E6%8E%A8%E6%96%AD"><span class="nav-number">4.</span> <span class="nav-text">学习与推断</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B2%BE%E7%A1%AE%E6%8E%A8%E6%96%AD"><span class="nav-number">4.1.</span> <span class="nav-text">精确推断</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%98%E9%87%8F%E6%B6%88%E5%8E%BB%E6%B3%95"><span class="nav-number">4.1.1.</span> <span class="nav-text">变量消去法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E5%BF%B5%E4%BC%A0%E6%92%AD%E6%B3%95"><span class="nav-number">4.1.2.</span> <span class="nav-text">信念传播法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%91%E4%BC%BC%E6%8E%A8%E6%96%AD"><span class="nav-number">4.2.</span> <span class="nav-text">近似推断</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E9%93%BE%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7mcmc"><span class="nav-number">4.2.1.</span> <span class="nav-text">马尔可夫链蒙特卡洛采样(MCMC)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%98%E5%88%86%E6%8E%A8%E6%96%AD"><span class="nav-number">4.2.2.</span> <span class="nav-text">变分推断</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%93%E8%AE%BA"><span class="nav-number">5.</span> <span class="nav-text">结论</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="李博洋"
+      src="/images/cat.png">
+  <p class="site-author-name" itemprop="name">李博洋</p>
+  <div class="site-description" itemprop="description">生命太短暂，不要去做一些根本没有人想要的东西。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com//BoyangL1" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;&#x2F;BoyangL1" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:liboyang0209@gmail.com" title="E-Mail → mailto:liboyang0209@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.boyangl1.cn/2022/07/15/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="李博洋">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boyang's blog">
+      <meta itemprop="description" content="生命太短暂，不要去做一些根本没有人想要的东西。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="概率图模型 | Boyang's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          概率图模型
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-07-15 18:02:23" itemprop="dateCreated datePublished" datetime="2022-07-15T18:02:23+08:00">2022-07-15</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="介绍">介绍</h1>
+<p>概率图模型(PGM,probabilistic graphical
+model)是一种用于学习这些带有依赖的模型的强大框架。概率图模型（或简称图模型）在形式上是由图结构组成的。图的每个节点都关联了一个随机变量，而图的边则被用于编码这些随机变量之间的关系。概率图模型可以简单的理解为"概率+结构"，即利用图模型来结构化各变量的概率并有效、清晰的描述变量间的相互依赖关系，同时还能进行高效的推理，因此在机器学习中概率图模型是一种应用广泛的方法。</p>
+<p>根据图是有向的还是无向的，可以将图的模式分为两大类------贝叶斯网络和马尔可夫网络。依据目的，可以将学习方法分为基于已知网络结构的参数学习与基于观测数据的结构学习。根据模型的复杂程度，可以将推断方法分为精确推断与近似推断两大类。整个模型的理论架构如图1所示：</p>
+<img src="/2022/07/15/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/1.png" class="" title="概率图模型概览">
+<center>
+<p>
+图1 概率图模型概览
+</p>
+</center>
+<p><span id="more"></span></p>
+<h1 id="有向图模型"><strong>有向图模型</strong></h1>
+<h2 id="贝叶斯网络"><strong>贝叶斯网络</strong></h2>
+<p>贝叶斯网络本质上可以表示任何完全联合概率分布，其完整的定义如下：</p>
+<ol type="1">
+<li><p>每个结点对应一个连续或离散的随机变量</p></li>
+<li><p>一组有向边连接点对，如果有向边<span
+class="math inline">\(X\)</span>指向<span
+class="math inline">\(y\)</span>即<span class="math inline">\(x
+\rightarrow y\)</span>，则称<span
+class="math inline">\(x\)</span>为<span
+class="math inline">\(y\)</span>的一个父节点</p></li>
+<li><p>通过条件分布概率<span
+class="math inline">\(P(x_{i}|Parents(x_{i}))\)</span>刻画父节点<span
+class="math inline">\(Parents\)</span>对<span
+class="math inline">\(x_{i}\)</span>的影响</p></li>
+<li><p>图中不存在任何回路，因此成为有向无环图(DAG)</p></li>
+</ol>
+<h2 id="条件独立性"><strong>条件独立性</strong></h2>
+<img src="/2022/07/15/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/2.jpg" class="">
+<center>
+<p>
+图2 条件独立性
+</p>
+</center>
+<p>基于图模型，上图的联合概率分布可表示为如下所示：</p>
+<p><span class="math display">\[\begin{matrix}
+P\left( x_{1},x_{2},x_{3},x_{4},x_{5},x_{6} \right) = P\left( x_{1}
+\right)P\left( x_{2} \middle| x_{1} \right)P\left( x_{3} \middle| x_{1}
+\right)P\left( x_{4} \middle| x_{2} \right)P\left( x_{5} \middle| x_{3}
+\right)P\left( x_{6} \middle| x_{2},x_{5} \right)\ \tag{1} \\
+\end{matrix}\]</span></p>
+<p>对于有向无环图，若给定一个节点<span
+class="math inline">\(x_{i}\)</span>的父节点<span
+class="math inline">\(x_{\pi
+i}\)</span>，该节点和其祖先节点（除去父节点）条件独立，即<span
+class="math inline">\(x_{4}\bot x_{1},x_{3}|x_{2}\)</span>。</p>
+<h1 id="无向图模型">无向图模型</h1>
+<h2 id="马尔可夫随机场">马尔可夫随机场</h2>
+<p>与有向图不同的是无向图各个变量间没有显示的因果关系，因此我们通过无向的边连接。在有向图中我们可以根据三个基本的结构（或d-分隔）来判断两变量间是否条件独立即两个结点路径是否被"阻隔"，在无向图只要图中存在至少一条路径未被"阻隔"则条件独立性均未必成立。我们定义马尔可夫毯如下图所示：</p>
+<img src="/2022/07/15/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/3.png" class="" title="马尔科夫毯">
+<center>
+<p>
+图3 马尔可夫毯
+</p>
+</center>
+<h2 id="团与极大团">团与极大团</h2>
+<p>在一个无向图中，结点<span
+class="math inline">\(x_{i}\)</span>的马尔可夫毯由相邻结点的集合组成，对于结点<span
+class="math inline">\(x_{i}\)</span>其只条件依赖于相邻结点，而条件独立于任何其他的结点。此外在有向图中我们可以依赖每个变量条件概率求解联合概率，而在无向图中由于失去了变量间的因果指向关系，其并不对应一个条件分布，因此通过局部参数表示联合概率将会面对一致性问题。对此我们根据朴素图理论分割引入团的概念。</p>
+<img src="/2022/07/15/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/4.jpg" class="" title="团与极大团">
+<center>
+<p>
+图4 团与极大团
+</p>
+</center>
+<p>图上的团是一个完全连接的节点子集，也即局部函数的定义域。为了不失一般性我们引入极大团，极大团不为任何其他团的子集。上图中椭圆围住的结点即为极大团。</p>
+<h2 id="hammerseley-clifford定理">Hammerseley-Clifford定理</h2>
+<p>对于N个变量的马尔可夫随机场，其变量为<span class="math inline">\(X =
+(X_{1},X_{2},\ldots,X_{n})\)</span>（图四中N=6）。此时联合概率分布即可分解为多个团势能函数的乘积，每个势函数仅与一个团相关。假设所有团构成的集合为<span
+class="math inline">\(C\)</span>，与团<span class="math inline">\(Q \in
+C\)</span>对应的变量集合记为<span
+class="math inline">\(X_{Q}\)</span>，则联合概率分布如下式所示：</p>
+<p><span class="math display">\[\begin{matrix}
+P(X) = \frac{1}{Z}\prod_{Q \in C}^{}{\phi_{Q}\left( X_{Q} \right)Z}\
+\tag{2} \\
+\end{matrix}\]</span></p>
+<p>其中<span class="math inline">\(\phi_{Q}\)</span>为团<span
+class="math inline">\(Q\)</span>的势函数，用于对团<span
+class="math inline">\(Q\)</span>中的变量关系进行建模。<span
+class="math inline">\(Z\)</span>为规范化因子，为了保证<span
+class="math inline">\(P\)</span>的范围有意义，很多时候计算它很困难，不过好在大多数情况下，我们无须计算出<span
+class="math inline">\(Z\)</span>的精确值。当<span
+class="math inline">\(Q\)</span>不是极大团的时候，它必然属于某个极大团，此时可以完全利用极大团来计算：<span
+class="math inline">\(P(X) = \frac{1}{Z^{*}}\prod_{Q \in
+C^{*}}^{}{\phi_{Q}(X_{Q})}\)</span>，其中<span
+class="math inline">\(C^{*}\)</span>为所有极大团的集合。</p>
+<p>这叫做Hammersley-Clifford定理，是随机场的基础定理，它给出了一个马尔可夫随机场被表达为正概率分布的充分必要条件。</p>
+<img src="/2022/07/15/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/5.jpg" class="" title="马尔可夫随机场">
+<center>
+<p>
+图5 马尔可夫随机场
+</p>
+</center>
+<p>对于图5表达的马尔可夫随机场，其联合概率分布表达式为：</p>
+<p><span class="math display">\[\begin{matrix}
+p\left( y \middle| \theta \right) = \frac{1}{Z(\theta)}\phi_{123}\left(
+y_{1},y_{2},y_{3} \right)\phi_{234}\left( y_{2},y_{3},y_{4}
+\right)\phi_{35}\left( y_{3},y_{5} \right)\ \tag{3} \\
+\end{matrix}\]</span></p>
+<h2 id="分离集">分离集</h2>
+<p>设A、B、C都是马尔可夫随机场中的节点，若从A中的节点到B中的节点都必须经过C中的节点，则称A和B被C分离，C成为分离集，如下图所示：</p>
+<img src="/2022/07/15/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/6.jpg" class="">
+<center>
+<p>
+图6 分离集
+</p>
+</center>
+<p>于是，对于上图表达的马尔可夫随机场，由Hammersley-Clifford定理可得联合概率为：</p>
+<p><span class="math display">\[\begin{matrix}
+P\left( x_{A},x_{B},x_{C} \right) = \frac{1}{Z}\phi_{AC}\left(
+x_{A},x_{C} \right)\phi_{BC}\left( x_{B},x_{C} \right)\ \tag{4} \\
+\end{matrix}\]</span></p>
+<h2 id="马尔可夫性">马尔可夫性</h2>
+<ul>
+<li><p>全局马尔可夫性：设结点集合A，B是在无向图G中被结点集合C分开的任意结点集合，则在给定随机变量<span
+class="math inline">\(X_{C}\)</span>的条件下，随机变量<span
+class="math inline">\(X_{A}\)</span>和<span
+class="math inline">\(X_{B}\)</span>条件独立。</p></li>
+<li><p>局部马尔可夫性：设v是无向图G中任意一个结点，W是与v有边相连的所有结点，G中其他结点记做O；则在给定随机变量<span
+class="math inline">\(X_{W}\)</span>的条件下，随机变量<span
+class="math inline">\(X_{V}\)</span>和<span
+class="math inline">\(X_{O}\)</span>条件独立。此时这里的W是v的分离集，局部马尔可夫性是全局马尔可夫性的推论。</p></li>
+<li><p>成对马尔可夫性：设u和v是无向图G中任意两个没有边直接连接的结点，G中其他结点的集合记做O；则在给定随机变量<span
+class="math inline">\(X_{O}\)</span>的条件下，随机变量<span
+class="math inline">\(X_{U}\)</span>和<span
+class="math inline">\(X_{V}\)</span>条件独立。</p></li>
+</ul>
+<h2 id="势函数的选择">势函数的选择</h2>
+<p>马尔可夫随机场有一组势函数，也称为因子。势函数是定义在变量子集上的非负实函数，主要用于定义概率分布函数。势函数的作用是定量刻画变量集<span
+class="math inline">\(X_{Q}\)</span>中变量之间的相关关系，它应该是非负函数，且在所偏好的变量取值上有较大的函数值。为了满足非负性，定义势函数通常采用指数函数：</p>
+<p><span class="math display">\[\begin{matrix}
+\phi\left( X_{Q} \right) = e^{- H_{Q}\left( x_{Q} \right)}\ \tag{5} \\
+\end{matrix}\]</span></p>
+<p><span
+class="math inline">\(H_{Q}(x_{Q})\)</span>是一个定义在变量<span
+class="math inline">\(x_{Q}\)</span>上的实值函数，常见形式为：</p>
+<p><span class="math display">\[\begin{matrix}
+H_{Q}\left( x_{Q} \right) = \sum_{u,v \in Q,u \neq
+v}^{}{a_{uv}x_{u}x_{v}} + \sum_{v \in Q}^{}{\beta_{v}x_{v}}\ \tag{6} \\
+\end{matrix}\]</span></p>
+<h1 id="学习与推断">学习与推断</h1>
+<p>通过概率图模型我们得到了唯一的联合概率分布，通过联合概率分布我们一般可以计算变量的边际概率分布和条件概率分布，其中计算条件概率分布的过程即对应推断任务。在推断任务中我们是假定图结构固定已知，另一类问题则需要我们从数据出发而推断图本身，即结构学习。</p>
+<p>一般图结构学习均采用贪心搜索的策略，即定义可能结构的空间和用于对每个结构评分的度量，通过评分奖励精度高的结构，同时对结构的复杂度做出惩罚，然后添加或移除少量边进行下一步搜索。同时由于图结构的复杂度随结点数目的增加而呈指数增长，因此我们需要借助启发式的方法。根据贝叶斯学派的观点，基于数据<span
+class="math inline">\(D\)</span>推断合理的图模型<span
+class="math inline">\(M\)</span>，其本质是在求解后验概率估计 <span
+class="math inline">\(P(M|D)\)</span>。</p>
+<p>而对于已知图结构的概率推断人物，其实就是在给定某个已观测的事件后，计算查询变量的后验概率分布，其一般可分为精确推断（变量消去、信念传播）和近似推断（采样、变分推断）的方法</p>
+<h2 id="精确推断">精确推断</h2>
+<h3 id="变量消去法">变量消去法</h3>
+<p>变量消去法也称为枚举法，即利用概率的乘法公式和求和或积分操作计算目标变量的概率。变量消除法的思想很简单，就是对联合概率不断求和消除其中的变量，最后得到边缘分布。如下图所示，首先对联合概率来说，先把b消元，得到中间只含a和c的表，然后对c进行求和，得到最后只含有a的概率表，对这个表进行归一化之后，就得到了a的概率。</p>
+<img src="/2022/07/15/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/7.png" class="">
+<center>
+<p>
+图7 联合概率分布表
+</p>
+</center>
+<p>以贝叶斯网络为例，给出公式化的表达过程：</p>
+<img src="/2022/07/15/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/8.png" class="">
+<center>
+<p>
+图8 精准推断法
+</p>
+</center>
+<p>以<span
+class="math inline">\(P(x_{5})\)</span>为例，其因子乘积形式为：</p>
+<p><span class="math display">\[\begin{matrix}
+P\left( x_{5} \right) =
+\sum_{x_{4}}^{}{\sum_{x_{3}}^{}{\sum_{x_{2}}^{}{\sum_{x_{1}}^{}{P\left(
+x_{1} \right)P\left( x_{2} \middle| x_{1} \right)P\left( x_{3} \middle|
+x_{2} \right)P\left( x_{4} \middle| x_{3} \right)P\left( x_{5} \middle|
+x_{3} \right)}}}}\ \tag{7} \\
+\end{matrix}\]</span></p>
+<p>首先对<span
+class="math inline">\(x_{1}\)</span>进行消元，过程如下：</p>
+<p><span class="math display">\[\begin{matrix}
+P\left( x_{5} \right) = \sum_{x_{3}}^{}{P\left( x_{5} \middle| x_{3}
+\right)}\sum_{x_{4}}^{}{P\left( x_{4} \middle| x_{3}
+\right)}\sum_{x_{2}}^{}{P\left( x_{3} \middle| x_{2}
+\right)}m_{12}\left( x_{2} \right)\ \tag{8} \\
+\end{matrix}\]</span></p>
+<p>上式中，<span class="math inline">\(m_{ij}(x_{j})\)</span>即为对<span
+class="math inline">\(x_{j}\)</span>求加和的中间结果，最终式(8)可简化为<span
+class="math inline">\(P\left( x_{5} \right) =
+m_{35}(x_{5})\)</span>。</p>
+<h3 id="信念传播法">信念传播法</h3>
+<p>消信念传播（Belief
+Propagation）算法将变量消去算法中的求和操作看做一个消息传递的过程，如下：</p>
+<p><span class="math display">\[\begin{matrix}
+m_{ij}\left( x_{j} \right) = \sum_{x_{i}}^{}{\phi\left( x_{i},x_{j}
+\right)}\prod_{k \in n(i)\backslash j}^{}{m_{ki}\left( x_{i} \right)}\
+\tag{9} \\
+\end{matrix}\]</span></p>
+<p>上式中<span class="math inline">\(m_{ij}(x_{j})\)</span>表示<span
+class="math inline">\(x_{i}\)</span>传递至<span
+class="math inline">\(x_{j}\)</span>的消息，<span
+class="math inline">\(n_{i}\)</span>为<span
+class="math inline">\(x_{i}\)</span>的邻近结点，因此每次消息的传递仅与变量<span
+class="math inline">\(x_{i}\)</span>及其邻近结点有关，即消息传递的相关计算被限制在图的局部进行，其中结点的边际分布正比于它所接受的消息的乘积：</p>
+<p><span class="math display">\[\begin{matrix}
+P\left( x_{i} \right) = \prod_{k \in n(i)}^{}{m_{ki}\left( x_{i}
+\right)}\ \tag{10} \\
+\end{matrix}\]</span></p>
+<p>变量消去和信念传播算法均为加和-乘积算法。该算法加和乘积的具体顺序和算法的复杂度均由图结构决定，在实际的情况中由于图结构复杂，变量数目庞大精确推断在是不可行的。为此我们需要进行近似推断计算后验概率。</p>
+<h2 id="近似推断">近似推断</h2>
+<h3 id="马尔可夫链蒙特卡洛采样mcmc">马尔可夫链蒙特卡洛采样(MCMC)</h3>
+<p>在现实的许多情况下我们需要计算某些变量的和或积分时，由于其数目较多直接计算将不可行，这时我们可以引入蒙特卡洛采样的方法，将求和或积分运算转化为求某一特定分布下的期望，进而通过平均值近似期望得到所求结果。此外，如果样本服从i.i.d分布，则在大数定律的前提下，其估计均值必将几乎必然收敛至期望值。这也保证了蒙特卡洛采样的合理性和估计的无偏性。</p>
+<p>实际中，<span class="math inline">\(x\)</span>的取值<span
+class="math inline">\(p\)</span>十分复杂，因此积分计算通常非常困难。为避免直接计算可以采用MCMC采用，其核心思想在于通过随机采样获得独立同分布的样本<span
+class="math inline">\(x_{1},x_{2},\ldots,x_{n}\)</span>，使得其尽可能接近<span
+class="math inline">\(p\)</span>分布中的样本，最后得到<span
+class="math inline">\(p(x)\)</span>的无偏估计：</p>
+<p><span class="math display">\[\begin{matrix}
+\widetilde{p}(x) = \frac{1}{N}\sum_{i = 1}^{N}x_{i}\ \tag{11} \\
+\end{matrix}\]</span></p>
+<p>因此，问题转化为如何使得采样样本足够近似服从<span
+class="math inline">\(p\)</span>分布。这里定义<span
+class="math inline">\(x\)</span>在<span
+class="math inline">\(t\)</span>时刻的状态分布概率为<span
+class="math inline">\(p(x^{t})\)</span>，状态转移概率<span
+class="math inline">\(T(x^{t + 1}|x^{t})\)</span>，则有：</p>
+<p><span class="math display">\[\begin{matrix}
+p\left( x^{t + 1} \right) = \sum_{x}^{}{p\left( x^{t} \right)T\left(
+x^{t + 1} \middle| x^{t} \right)}\ \tag{12} \\
+\end{matrix}\]</span></p>
+<p>当马尔科夫过程达到平衡时我们认为其样本<span
+class="math inline">\(x\)</span>收敛至<span
+class="math inline">\(p\)</span>分布,马尔科夫的平稳条件如下所示：</p>
+<p><span class="math display">\[\begin{matrix}
+p\left( x^{t + 1} \right)T\left( x^{t + 1} \middle| x^{t} \right) =
+p\left( x^{t} \right)T\left( x^{t} \middle| x^{t + 1} \right)\ \tag{13}
+\\
+\end{matrix}\]</span></p>
+<p>在概率图模型中，对于变量概率的估计最常用的即为MCMC采样。我们根据有向图的拓扑顺序采样每一个变量，即使用马氏链进行采样，保证了算法的高效和无重复性。其中MCMC中的代表算法即为Gibbs采样，通过若干次数据的交替采样和模型参数的估计最终达到平稳过程。</p>
+<h3 id="变分推断">变分推断</h3>
+<p>变分推断（Variational Inference,
+VI）是贝叶斯近似推断方法中的一大类方法，将后验推断问题巧妙地转化为优化问题进行求解，相比另一大类方法马尔可夫链蒙特卡洛方法（Markov
+Chain Monte Carlo, MCMC），VI
+具有更好的收敛性和可扩展性（scalability），更适合求解大规模近似推断问题。</p>
+<p>考虑一个一般性问题，<span class="math inline">\(x\)</span>是<span
+class="math inline">\(n\)</span>维的观测变量，<span
+class="math inline">\(z\)</span>是<span
+class="math inline">\(m\)</span>维的隐变量，贝叶斯模型中需要计算后验分布，如下：</p>
+<p><span class="math display">\[\begin{matrix}
+p\left( z \middle| x \right) = \frac{p(z)p\left( x \middle| z
+\right)}{p(x)}\ \tag{14} \\
+\end{matrix}\]</span></p>
+<p>变分推断假设后验分布用一个变分分布<span
+class="math inline">\(q(z;\theta)\)</span>来近似，通常构造如下优化问题：</p>
+<p><span class="math display">\[\begin{matrix}
+\min_{\theta}{KL(q(z;\theta)|\left| p\left( z \middle| x;\phi \right)
+\right)}\ \tag{15} \\
+\end{matrix}\]</span></p>
+<p>可以通过求解使得两个分布距离最小的变分分布参数<span
+class="math inline">\(\theta\)</span>，从而得到近似后验分布。因为真实后验分布是未知的，变分推断将其转化为ELBO的问题，推导如下：</p>
+<p><span class="math display">\[{KL(q(z;\theta)||p(z|x;\phi))
+}{= \int_{}^{}{q(z;\theta)\log\frac{q(z;\theta)}{p\left( z \middle|
+x;\phi \right)}}
+}{= E_{q(z;\theta)}\log\frac{q(z;\theta)p(x)}{p(x,z)}\
+}{= E_{q(z;\theta)}\log\frac{q(z;\theta)}{p(x,z)} + \log{p(x)}
+}\begin{matrix}
+= - ELBO(x;\theta;\phi) + \log{p(x)}\ {16} \\
+\end{matrix}\]</span></p>
+<p>由KL散度的定义可知，KL<span class="math inline">\(\geq\)</span>
+0，所以求优化问题(16)等价于求如下优化问题：</p>
+<p><span class="math display">\[\begin{matrix}
+\max_{\theta}{ELBO(x;\theta,\phi)}\ \tag{17} \\
+\end{matrix}\]</span></p>
+<p>这里的目标函数ELBO称为Evidence Lower Bound，继续推导如下：</p>
+<p><span class="math display">\[{ELBO(x;\theta,\phi)
+}{= E_{q(z;\theta)}\log\frac{p\left( x \middle| z;\phi
+\right)p(z)}{q(z;\theta)}
+}\begin{matrix}
+= E_{q(z;\theta)}\left\lbrack \log{p\left( x \middle| z;\phi \right) +
+\log\frac{p(z)}{q(z;\theta)}} \right\rbrack\ \tag{18} \\
+\end{matrix}\]</span></p>
+<p>进一步整理可得：</p>
+<p><span class="math display">\[\begin{matrix}
+ELBO(x;\theta,\phi) = E_{q(z;\theta)}\left\lbrack \log{p\left( x
+\middle| z;\phi \right)} \right\rbrack - KL\left( q(z;\theta) \middle|
+|p(z) \right)\ \tag{19} \\
+\end{matrix}\]</span></p>
+<p>其中第一项可以理解为基于变分后验分布的重建似然函数，第二项是变分后验分布与先验分布的KL散度。ELBO的形式推导是VI的基础，从
+ELBO
+的形式可以看出，待优化的目标函数是一个函数的期望，如何高效估计出目标的梯度是解决问题的关键。</p>
+<h1 id="结论">结论</h1>
+<p>概率图模型带来的一大好处是提供了⼀种简单的方式将概率模型的结构可视化，使得我们能够快速、直观的针对具体任务设计新的模型。通过观察图形，我们可以更深刻地认识模型的性质，此外⾼级模型的推断和学习过程中的复杂计算也可以根据图计算表达。有关概率图模型作为机器学习的重要组成部分，即使实在深度学习红得发紫的今天，其仍有不可撼动的地位，其学习和推理的相关知识仍有其宝贵的价值和启发意义。在其它领域，概率图模型也得到了广泛的应用。</p>
+<p>[1] 周志华. 机器学习[M]. 清华大学出版社, 2016.</p>
+<p>[2] 邱锡鹏. 神经网络与深度学习[M]. 北京：机械工业出版社, 2020.04.</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>只想买点薯条</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="李博洋 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.png" alt="李博洋 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"># 机器学习</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/06/22/%E5%AD%A6%E4%BD%8D/" rel="prev" title="没有毕业季文案 只有最好的我们">
+                  <i class="fa fa-chevron-left"></i> 没有毕业季文案 只有最好的我们
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李博洋</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.1/es5/tex-mml-chtml.js","integrity":"sha256-hlC2uSQYTmPsrzGZTEQEg9PZ1a/+SV6VBCTclohf2og="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
