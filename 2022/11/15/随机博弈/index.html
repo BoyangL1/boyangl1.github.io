@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.boyangl1.cn","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.12.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="简介 在博弈论中，随机博弈是一类由一个或多个参与者进行的、具有状态概率转移的动态博弈，是由劳埃德·夏普利（Lloyd Shapley）于20世纪50年代初期提出。 随机博弈由一系列阶段组成。在博弈中每一阶段的起始，博弈处于某种特定状态。每一参与者选择某种行动，然后会获得取决于当前状态和所选择行动的收益。之后，博弈发展到下一阶段，处于一个新的随机状态，这一随机状态的分布取决于先前状态和各位参与">
+<meta property="og:type" content="article">
+<meta property="og:title" content="随机博弈">
+<meta property="og:url" content="http://www.boyangl1.cn/2022/11/15/%E9%9A%8F%E6%9C%BA%E5%8D%9A%E5%BC%88/index.html">
+<meta property="og:site_name" content="Boyang&#39;s blog">
+<meta property="og:description" content="简介 在博弈论中，随机博弈是一类由一个或多个参与者进行的、具有状态概率转移的动态博弈，是由劳埃德·夏普利（Lloyd Shapley）于20世纪50年代初期提出。 随机博弈由一系列阶段组成。在博弈中每一阶段的起始，博弈处于某种特定状态。每一参与者选择某种行动，然后会获得取决于当前状态和所选择行动的收益。之后，博弈发展到下一阶段，处于一个新的随机状态，这一随机状态的分布取决于先前状态和各位参与">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-11-15T10:02:23.000Z">
+<meta property="article:modified_time" content="2022-11-29T03:25:45.598Z">
+<meta property="article:author" content="李博洋">
+<meta property="article:tag" content="博弈论">
+<meta property="article:tag" content="强化学习">
+<meta property="article:tag" content="多智能体强化学习">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://www.boyangl1.cn/2022/11/15/%E9%9A%8F%E6%9C%BA%E5%8D%9A%E5%BC%88/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://www.boyangl1.cn/2022/11/15/%E9%9A%8F%E6%9C%BA%E5%8D%9A%E5%BC%88/","path":"2022/11/15/随机博弈/","title":"随机博弈"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>随机博弈 | Boyang's blog</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Boyang's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">分享生活，交流知识</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">14</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">3</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">13</span></a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E5%AD%A6%E6%8F%8F%E8%BF%B0"><span class="nav-number">2.</span> <span class="nav-text">数学描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9A%8F%E6%9C%BA%E5%8D%9A%E5%BC%88%E7%9A%84%E9%98%90%E6%9E%90"><span class="nav-number">3.</span> <span class="nav-text">随机博弈的阐析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%91%E5%B1%95%E5%8E%86%E5%8F%B2"><span class="nav-number">4.</span> <span class="nav-text">发展历史</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%8F%E8%BF%B0"><span class="nav-number">4.1.</span> <span class="nav-text">描述</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%91%E5%B1%95%E5%88%86%E6%9E%90"><span class="nav-number">5.</span> <span class="nav-text">发展分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%93%B6%E9%A2%88"><span class="nav-number">5.1.</span> <span class="nav-text">瓶颈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AA%E6%9D%A5%E5%8F%91%E5%B1%95%E6%96%B9%E5%90%91"><span class="nav-number">5.2.</span> <span class="nav-text">未来发展方向</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="李博洋"
+      src="/images/cat.png">
+  <p class="site-author-name" itemprop="name">李博洋</p>
+  <div class="site-description" itemprop="description">生命太短暂，不要去做一些根本没有人想要的东西。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com//BoyangL1" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;&#x2F;BoyangL1" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:liboyang0209@gmail.com" title="E-Mail → mailto:liboyang0209@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.boyangl1.cn/2022/11/15/%E9%9A%8F%E6%9C%BA%E5%8D%9A%E5%BC%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="李博洋">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boyang's blog">
+      <meta itemprop="description" content="生命太短暂，不要去做一些根本没有人想要的东西。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="随机博弈 | Boyang's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          随机博弈
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-11-15 18:02:23" itemprop="dateCreated datePublished" datetime="2022-11-15T18:02:23+08:00">2022-11-15</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="简介">简介</h1>
+<p>在博弈论中，随机博弈是一类由一个或多个参与者进行的、具有状态概率转移的动态博弈，是由劳埃德·夏普利（Lloyd
+Shapley）于20世纪50年代初期提出。</p>
+<p>随机博弈由一系列阶段组成。在博弈中每一阶段的起始，博弈处于某种特定状态。每一参与者选择某种行动，然后会获得取决于当前状态和所选择行动的收益。之后，博弈发展到下一阶段，处于一个新的随机状态，这一随机状态的分布取决于先前状态和各位参与者选择的行动。在新状态中重复上述过程，然后博弈继续进行有限或无限个数的阶段。一个参与者得到的总收益常用各阶段收益的贴现和，或是各阶段收益平均值的下限来计算。</p>
+<p><span id="more"></span></p>
+<p>随机博弈是指的是这样的一个博弈游戏，目前有任意堆石子，每堆石子个数也是任意的，双方轮流从中取出石子，规则如下：</p>
+<p>1、每一步应取走至少一枚石子；每一步只能从某一堆中取走部分或全部石子。</p>
+<p>2、如果谁取到最后一枚石子就胜。</p>
+<h1 id="数学描述">数学描述</h1>
+<p>随机博弈的组成部分有：有限参与者集<span
+class="math inline">\(I\)</span>；状态空间<span
+class="math inline">\(M\)</span>（可以是有限集，也可以是可测空间）；对于每一参与者，存在行动集<span
+class="math inline">\(S^{i}\)</span>（可以是有限集，也可以是可测空间<span
+class="math inline">\((S^{i},S^{i})\)</span>）；<span
+class="math inline">\(P\)</span>是<span class="math inline">\(M \times
+S\)</span>到<span class="math inline">\(M\)</span> 的转移概率，其中<span
+class="math inline">\(S = \prod_{i \subseteq
+I}^{}s^{i}\)</span>是行动组合，<span
+class="math inline">\(P(A|m,s)\)</span>是下一状态处于<span
+class="math inline">\(A\)</span>中的概率，而<span
+class="math inline">\(A\)</span>给定了当前状态<span
+class="math inline">\(m\)</span>和当前行动组合<span
+class="math inline">\(s\)</span>；从<span class="math inline">\(M \times
+S\)</span>到<span class="math inline">\(R^{I}\)</span>的收益函数<span
+class="math inline">\(g\)</span>，其中<span
+class="math inline">\(g\)</span>的第<span
+class="math inline">\(i\)</span>个坐标<span
+class="math inline">\(g^{i}\)</span>是参与者<span
+class="math inline">\(i\)</span>的收益，而<span
+class="math inline">\(g^{i}\)</span>是状态<span
+class="math inline">\(m\)</span>和行动组合<span
+class="math inline">\(s\)</span>的函数。</p>
+<p>博弈以某个初始状态<span
+class="math inline">\(m_{1}\)</span>开始。在阶段<span
+class="math inline">\(t\)</span>中，参与者最先观测到<span
+class="math inline">\(m_{t}\)</span>，同时选择行动<span
+class="math inline">\(s_{t}^{i} \subseteq
+S^{i}\)</span>，然后观测到行动组合<span class="math inline">\(s_{t} =
+\left( s_{t}^{i} \right)_{i}\)</span>，然后以概率<span
+class="math inline">\(P(m_{t + 1}|m_{t},s_{t})\)</span>自然选择<span
+class="math inline">\(m_{t + 1}\)</span>，一次随机博弈<span
+class="math inline">\(m_{1},s_{1},\ldots,m_{t},s_{t}\)</span>定义了一个收益流<span
+class="math inline">\(g_{1}\ldots,g_{t}\)</span>，其中<span
+class="math inline">\(g_{t} = g(m_{t},s_{t})\)</span>。</p>
+<h1 id="随机博弈的阐析">随机博弈的阐析</h1>
+<p>随机博弈由多个博弈阶段组成。在每一个阶段的开始，博弈处在某个特定状态下。参与者选择自身的策略并获得相应的由当前状态和策略决定的报酬。然后博弈按照概率的分布和参与者策略随机转移到下一个阶段。在新的状态阶段，重复上一次的策略选择过程，然后博弈继续进行。参与者在随机博弈中获得的全部报酬一般用各个阶段报酬的贴现值来计算，或者用各个阶段报酬平均值的下限来计算。</p>
+<p>如果随机博弈中参与者的数量有限并且每个博弈阶段可能的状态数量有限，那么一个具有有限博弈阶段的随机博弈一般都存在一个纳什均衡。同样的，对于一个具有无穷阶段的随机博弈，如果使用各个阶段报酬的贴现值来计算整个博弈阶段的报酬，那么这个随机博弈也是具有纳什均衡的。尼古拉斯·维勒（Nicolas
+Vieille）已经证明具有有限阶段和有限状态的两人随机博弈当中，如果博弈过程的报酬使用各个阶段报酬平均值的下限来计算的话，是具有逼近纳什均衡的。然而，包含2个以上的参与者的随机博弈是否存在纳什均衡，仍然是个未决的问题。</p>
+<h1 id="发展历史">发展历史</h1>
+<h2 id="描述">描述</h2>
+<p>随机博弈是一类由一个或多个参与者进行的、具有状态概率转移的动态博弈，是由劳埃德·夏普利（Lloyd
+Shapley）于20世纪50年代初期提出。也因为Lloyd
+Shapley在博弈论领域的卓越贡献，在2012年获得了经济学领域的诺贝尔奖"for
+the theory of stable allocations and the practice of market
+design."。</p>
+<p>贴现因子为<span class="math inline">\(\lambda(0 &lt; \lambda \leq
+1)\)</span>的贴现博弈<span
+class="math inline">\(\Gamma\lambda\)</span>中，参与者<span
+class="math inline">\(i\)</span>的收益是<span
+class="math inline">\(\lambda \sum
+(1-\lambda)^{t-1}g^{i}_{t}\)</span>。<span
+class="math inline">\(n\)</span>阶段博弈中，参与者<span
+class="math inline">\(i\)</span>的收益是<span
+class="math inline">\({\overline{g}}_{n}^{i} = \frac{1}{n}\sum_{t =
+1}^{n}g_{t}^{i}\)</span>。</p>
+<p>若存在有限多个状态和行动的二人零和博弈<span
+class="math inline">\(\Gamma_{n}\)</span>（各自是<span
+class="math inline">\(\Gamma_{\lambda}\)</span>）的值为<span
+class="math inline">\(v_{n}\left( m_{1} \right)\)</span>（各自是<span
+class="math inline">\(v_{\lambda}\left( m_{1}
+\right)\)</span>），则<span class="math inline">\(v_{n}\left( m_{1}
+\right)\)</span>在<span
+class="math inline">\(n\)</span>趋于无穷时收敛到一个极限，且<span
+class="math inline">\(v_{\lambda}(m_{1})\)</span>在<span
+class="math inline">\(\lambda\)</span>趋于0时收敛到相同的极限。这一结论已被杜鲁门·彪利（Truman
+Bewley）和艾朗·克尔伯格（Elon Kohlberg）于1976年证明。</p>
+<p>非贴现博弈中，参与者<span
+class="math inline">\(i\)</span>的收益是各阶段收益平均值的极限。在定义二人零和博弈的值与非零和博弈的均衡收益之前需要注意一些事情：若对于每一都有正整数N
+、参与者1的策略<span
+class="math inline">\(\sigma_{\xi}\)</span>和参与者2的策略<span
+class="math inline">\(\tau_{\xi}\)</span>，二人零和随机博弈中存在一致值（uniform
+value）<span
+class="math inline">\(v_{\infty}\)</span>，这样对于每一<span
+class="math inline">\(\sigma,\tau\)</span>和每一<span
+class="math inline">\(n \geq N\)</span>，博弈中由<span
+class="math inline">\(\sigma_{\xi}\)</span>和<span
+class="math inline">\(\tau\)</span>定义的概率<span
+class="math inline">\({\overline{g}}_{n}^{i}\)</span>的期望至少为<span
+class="math inline">\(v_{\infty} - \xi\)</span>，由<span
+class="math inline">\(\sigma\)</span>和定义的概率<span
+class="math inline">\({\overline{g}}_{n}^{i}\)</span>的期望至多<span
+class="math inline">\(v_{\infty} +
+\xi\)</span>。让·弗朗索瓦·梅顿斯（Jean Francois
+Mertens）和亚伯拉罕·奈曼（Abraham
+Neyman）于1981年证明二人零和随机博弈具有一致值。</p>
+<p>若参与者数量有限且行动集和状态集有限，则有限阶段随机博弈总有纳什均衡，对于总收益是贴现和的无限多阶段随机博弈也是如此。尼古拉斯·维勒（Nicolas
+Vieille）已经证明当总收益是各阶段收益平均值的下极限时，所有具有有限状态和行动空间的二人随机博弈都有近似纳什均衡。不过，当参与者多于2名时，随机博弈是否存在这类均衡仍是一个极具挑战性的开放性问题。</p>
+<p>2003年，Neyman, A., Sorin, S., &amp; Sorin,
+S.对随机博弈的应用进行讨论。</p>
+<h1 id="发展分析">发展分析</h1>
+<h2 id="瓶颈">瓶颈</h2>
+<p>包含2个以上的参与者的随机博弈是否存在纳什均衡，仍然是个未决的问题。</p>
+<h2 id="未来发展方向">未来发展方向</h2>
+<p>无论是纳什均衡还是随机博弈，它们最初都是经济学领域的课题，但是随着时代的发展，计算机与其他多个领域的相互融合，它们的相辅相成也是指日可待的。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>只想买点薯条</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="李博洋 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.png" alt="李博洋 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E5%8D%9A%E5%BC%88%E8%AE%BA/" rel="tag"># 博弈论</a>
+              <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" rel="tag"># 强化学习</a>
+              <a href="/tags/%E5%A4%9A%E6%99%BA%E8%83%BD%E4%BD%93%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" rel="tag"># 多智能体强化学习</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/10/15/scale/" rel="prev" title="建成环境的社会空间尺度">
+                  <i class="fa fa-chevron-left"></i> 建成环境的社会空间尺度
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李博洋</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.1/es5/tex-mml-chtml.js","integrity":"sha256-hlC2uSQYTmPsrzGZTEQEg9PZ1a/+SV6VBCTclohf2og="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
