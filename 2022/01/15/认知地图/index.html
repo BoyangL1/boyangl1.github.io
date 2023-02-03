@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.boyangl1.cn","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.12.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="引言 学习、存储和解释环境的结构是智能体的固有特征，是生物体指导行为、适应生存和实现进化的必要条件。近几十年来，随着神经科学实验数据和计算方法的不断积累和发展，研究者们从细胞层面、环路层面、脑区层面上提出了卷帙浩繁的理论和计算模型，试图解释生物对环境的感知和对时间、空间和行为的联合组织机制，构建生物大脑的&quot;认知地图&quot;（cognitive map）。然而，这些模型之间的联系和区别还没有得到足够深">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于认知地图的生物导航">
+<meta property="og:url" content="http://www.boyangl1.cn/2022/01/15/%E8%AE%A4%E7%9F%A5%E5%9C%B0%E5%9B%BE/index.html">
+<meta property="og:site_name" content="Boyang&#39;s blog">
+<meta property="og:description" content="引言 学习、存储和解释环境的结构是智能体的固有特征，是生物体指导行为、适应生存和实现进化的必要条件。近几十年来，随着神经科学实验数据和计算方法的不断积累和发展，研究者们从细胞层面、环路层面、脑区层面上提出了卷帙浩繁的理论和计算模型，试图解释生物对环境的感知和对时间、空间和行为的联合组织机制，构建生物大脑的&quot;认知地图&quot;（cognitive map）。然而，这些模型之间的联系和区别还没有得到足够深">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.boyangl1.cn/2022/01/15/%E8%AE%A4%E7%9F%A5%E5%9C%B0%E5%9B%BE/1.png">
+<meta property="og:image" content="http://www.boyangl1.cn/2022/01/15/%E8%AE%A4%E7%9F%A5%E5%9C%B0%E5%9B%BE/2.png">
+<meta property="article:published_time" content="2022-01-15T08:36:06.000Z">
+<meta property="article:modified_time" content="2023-02-03T10:33:48.548Z">
+<meta property="article:author" content="李博洋">
+<meta property="article:tag" content="认知地图">
+<meta property="article:tag" content="强化学习">
+<meta property="article:tag" content="神经科学">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.boyangl1.cn/2022/01/15/%E8%AE%A4%E7%9F%A5%E5%9C%B0%E5%9B%BE/1.png">
+
+
+<link rel="canonical" href="http://www.boyangl1.cn/2022/01/15/%E8%AE%A4%E7%9F%A5%E5%9C%B0%E5%9B%BE/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://www.boyangl1.cn/2022/01/15/%E8%AE%A4%E7%9F%A5%E5%9C%B0%E5%9B%BE/","path":"2022/01/15/认知地图/","title":"基于认知地图的生物导航"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>基于认知地图的生物导航 | Boyang's blog</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Boyang's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">分享生活，交流知识</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">17</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">3</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">15</span></a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%95%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A4%E7%9F%A5%E5%9C%B0%E5%9B%BE%E6%A6%82%E5%BF%B5%E7%9A%84%E5%8F%91%E5%B1%95%E5%8E%86%E5%8F%B2"><span class="nav-number">2.</span> <span class="nav-text">认知地图概念的发展历史</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A4%E7%9F%A5%E5%9C%B0%E5%9B%BE%E4%B8%8E%E5%A4%96%E9%83%A8%E7%8E%AF%E5%A2%83%E5%A6%82%E4%BD%95%E9%94%9A%E5%AE%9A%E5%9C%B0%E6%A0%87%E7%9A%84%E9%80%89%E5%8F%96%E6%84%9F%E7%9F%A5%E5%92%8C%E4%BD%BF%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">认知地图与外部环境如何&quot;锚定&quot;：地标的选取、感知和使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A5%9E%E7%BB%8F%E7%B3%BB%E7%BB%9F%E5%86%85%E7%9A%84%E8%AE%A4%E7%9F%A5%E5%9C%B0%E5%9B%BE%E5%AE%9E%E7%8E%B0%E5%AF%BC%E8%88%AA"><span class="nav-number">4.</span> <span class="nav-text">神经系统内的认知地图实现导航</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E7%A0%81%E5%88%B0%E7%9B%AE%E6%A0%87%E7%9A%84%E8%B7%9D%E7%A6%BB%E5%92%8C%E6%96%B9%E5%90%91"><span class="nav-number">4.1.</span> <span class="nav-text">编码到目标的距离和方向</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B7%AF%E5%BE%84%E9%9B%86%E6%88%90%E9%A2%84%E6%B5%8B%E5%92%8C%E8%A7%84%E5%88%92"><span class="nav-number">4.2.</span> <span class="nav-text">路径集成、预测和规划</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%8E%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84%E5%88%B0%E8%AE%A4%E7%9F%A5%E5%9C%B0%E5%9B%BE%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%9A%84%E6%A0%B8%E5%BF%83"><span class="nav-number">5.</span> <span class="nav-text">从环境映射到认知地图：强化学习的核心</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#rl%E4%B8%8E%E7%8A%B6%E6%80%81%E6%8A%BD%E8%B1%A1"><span class="nav-number">5.1.</span> <span class="nav-text">RL与状态抽象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%A9%E7%90%86%E7%A9%BA%E9%97%B4%E4%BD%9C%E4%B8%BA%E7%8A%B6%E6%80%81%E7%A9%BA%E9%97%B4"><span class="nav-number">5.2.</span> <span class="nav-text">物理空间作为状态空间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%9E%E7%89%A9%E7%90%86%E7%A9%BA%E9%97%B4%E4%BD%9C%E4%B8%BA%E7%8A%B6%E6%80%81%E7%A9%BA%E9%97%B4"><span class="nav-number">5.3.</span> <span class="nav-text">非物理空间作为状态空间</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8A%8A%E6%8F%A1%E8%AE%A4%E7%9F%A5%E4%B9%8B%E8%B0%9C"><span class="nav-number">6.</span> <span class="nav-text">把握认知之谜</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">7.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="李博洋"
+      src="/images/cat.png">
+  <p class="site-author-name" itemprop="name">李博洋</p>
+  <div class="site-description" itemprop="description">生命太短暂，不要去做一些根本没有人想要的东西。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com//BoyangL1" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;&#x2F;BoyangL1" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:liboyang0209@gmail.com" title="E-Mail → mailto:liboyang0209@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.boyangl1.cn/2022/01/15/%E8%AE%A4%E7%9F%A5%E5%9C%B0%E5%9B%BE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="李博洋">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boyang's blog">
+      <meta itemprop="description" content="生命太短暂，不要去做一些根本没有人想要的东西。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="基于认知地图的生物导航 | Boyang's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          基于认知地图的生物导航
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-01-15 16:36:06" itemprop="dateCreated datePublished" datetime="2022-01-15T16:36:06+08:00">2022-01-15</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="引言">引言</h1>
+<p>学习、存储和解释环境的结构是智能体的固有特征，是生物体指导行为、适应生存和实现进化的必要条件。近几十年来，随着神经科学实验数据和计算方法的不断积累和发展，研究者们从细胞层面、环路层面、脑区层面上提出了卷帙浩繁的理论和计算模型，试图解释生物对环境的感知和对时间、空间和行为的联合组织机制，构建生物大脑的"认知地图"（cognitive
+map）。然而，这些模型之间的联系和区别还没有得到足够深入的分析讨论，缺乏清晰的发展脉络和（可能存在的）统一框架，以至于显得零碎甚至杂乱。此外，有新近实验证据表明，大脑对抽象知识编码的方式与其表示空间位置的方式具有相同的基底，这暗示了一种更普遍的认知理论框架的存在。这篇综述的目的在于对认知地图的发展历史进行梳理，揭示现有模型共有的相似核心理念。
+<span id="more"></span></p>
+<h1 id="认知地图概念的发展历史">认知地图概念的发展历史</h1>
+<p>"认知地图"是所有对心智模式进行视觉化展现的视图类型的总称。这一概念于1948年由心理学家托曼（Tolman）引入，用以刻画人和动物对环境整体氛围的感知方式。具体来说，托尔曼提出这一概念是为了解释啮齿类动物导航行为实验中所观察到的某种策略：他观察到，大鼠在迷宫中奔跑的行为不能简单地简化为特定刺激和奖励行为之间的关联。如果大鼠已经对迷宫环境相当熟悉，当常用的刺激-奖励路线被阻塞后，大鼠会迅速地切换到另一条可行的路线上。对此，托尔曼给出的解释是，动物能够获得、储存和分析环境空间知识，类似于在脑海中生成一张对物理空间的"地图"。这张地图可以帮助啮齿类动物导航。</p>
+<p>1971年，伦敦大学学院的神经科学家约翰·奥基夫（John
+O'Keefe）及同事监测了自由活动的大鼠的大脑活动，观察到一些神经元只有当大鼠在笼子的特定位置时才会激发。例如，当大鼠嗅到围栏的东北角时，其中一群神经元变得活跃，除此之外则保持安静；另一群神经元则在大鼠处于笼子中心时激发。也就是说，这些细胞编码了感知动物所处具体位置的空间感，联合在一起共同创造了覆盖整个空间的地图。当大鼠被放入不同的笼子或房间时，这些位置细胞会"重新映射"并编码不同的局部位置。奥基夫将这类细胞命名为位置细胞（place
+cell）。这些研究结果启发了最原始的认知地图概念的进一步深化：海马体可能正在创造和存储这种帮助导航"认知地图"。</p>
+<p>站在认知地图相关研究的历史发展的角度回望，海马体是一个很好的开端和突破口。基于海马体位置细胞相关研究，迈-布里特·莫泽（May-Britt
+Moser）和爱德华·莫泽（Edvard
+Moser）将啮齿类动物空间认知的研究进一步扩展到转向位于海马体旁边的内嗅皮层。神经生理学已经检测到该区域为海马体提供了重要的输入，它也是阿尔茨海默病首先恶化的区域之一，能够显著影响患者的导航和记忆能力。研究人员在内嗅皮层发现了网格细胞（grid
+cell）。它们并不像位置细胞一样标记特定空间位置，而是组成一个不受位置影响的独立坐标系。每个网格细胞服从有规律性的间隔激发，形成六边形网格。想象一下：你的卧室地板铺满相同大小的六边形地砖，每个地砖被分成六个等边三角形。当你走进房间，每当走到任何这些三角形的顶点时，其中一个网格单元就会触发。不同的网格细胞群形成各异的网格------它们可能是或大或小的六边形，有不同的朝向，彼此偏移。这些网格细胞一同工作，从而映射覆盖环境中每个位置，任何特定位置都能被表示为一种独特的网格细胞激发模式组合。不同网格重叠的信息点会告诉动物大脑身体此刻所在何处。</p>
+<p>在啮齿类动物中，海马体和内嗅皮层被认为是基于认知地图导航的中心。在人类功能磁共振成像研究中，当人们在虚拟导航过程中使用基于认知地图的策略时，海马体和内嗅皮层的反应是类似的。使用空间分布的功能磁共振成像反应的多体素模式分析（MVPA）识别出海马中的地图样代码和内嗅皮层中的网格样编码。这些神经表征已经通过对术前癫痫患者的颅内记录研究得到了进一步证实。</p>
+<img src="/2022/01/15/%E8%AE%A4%E7%9F%A5%E5%9C%B0%E5%9B%BE/1.png" class="" title="神经细胞空间编码">
+<p>除了区分位置和表征距离之外，动物海马体的另一个关键特征是可以存储多个地图，从而表示多个环境或同一环境的多个状态。这种区分能力通过"<strong>全局重映射</strong>"和"<strong>速率重映射</strong>"实现。前者指，在一种环境下产生发放的位置细胞群与在另一种环境下产生发放的细胞群是不同的，而在后一种情况下，相同的位置细胞群在相同的位置发射，但具有不同的最大发放速率。在学习过程中，啮齿动物的海马体可能在一段时间内无法区分相似的环境，但随后突然对每种环境表现出独特的表征。在检索时，啮齿类动物海马体会表现出一种全有或全无的反应（吸引子网络的特征之一）------即使模糊化的线索介于两种环境之间，但结果要么是A，要么是B。在环境模糊条件下，人海马区的多体素模式显示出类似的吸引子效应。通过这种功能，不同的环境、路线和行为环境彼此正交化。即使具有重叠的特征，生物也可以将它们区分开来。</p>
+<p>最后，神经成像和神经心理学研究表明，除海马体和内嗅皮层之外，新皮层也参与长期空间记忆的编码和存储。对人类来说，功能磁共振成像研究显示，内侧顶叶和颞叶区域可能是处理或存储长期空间知识的重要位点。未来研究的一个重要问题是解释海马结构和皮层区域如何相互作用，以支持对不同类型的空间知识的处理和检索。</p>
+<h1
+id="认知地图与外部环境如何锚定地标的选取感知和使用">认知地图与外部环境如何"锚定"：地标的选取、感知和使用</h1>
+<p>在第一节中，我们讨论了作为认知地图的基底的神经基质和功能单元。但我们并没有讨论脑中的认知地图是如何在生物个体与外界环境交互的过程中被不断填充和更新的。为了让这张地图真正派上用场，生物体必须有一种能将个体内部的认知地图坐标"链接"到外部环境的感觉信号的渠道。这些感觉信号包括离散的物体，如建筑物、雕像或路标；以及更轮廓性的环境特征，如房间的形状，或周边的地形。我们要将其中一些重要的、有价值的"地标"链接到内部认知地图的相应位置，以此为参照物填充整个认知地图，从而在神经表征和实际空间之间建立联系。不过，值得注意的是，不借助于路标也可以导航------对于熟悉的环境和有推断能力的智能体，借助于自我运动线索和内置认知地图可以进行无需路标的导航，这种策略被称为"路径整合"（path
+integration）。</p>
+<p>首先，我们将讨论"地标"如何在神经系统中表征，以及它们如何用于锚定认知地图。具体来说，<strong>生物体利用地标作为环境线索来确定认知地图的方向和尺度，即选定坐标轴的角度和刻度</strong>。对于这一问题，数十年来已有大量相关实验研究成果。简单来说，地标主要有两种类型：</p>
+<ol type="1">
+<li><p>尽头物体/远端线索。在环境空间的尽头的物体对认知地图方向的确定影响巨大。在那些保持内部方向感的动物身上是这样的，它们主要使用空间尽头的物体作为地标来纠正路径整合中的错误。实验发现，当远端线索（如迷宫外的物体或沿室壁的标记）围绕环境中心旋转时，位置细胞和网格细胞的发放场和调谐曲线也随之旋转。此外，最近的研究表明，环境的几何形状也可能有助于锚定认知地图------网格细胞发放场也会随着腔室边界的旋转而旋转，随着腔室边界几何形状的变化而扭曲。</p></li>
+<li><p>环境边界。环境边界既影响认知地图方向的确定，也影响认知地图尺度的确定。1）当动物迷失方向时，很大程度上依赖于环境边界的形状来恢复几何感。边界对于重新定位是很重要的，因为边界通常稳定固定在表面，而作为路标的单个物体可能会改变位置。小鼠的海马体位置细胞和大鼠的头朝向细胞（Head
+direction cell/ HD
+cell）细胞表现出依赖于环境边界的定向行为。2）认知地图的尺度也受到环境边界的影响。实验观测到，单个位置细胞的发放主要由该位置到室壁的距离所决定，当室壁发生位移时，发放场也随之扭曲。</p></li>
+</ol>
+<p>对地标的感知和使用：为了让地标对认知地图产生影响，它们必须首先经过感知系统的处理。人类大脑中有三个区域在观看刺激时具有强烈的功能磁共振成像反应：海马旁部位区（PPA），顶枕沟脾后复合区（RSC）和枕叶部位（OPA）。PPA和OPA主要涉及对地标的感知分析和视觉识别，而RSC则使用地标作为环境线索来锚定认知地图。</p>
+<h1 id="神经系统内的认知地图实现导航">神经系统内的认知地图实现导航</h1>
+<p>认知地图的第二个基本属性是可以实现通往目的地的路线规划。最基本地，智能体要能够基于认知地图计算到目标的距离和方向。此外，在很多环境中存在各种各样的障碍，地图要能够提供绕过这些障碍、识别最速捷径的信息。</p>
+<h2 id="编码到目标的距离和方向">编码到目标的距离和方向</h2>
+<p>最近的模型已经探索了动物大脑结合网格细胞和位置细胞的编码来计算到目标的距离和方向的脑区机制。这些模型提出的编码流程可以概括如下：内嗅皮层网格细胞网络计算到目标的欧几里得距离和独相对于环境轴的方向（例如，西北42°），海马与内嗅皮层共同得出绕过障碍物的最佳路径，联合前额叶对路径进行评估，后顶叶皮层将路径的客观朝向转化为自我中心的，计算和编码个体沿路径的具体运动方向。上述主要流程都已经在相应脑区观察到编码证据。</p>
+<p>在距离编码方面，总地来说，内嗅皮层跟踪和计算到目标的欧氏距离，海马区跟踪和计算到目标的路径距离。对啮齿类动物的电生理研究和对人类的功能磁共振成像研究都证明了海马CA1区的活动可以编码距目标的路径距离、追踪未来的路径轨迹，而内嗅皮层的活动与欧几里得距离的相关性更高。</p>
+<p>在方向编码方面，早在数十年前就有研究发现，大鼠的头朝向细胞跟踪编码个体当前头部朝向的方向，但还缺少对于编码目标（或者运动计划）朝向的切实证据。Chadwick等人在功能核磁共振成像实验中发现，内嗅皮层神经元群同时表现出头朝向和目标朝向的信号。一种可能的解释是，这些活动模式反映了头朝向细胞的放电模式切换------当受试者想象或计划自己朝目标的方向行进时，头朝向细胞可能会短暂地从当前实际的面向方向切换到目标计划的面向方向。</p>
+<h2 id="路径集成预测和规划">路径集成、预测和规划</h2>
+<p>在现实世界的空间导航任务中，可行路径很可能不止一条。环境越复杂，对认知地图的检索和规划功能的要求就越高。在前面几节，我们提到，图可以帮助我们灵活的建立状态空间。但在现实生活中，我们面对的往往是只有"部分可观察到"的现象和问题，必须通过连续观察进行推断，消除歧义。这种连续观察对应着对感知信息序列的处理和整合。通过序列推断出的状态被称为潜在状态，构建一个潜在状态空间映射，可以用于在相同感觉输入的时刻下根据不同条件实现不同行为。事实上，大多数研究者认为，海马正是从序列化的输入中习得潜在表征的。</p>
+<p>一般来说，基于认知地图，生物将能够完成以下标志性功能：</p>
+<ol type="1">
+<li>路径集成（integration）和压缩（compression）</li>
+</ol>
+<p>推断潜在状态的过程其实是确定个人在抽象空间中的定位及其周边环境的过程。对于真实物理空间中的导航，可以通过积累自运动向量实现路径集成；对于非物理空间（比如亲缘树等图），则是积累抽象运动向量（"妈妈的哥哥是舅舅"，分为"我"-"妈妈"和"妈妈"-"哥哥"两步）。在这一框架下，对于路径集成，我们只需要知道一些特定的规则，不需要知道所有节点之间的关系。也即，路径集成是一种压缩表示。当然，并不是所有的图形都可以使用路径集成。因为路径集成要求在每个位置都可能执行相同的操作，产生相同的结果。在图的不同节点之间并不总是存在完全相同的操作。</p>
+<ol start="2" type="1">
+<li>泛化（generalization）</li>
+</ol>
+<p>泛化，或在不同情境之间的知识转移，是个体行为灵活性的基础。没有泛化能力，生物就无法在现有知识的基础上理解新的情况，也无法利用之前积累的经验。感官概括让我们在第一次看到时就理解"贵宾犬是一种狗"，而结构概括让我们自然而然地接受"门通常通向新房间"；加法对于不同的数字同样有效，相同的交通规则适用于不同的城市。这种泛化能力对人的行为有着至关重要的影响。</p>
+<p>使用图形进行泛化是困难的，因为它们需要在不同情况下进行完美的对齐。而完美对齐是一个非确定性多项式时间（NP）问题，NP问题的计算量非常大，几乎无法求解。但使用路径集成表示进行泛化则相对容易，因为在路径集成表示中，所有位置都被"平等"对待，即全都服从相同的规则。而这个可泛化的规则框架就是我们要学习的目标。</p>
+<p>具体到神经表征之中，实验研究观察到，内嗅皮层的表征可能是泛化功能的核心，同一模块的网格细胞在各环境中都是相邻的。不过，要进行整合和预测，我们不仅需要知道抽象的泛化结构知识，也需要将其与现实世界的感官输入相互作用。一个有希望的解释是，海马体提供了二者相联合的平台------<strong>来自内侧内嗅皮层（MEC）的抽象知识和来自外侧内嗅皮层（LEC）的感觉知识在海马区结合，从而实现了泛化，使得相同的泛化结构（来自MEC）可以在不同的具体环境（来自LEC）中反复使用。</strong></p>
+<img src="/2022/01/15/%E8%AE%A4%E7%9F%A5%E5%9C%B0%E5%9B%BE/2.png" class="" title="结构泛化">
+<ol start="3" type="1">
+<li>组合（composition）</li>
+</ol>
+<p>泛化并不意味着整个地图都可以迁移到新环境之中，而是地图的子组件（或者说组成结构的基本元素）可以发生迁移。从这一视角来看，新环境的处理就变成了一个结构推理问题：如何组合原地图的各基本组件来完成新任务。</p>
+<p>具体到神经表征之中，海马结构的认知图包含许多可视为基本组件的基础表征。比如对象向量细胞（OVCs）、边界向量细胞（BVCs）、奖励细胞和目标向量细胞（GVCs）等局部基表示，编码具体对象；网格细胞是全局基表示，在全空间平等地描述信息。</p>
+<p>Javadi等人研究了虚拟导航过程中收集的功能磁共振成像活动与街道拓扑连接的复杂程度的关系。在进入街道时，如果这条街道为提供了多种路径可供选择，那么后海马体的活动就会增加。相比之下，当进入与其他街道网络连接更紧密的街道时，前海马体活动增加。这些结果暗示海马区位置细胞可能能够对可行路径集合的拓扑结构进行编码。此外，Wu和Foster在研究中观察到，海马对一组连接轨道上的位置细胞的重放保留了轨道的拓扑结构。目前还不清楚这种拓扑编码与具体的欧氏空间编码以何种规则对应。</p>
+<p>总地来说，海马体支持路径选项的检索，前额叶负责对路径的评估。Javadi的进一步研究显示，当被试被迫重新规划路线时，外侧前额叶皮层的活动与通过街道网络进行宽度优先搜索的需求成正比。最近的其他研究也表明，当参与者进行空间规划时，前额叶前部内侧皮层的活动增加；当为了规划到达目标的最短路径而必须做出连续决策时，前额叶与海马体之间的耦合增加。这一系列结果都支持了前额叶的路径评估功能。</p>
+<p>最近的研究试图将导航过程中的神经活动与强化学习模型的参数直接联系起来。事实上，许多研究结果暗示，强化学习是一种建模路线规划的神经系统的可能框架。</p>
+<h1
+id="从环境映射到认知地图强化学习的核心">从环境映射到认知地图：强化学习的核心</h1>
+<h2 id="rl与状态抽象">RL与状态抽象</h2>
+<p>认知地图能够有效组织知识，指导个体进行灵活的行为，即地图必须能在面对新挑战时支持新行为，且在任何新环境中尽可能地构建。因此，认知地图的目标是提前学习尽可能多的知识，从而将即时学习和计算成本最小化；但与此同时，考虑到生物物理实际的限制，这幅地图的知识容量必然是有限的。因此，认知地图的神经表征必须满足特定的设计原则。表示整个世界的全部状态显然是不可行的------这可能包含无数的、通常与任务无关的维度信息，不仅会影响表征能力，也会阻碍学习效率。这种"<strong>维度诅咒</strong>"可以通过适当的状态抽象来缓解，<strong>抽象问题是认知映射的核心问题</strong>。</p>
+<p>事实上，已有许多研究者发现，在认知地图中构建图的问题与在强化学习（Reinforcement
+learning）中构建状态空间的问题是对应的。经典的强化学习模型学习状态的值，不需要学习状态之间的关系。虽然这降低了学习负担，但基于价值的学习往往缺乏灵活性。了解状态之间的关系、建立状态空间结构可以帮助我们在起点和终点之间灵活规划，如果常用道路被阻塞，可以迅速切换另一条路。然而，传统的搜索机制（如树搜索）计算成本很高。一些巧妙的表示设计有助于降低计算成本。这是形式化认知地图的核心。</p>
+<p>在强化学习中，状态空间通过奖励、价值和政策与行为紧密相连。一旦定义了状态空间，就可以进一步选择状态的表示。巧妙的表示可以减少即时计算。这使得相对简洁规范的数学理论就能够预测神经表征。</p>
+<h2 id="物理空间作为状态空间">物理空间作为状态空间</h2>
+<p>我们首先考虑最常见也是最直观的物理空间。此时我们的状态空间本身可以取为物理空间或其截面的同构。以实验和生活中最常见的平面导航为例，在二维平面中，一个位置的坐标可以用多种方式表示：通过"唯一标识符"（位置A，位置B，位置C......），或通过坐标系(x,y)。当检索最短路线时，在第一种表示方式下，必须要检索一系列相邻位点；在第二种表示方式下，向量运算就可以解决问题。当向地图中添加新位点时，在第一种表示方式下，需要创造一个新的标识符（一个神经元）以及该符号与周边相邻位点的全部关系（该神经元的突触）；在第二种方式下，不需要添加新的基质，因为新位点依然落在坐标系(x,y)中。</p>
+<p>具体到我们在第一节中提到的神经导航机制，位置细胞和网格细胞对状态空间的表征分别属于上述两种表示方式：位置细胞编码特定位置，新的位点需要新的位置细胞；网格细胞通过坐标系完成向量运算，自然地扩展到新的位置。通过对表示方式的巧妙选择和组合，网格细胞帮助生物体减少了计算的复杂度。</p>
+<h2 id="非物理空间作为状态空间">非物理空间作为状态空间</h2>
+<p>在物理空间中很容易选取状态空间，但对于非物理空间（如概念空间）则需要一定的技巧和原则。在强化学习中，一个常用的方法是将对空间的学习视为理解图上的关系。具体来说，图是描述于一组对象的结构，其中某些对象对在某种意义上是"相关的"。这些对象对应于称为顶点的数学抽象（也称为节点或点），并且每个相关的顶点对都称为边（也称为链接或线）。通常，图形以图解形式描绘为顶点的一组点或环，并通过边的线或曲线连接。图能够将非空间问题形式化。譬如亲缘树、社会网络、分子的结构式，都可以用图表示。</p>
+<p>利用图定义了非物理空间所对应的状态空间后，就可以进一步定义该空间内的转移关系矩阵。在此基础上，通过一次次转移，就可以模拟路径的选择和生成过程。</p>
+<p>在次基础之上，人们提出了几种基于图的海马结构模型。有趣的是，这些基于图的模型在运算过程中确实存在类似于位置细胞和网格细胞的神经表征的中间表示。</p>
+<h1 id="把握认知之谜">把握认知之谜</h1>
+<p>作为具有高级智能的个体，人类总能在精神世界和物质世界之间建立一种奇异且深层的联系，空间导航任务只是其中较为直观的一种。为了记住长篇演讲稿，古希腊和罗马的演说家想象自己徘徊在富于提示的"记忆宫殿"中。这种记忆技巧仍为现代记忆竞赛冠军们使用；正如哲学家康德所说，空间概念是我们藉以感知与解释世界的组织性原则，其中不乏抽象的方式。人工智能公司DeepMind的神经科学家金·斯塔肯菲尔德（Kim
+Stachenfeld）说："我们的语言充满了用以推理和记忆的空间隐喻。"过去十几年的研究表明，那些隐喻------至少在记忆与导航两种能力方面------可能在大脑中具有物质基础。有实验证据表明，构成两者的网格化神经基底（或说编码方式）可能是相同的。更有研究提出，这种对认知的编码方案可以帮助我们处理其他更多类型的信息，例如视觉景象、声音和抽象概念。一种最雄心勃勃的说法声称，我们在上述讨论的认知地图机制可能是理解大脑处理一般常识、感知和记忆中所有细节的关键。尽管并非所有的认知地图都由相同的机制规则支持，但我们相信有一些基本原则可能在不同领域中起作用。然而，要将上述模型扩展，目前依然存在一些开放性问题：</p>
+<ol type="1">
+<li><p>对社会空间、概念空间等非物理空间的表征。</p></li>
+<li><p>抽象空间地图如何与物理空间地图联系在一起，以及如何将诸如地标、边界和方向等概念应用于非物理的抽象空间。目前还没有关于神经元表征特定概念或社会环境的"边界"的实验证据。但在时间领域------这也是一个典型的非物理空间------已经取得了一些进展：情景记忆被证明受到由时间边界划定的行为情境之间的转换的影响，就像它们受到由物理边界划定的空间区域之间的转换的影响一样。</p></li>
+<li><p>到目前为止，我们对认知地图模型的讨论都假设习得的表征随着时间的推移保持稳定。但这显然是不可能的，因为我们可以记住发生在不同时间的同一地点、相同条件的事件。经验证据确实表明，神经表征会随着时间和经验的推移而发生漂移，挑战了记忆印迹和接受域稳定不变的传统概念。那么海马体如何保持对空间的稳定表征？概化模型提供了一种可能的解决方案：海马细胞将多个因素绑定在一起，统一发生漂移。在这种观点中，表征漂移只是海马的重新映射，只会在与代表时间的内嗅细胞的连接上有所不同，与代表空间的内嗅细胞的连接不变。</p></li>
+<li><p>在利用SR等强化学习方法建模认知地图时，我们将构建映射的问题转化为<strong>理解和推测序列结构</strong>的问题。机器学习已经证明从序列中学习的机制可以在语言处理、数学推导和逻辑问题等任务上表现良好。事实上，这些问题本质都是序列问题，都存在所谓的可泛化规则（语法规则/数学运算符）和序列内容（单词/数字）。但许多认知问题似乎并不需要序列的参与------理解足球和地球都是球体并不需要从序列中学习得到。目前尚不清楚类似于空间的组织原则是否在学习这些抽象概念中发挥作用。</p></li>
+</ol>
+<p>距离托尔曼第一次提出认知地图的想法已经过去了70年，距离奥基夫和纳德尔第一次将海马体的数据与认知地图相结合已经过去了40年。在这篇综述中，我们概述了啮齿类动物和人类最近的研究中的共同结果和基本建模范式。我们特别关注认知地图如何完成空间导航任务。此外，尽管并非所有的认知地图都由相同的机制规则支持，但我们相信有一些基本原则可能在不同领域中起作用。近期的实验证据表明认知地图可能适用于物理和非物理空间。我们期待未来的研究使用新方法让研究人员在导航行为、神经反应和认知过程之间建立更紧密的联系，从而实现托尔曼关于大脑认知地图的设想。</p>
+<h1 id="参考文献">参考文献</h1>
+<p>[1] Scoville, W. B. &amp; Milner, B. Loss of recent memory after
+bilateral hippocampal lesions. J. Neurol. Neurosurg. Psychiatry 20,
+11--21 (1957).</p>
+<p>[2] Cohen, N. J. &amp; Squire, L. R. Preserved learning and retention
+of pattern-analyzing skill in amnesia: dissociation of knowing how and
+knowing that. Science 210, 207--210 (1980).</p>
+<p>[3] O'Keefe, J. &amp; Nadel, L. The Hippocampus as a Cognitive Map
+(Oxford Univ. Press, 1978).</p>
+<p>[4] Hafting, T., Fyhn, M., Molden, S., Moser, M. B. &amp; Moser, E.
+I. Microstructure of a spatial map in the entorhinal cortex. Nature 436,
+801--806 (2005).</p>
+<p>[5] Moser, E. I., Moser, M.-B. &amp; McNaughton, B. L. Spatial
+representation in the hippocampal formation: a history. Nat. Neurosci.
+20, 1448--1464 (2017).</p>
+<p>[6] Aronov, D., Nevers, R. &amp; Tank, D. W. Mapping of a non-spatial
+dimension by the hippocampal--entorhinal circuit. Nature 543, 719--722
+(2017).</p>
+<p>[7] Knudsen, E. B. &amp; Wallis, J. D. Hippocampal neurons construct
+a map of an abstract value space. Cell 184, 4640--4650 (2021).</p>
+<p>[8] Nieh, E. H. et al. Geometry of abstract learned knowledge in the
+hippocampus. Nature https://doi.org/10.1038/s41586-021-03652-7
+(2021).</p>
+<p>[9] Whittington, J. C., McCaffary, D., Bakermans, J. J., &amp;
+Behrens, T. E. How to build a cognitive map. Nature Neuroscience, 1-16.
+(2022).</p>
+<p>[10] Epstein, R. A., Patai, E. Z., Julian, J. B., &amp; Spiers, H. J.
+The cognitive map in humans: spatial navigation and beyond. Nature
+neuroscience, 20(11), 1504-1513.(2017).</p>
+<p>[11] Behrens, T. E., Muller, T. H., Whittington, J. C., Mark, S.,
+Baram, A. B., Stachenfeld, K. L., &amp; Kurth-Nelson, Z. What is a
+cognitive map? Organizing knowledge for flexible behavior. Neuron,
+100(2), 490-509. (2018).</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>只想买点薯条</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="李博洋 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.png" alt="李博洋 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A4%E7%9F%A5%E5%9C%B0%E5%9B%BE/" rel="tag"># 认知地图</a>
+              <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" rel="tag"># 强化学习</a>
+              <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%A7%91%E5%AD%A6/" rel="tag"># 神经科学</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/01/15/%E6%9C%80%E5%A4%A7%E5%9B%A0%E6%9E%9C%E7%86%B5%E9%80%86%E5%90%91%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" rel="prev" title="最大因果熵逆向强化学习">
+                  <i class="fa fa-chevron-left"></i> 最大因果熵逆向强化学习
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/02/15/DeepIRL/" rel="next" title="深度逆向强化学习公式推导">
+                  深度逆向强化学习公式推导 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李博洋</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.1/es5/tex-mml-chtml.js","integrity":"sha256-hlC2uSQYTmPsrzGZTEQEg9PZ1a/+SV6VBCTclohf2og="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
