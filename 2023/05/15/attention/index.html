@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.boyangl1.cn","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.12.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Why attention is all you need? 可以先参考Self-atteentio&amp;Transformer对算法有一个大概的了解。 依赖——从时序神经网络说起 在transformer以前，解决序列问题大多采用时序神经网络的方法，在RNN统治的阶段有许多为了解决“遗忘”问题而提出的结构，如LSTM、GRU等。这些结构的提出大多建立在时序相关性的思维基础上，即越邻近">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Why attention is all you need?">
+<meta property="og:url" content="http://www.boyangl1.cn/2023/05/15/attention/index.html">
+<meta property="og:site_name" content="Boyang&#39;s blog">
+<meta property="og:description" content="Why attention is all you need? 可以先参考Self-atteentio&amp;Transformer对算法有一个大概的了解。 依赖——从时序神经网络说起 在transformer以前，解决序列问题大多采用时序神经网络的方法，在RNN统治的阶段有许多为了解决“遗忘”问题而提出的结构，如LSTM、GRU等。这些结构的提出大多建立在时序相关性的思维基础上，即越邻近">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-05-15T10:02:23.000Z">
+<meta property="article:modified_time" content="2023-06-04T09:32:20.021Z">
+<meta property="article:author" content="李博洋">
+<meta property="article:tag" content="地理学定律">
+<meta property="article:tag" content="人工智能">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://www.boyangl1.cn/2023/05/15/attention/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://www.boyangl1.cn/2023/05/15/attention/","path":"2023/05/15/attention/","title":"Why attention is all you need?"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Why attention is all you need? | Boyang's blog</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Boyang's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">分享生活，交流知识</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">19</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">3</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">18</span></a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#why-attention-is-all-you-need"><span class="nav-number">1.</span> <span class="nav-text">Why attention is all you
+need?</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BE%9D%E8%B5%96%E4%BB%8E%E6%97%B6%E5%BA%8F%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%AF%B4%E8%B5%B7"><span class="nav-number">1.1.</span> <span class="nav-text">依赖——从时序神经网络说起</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#attention-%E6%80%9D%E6%83%B3%E4%BB%8E%E4%BD%95%E8%80%8C%E6%9D%A5"><span class="nav-number">1.2.</span> <span class="nav-text">Attention-思想从何而来？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#transformer%E4%B8%8E%E5%9C%B0%E7%90%86%E5%AD%A6%E7%AC%AC%E4%B8%89%E5%AE%9A%E5%BE%8B%E7%9A%84%E8%81%94%E7%B3%BB"><span class="nav-number">1.3.</span> <span class="nav-text">Transformer与地理学第三定律的联系</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="李博洋"
+      src="/images/cat.png">
+  <p class="site-author-name" itemprop="name">李博洋</p>
+  <div class="site-description" itemprop="description">生命太短暂，不要去做一些根本没有人想要的东西。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com//BoyangL1" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;&#x2F;BoyangL1" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:liboyang0209@gmail.com" title="E-Mail → mailto:liboyang0209@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.boyangl1.cn/2023/05/15/attention/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="李博洋">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boyang's blog">
+      <meta itemprop="description" content="生命太短暂，不要去做一些根本没有人想要的东西。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Why attention is all you need? | Boyang's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Why attention is all you need?
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-05-15 18:02:23" itemprop="dateCreated datePublished" datetime="2023-05-15T18:02:23+08:00">2023-05-15</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="why-attention-is-all-you-need">Why attention is all you
+need?</h1>
+<p>可以先参考<a
+target="_blank" rel="noopener" href="https://luweikxy.gitbook.io/machine-learning-notes/self-attention-and-transformer">Self-atteentio&amp;Transformer</a>对算法有一个大概的了解。</p>
+<h2 id="依赖从时序神经网络说起">依赖——从时序神经网络说起</h2>
+<p>在transformer以前，解决序列问题大多采用时序神经网络的方法，在RNN统治的阶段有许多为了解决“遗忘”问题而提出的结构，如LSTM、GRU等。这些结构的提出大多建立在时序相关性的思维基础上，即越邻近的时间单元互相之间的影响更大，不相关的信息便在时序传播的过程中不断衰减，直至不再产生影响。然而，“越邻近越相关”的思想似乎在时序数据的也并非如此绝对，例如我们总会在某一个时刻想起很久以前的记忆，当你读到这里的时候也应该记得本文的中心是讨论transformer与attention，虽然这两个词只在本段的开头和题目中提起过。因此，我们需要抛弃时间线性流逝的固有思想，转而寻求一种能够对远距离单元建立关系的方法。Transformer则刚好满足我们对于建立长期依赖的需求。</p>
+<span id="more"></span>
+<h2 id="attention-思想从何而来">Attention-思想从何而来？</h2>
+<p>Transformer最核心的机制不外乎Attention，即将输入变量X转化为Q(query)、K(key)、V(value)，然后通过Q·K来作为V的权重，越相关的单元Q·K的值便越大，信息保存率也越高。有一种解释说，Attention中的Query，Key，Value的概念源于信息检索系统。举个简单的例子，当你在淘宝搜索某件商品时，你在搜索栏中输入的信息为Query，然后系统根据Query为你匹配Key，根据Query和Key的相似度得到匹配内容。以搜索“游戏机”举例：</p>
+<ul>
+<li>Query(to match
+others)：输入信息，具有引导作用，包含我们需要哪些信息这个想法（我在搜索栏中输入：游戏机，我希望系统返回一些相似的商品给我）</li>
+<li>Key(to be
+matched)：内容信息，表示其他待匹配的商品（当系统收到游戏机这样的信息后，去匹配数据库中的所有商品。switch可表示为“掌上游戏机”，ps5可表示为“家庭游戏机”，iphone可表示为“便携电话”，利用embedding将上述关键词转化为数字就成为了信息检索中的key）</li>
+<li>Attention(Q,
+K)：表示Query和Key的匹配程度（系统中商品（Key）很多，其中符合我的描述（Query）的商品的匹配程度会高一点）</li>
+<li>Value(information to be
+extracted)：信息本身，V只是单纯表达了输入特征的信息</li>
+</ul>
+<p>为什么简单的信息检索思想能够解决时序数据中的长期依赖问题？ChatGPT这样回答：</p>
+<blockquote>
+<p>The statement "Attention is all you need" refers to the concept
+behind the Transformer model, a neural network architecture that has
+proven highly successful in natural language processing tasks.</p>
+</blockquote>
+<blockquote>
+<p>Traditionally, recurrent neural networks (RNNs) were used to process
+sequential data like text, but they suffer from limitations such as
+difficulties in parallelization and capturing long-range dependencies.
+The Transformer model introduced the concept of self-attention mechanism
+to overcome these limitations.</p>
+</blockquote>
+<blockquote>
+<p>Self-attention allows the model to weigh the importance of different
+words or tokens in a sequence by calculating attention scores. It does
+this by computing the affinity between each word and every other word in
+the sequence. The attention scores determine how much attention the
+model should allocate to each word when processing the sequence.</p>
+</blockquote>
+<blockquote>
+<p>The key insight is that by using attention, the model can directly
+focus on relevant parts of the input sequence while suppressing
+irrelevant parts. This attention mechanism enables the model to capture
+long-range dependencies without relying on recurrent connections.</p>
+</blockquote>
+<blockquote>
+<p>The "attention is all you need" statement emphasizes that by using
+attention mechanisms effectively, the Transformer model can achieve
+state-of-the-art performance in various natural language processing
+tasks, such as machine translation, text summarization, and language
+understanding. The model doesn't rely on complex recurrent connections
+or specialized architectures but rather harnesses the power of attention
+to process and understand sequential data effectively.</p>
+</blockquote>
+<p><strong>“通过使用注意力，模型可以直接关注输入序列的相关部分，而抑制不相关的部分。这种注意机制使模型能够捕捉到长距离的依赖关系，而不需要依赖递归连接。”</strong>
+Transformer的attention结构捕捉了远距离的依赖关系，而依据位置的embedding结构则认为越邻近的元素相关性更大，这一想法与地理学第一定律的思想不谋而合，即万物都是相关的，但是越邻近的事务越相关。这启发了我们对于地理学的思考，不应当仅仅把空间当作容器，更应当将其视作看待世界的一种方式。空间充斥着我们周围，并潜移默化地影响着我们思考问题的方式，我们对于问题的组织（如知识图谱、思维导图）也在潜意识中形式化为了空间的形式，深入思考空间的结构，有可能是突破<strong>智能</strong>的下一个缺口。</p>
+<h2
+id="transformer与地理学第三定律的联系">Transformer与地理学第三定律的联系</h2>
+<p>当我们进一步探讨Transformer模型和地理学第三定律之间的相似性时，可以注意到它们都涉及到距离要素的嵌入（embedding）和远距离依赖的概念。</p>
+<p>在Transformer模型中，距离要素的嵌入是通过将位置信息编码到输入序列中来实现的。这样，模型可以在处理输入时考虑到不同位置之间的距离和关系。这种嵌入方式使得模型能够更好地理解序列中远距离位置的上下文，并在生成输出时综合考虑远距离依赖的影响。</p>
+<p>类似地，地理学第三定律强调了距离在地理空间上的重要性。虽然远距离的地理位置可能在空间上相隔很远，但它们之间仍存在相互影响和相关性。在地理学的研究中，通过距离要素的嵌入，例如地理距离、交通连接等，我们可以量化和考虑远距离位置之间的相互作用。这种嵌入方式使得我们能够更全面地理解地理现象和过程，以及其在空间上的分布和变化。</p>
+<p>因此，Transformer模型和地理学第三定律都认识到距离要素的重要性，并通过嵌入这些要素来处理远距离依赖。Transformer模型通过位置嵌入来捕捉输入序列中的远距离上下文信息，而地理学第三定律通过距离要素的嵌入来揭示地理现象和过程之间的远距离相关性。这种相似性进一步突出了它们之间的一致性思考方式。因此，地理学第三定律对人工智能的发展提供了一些启示，特别是在处理跨空间和跨领域的数据时。</p>
+<ol type="1">
+<li><p>考虑远距离依赖：地理学第三定律强调了远距离地理位置之间的相关性，这一概念可以激发人工智能领域对于远距离依赖关系的关注。在机器学习和深度学习中，传统的模型可能更关注局部信息，而对远距离的关联性了解较少。受到地理学第三定律的启发，我们可以设计更加综合考虑远距离依赖的模型，以更全面地理解和处理数据。</p></li>
+<li><p>融合多领域数据：地理学第三定律提醒我们地理现象的解释需要考虑不同领域的数据，例如地理位置、环境条件、人口分布等。这种综合多领域数据的思想也可以应用于人工智能领域。通过整合来自不同领域的数据，可以获得更全面的信息，促进更准确的模型训练和决策制定。</p></li>
+<li><p>跨空间数据处理：地理学第三定律提醒我们即使在空间上相隔较远的地理位置之间也存在相关性。这种思想可以启发人工智能领域在跨空间数据处理方面的发展。例如，在传感器网络、物联网等领域，不同地理位置的数据可以相互影响和交互，通过利用这种相关性，可以更好地理解和预测跨地理区域的事件和趋势。</p></li>
+<li><p>空间推理和预测：地理学第三定律的观点可以促进人工智能在空间推理和预测方面的发展。通过考虑地理位置之间的远距离依赖关系，我们可以更好地预测和模拟地理现象的演化过程。这对于城市规划、交通管理、灾害预警等应用具有重要意义。</p></li>
+</ol>
+<p>总的来说，地理学第三定律启示人工智能领域的发展，提醒我们关注跨空间和跨领域的数据相关性，融合多领域数据，处理跨空间数据，以及进行空间推理和预测。这些思想有助于构建更全面、准确和智能的人工智能系统，使其更好地理解和应对复杂的现实世界问题。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>只想买点薯条</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="李博洋 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.png" alt="李博洋 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E5%9C%B0%E7%90%86%E5%AD%A6%E5%AE%9A%E5%BE%8B/" rel="tag"># 地理学定律</a>
+              <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" rel="tag"># 人工智能</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/03/15/%E7%A9%BA%E9%97%B4%E8%AE%A4%E7%9F%A5%E6%A8%A1%E5%9E%8B/" rel="prev" title="空间认知模型">
+                  <i class="fa fa-chevron-left"></i> 空间认知模型
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李博洋</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.1/es5/tex-mml-chtml.js","integrity":"sha256-hlC2uSQYTmPsrzGZTEQEg9PZ1a/+SV6VBCTclohf2og="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
