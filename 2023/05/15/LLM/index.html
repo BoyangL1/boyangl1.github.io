@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.boyangl1.cn","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.12.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="一、LLM发展的简要过程 LLM（Language Model）是一种基于机器学习的语言模型，可以用于生成自然语言文本。以下是LLM发展的简要过程：  经典语言模型：早期的语言模型主要基于统计方法，如n-gram模型。这些模型利用统计概率来预测一个单词或短语在给定上下文中出现的可能性。这些模型在短语和句子的生成方面存在限制，无法处理复杂的语言结构和上下文依赖关系。 神经网络语言模型：随着">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LLM发展——拥抱大模型时代">
+<meta property="og:url" content="http://www.boyangl1.cn/2023/05/15/LLM/index.html">
+<meta property="og:site_name" content="Boyang&#39;s blog">
+<meta property="og:description" content="一、LLM发展的简要过程 LLM（Language Model）是一种基于机器学习的语言模型，可以用于生成自然语言文本。以下是LLM发展的简要过程：  经典语言模型：早期的语言模型主要基于统计方法，如n-gram模型。这些模型利用统计概率来预测一个单词或短语在给定上下文中出现的可能性。这些模型在短语和句子的生成方面存在限制，无法处理复杂的语言结构和上下文依赖关系。 神经网络语言模型：随着">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-05-15T10:02:23.000Z">
+<meta property="article:modified_time" content="2023-06-06T03:58:51.035Z">
+<meta property="article:author" content="李博洋">
+<meta property="article:tag" content="人工智能">
+<meta property="article:tag" content="大语言模型">
+<meta property="article:tag" content="ChatGPT">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://www.boyangl1.cn/2023/05/15/LLM/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://www.boyangl1.cn/2023/05/15/LLM/","path":"2023/05/15/LLM/","title":"LLM发展——拥抱大模型时代"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>LLM发展——拥抱大模型时代 | Boyang's blog</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Boyang's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">分享生活，交流知识</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">21</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">3</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">19</span></a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80llm%E5%8F%91%E5%B1%95%E7%9A%84%E7%AE%80%E8%A6%81%E8%BF%87%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">一、LLM发展的简要过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E5%BD%93%E5%89%8D%E4%B8%BB%E6%B5%81llm%E7%AE%80%E8%A6%81%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.</span> <span class="nav-text">二、当前主流LLM简要介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AD%E6%BA%90%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.1.</span> <span class="nav-text">2.1闭源模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BD%E5%A4%96%E9%97%AD%E6%BA%90%E5%A4%A7%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.1.1.</span> <span class="nav-text">2.1.1国外闭源大模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BD%E5%86%85%E9%97%AD%E6%BA%90%E5%A4%A7%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.1.2.</span> <span class="nav-text">2.1.2 国内闭源大模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E6%BA%90%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.2.</span> <span class="nav-text">2.2开源模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BD%E5%A4%96%E5%BC%80%E6%BA%90%E5%A4%A7%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.2.1国外开源大模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BD%E5%86%85%E5%BC%80%E6%BA%90%E5%A4%A7%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.2.2 国内开源大模型</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89llm%E8%AE%AD%E7%BB%83%E6%96%B9%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">三、LLM训练方式</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="李博洋"
+      src="/images/cat.png">
+  <p class="site-author-name" itemprop="name">李博洋</p>
+  <div class="site-description" itemprop="description">生命太短暂，不要去做一些根本没有人想要的东西。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com//BoyangL1" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;&#x2F;BoyangL1" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:liboyang0209@gmail.com" title="E-Mail → mailto:liboyang0209@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.boyangl1.cn/2023/05/15/LLM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="李博洋">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boyang's blog">
+      <meta itemprop="description" content="生命太短暂，不要去做一些根本没有人想要的东西。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="LLM发展——拥抱大模型时代 | Boyang's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          LLM发展——拥抱大模型时代
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-05-15 18:02:23" itemprop="dateCreated datePublished" datetime="2023-05-15T18:02:23+08:00">2023-05-15</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="一llm发展的简要过程">一、LLM发展的简要过程</h1>
+<p>LLM（Language
+Model）是一种基于机器学习的语言模型，可以用于生成自然语言文本。以下是LLM发展的简要过程：</p>
+<ol type="1">
+<li><p>经典语言模型：早期的语言模型主要基于统计方法，如n-gram模型。这些模型利用统计概率来预测一个单词或短语在给定上下文中出现的可能性。这些模型在短语和句子的生成方面存在限制，无法处理复杂的语言结构和上下文依赖关系。</p></li>
+<li><p>神经网络语言模型：随着深度学习的兴起，神经网络语言模型逐渐流行起来。其中，循环神经网络（RNN）和长短期记忆网络（LSTM）被广泛应用于语言建模任务。这些模型能够捕捉到长距离的上下文信息，并在一定程度上解决了传统语言模型的问题。</p></li>
+<li><p>GPT的出现：GPT（Generative Pre-trained
+Transformer）是一种基于Transformer架构的语言模型，由OpenAI提出。GPT采用了无监督的预训练方法，通过在大规模文本语料上进行训练，使模型学习到丰富的语言知识和上下文关系。GPT模型的参数规模庞大，使得它具备了出色的语言生成能力，可以生成连贯、有逻辑的文本。</p></li>
+<li><p>GPT-3的突破：GPT-3是目前最先进的LLM之一。它具有1750亿个参数，是迄今为止规模最大的语言模型之一。GPT-3不仅可以生成高质量的文本，还可以执行一些简单的任务，如翻译、摘要等。它通过上下文理解和创造性的生成，展示了令人惊讶的表现能力。</p></li>
+<li><p>模型应用的广泛性：LLM的应用领域越来越广泛。它可以用于自动化写作、机器翻译、智能客服、语言理解和生成等任务。LLM的发展也带动了聊天机器人、虚拟助手和智能对话系统的发展，为人们提供了更自然、智能的交流体验。</p></li>
+</ol>
+<p>LLM的发展经历了从统计模型到神经网络模型的转变，从传统模型到GPT这样的大规模预训练模型的演进。LLM的进步在很大程度上推动了自然语言处理领域的发展，并在各个领域展示了巨大的潜力和应用前景。</p>
+<span id="more"></span>
+<h1 id="二当前主流llm简要介绍">二、当前主流LLM简要介绍</h1>
+<h2 id="闭源模型">2.1闭源模型</h2>
+<h3 id="国外闭源大模型">2.1.1国外闭源大模型</h3>
+<ol type="1">
+<li><p>ChatGPT-3.5：ChatGPT是一个由OpenAI开发的大型语言模型。基于GPT-3.5架构训练而成，被认为是迄今为止最先进的语言模型之一。GPT-3具有1750亿个参数，是当时最大的预训练模型之一。其被训练过很多不同类型的文本数据，包括书籍、文章、网页和对话记录，以便能够为用户提供广泛的知识和信息。它可以处理各种自然语言处理任务和对话场景，包括回答各种问题，提供解释、建议和指导。ChatGPT可以用多种自然语言处理任务，如文本生成、摘要、翻译、情感分析等。</p></li>
+<li><p>GPT-4：GPT-4是OpenAI开发的一种大规模多模态语言模型，可以接受图像和文本输入，输出文本。它是继GPT-3之后的最新进展，具有更高的准确性、创造力和推理能力。它可以在各种专业和学术的基准测试中达到人类水平的表现，例如在模拟的律师资格考试中得分位于前10%。它还经过了6个月的安全和对齐的训练，使其更少地产生不符合事实或不合适的回答。GPT-4目前可以通过ChatGPT和API来使用文本输入功能。</p></li>
+<li><p>PaLM：</p></li>
+</ol>
+<ul>
+<li><p>PaLM是谷歌在2022年4月发布的一个自然语言预训练大模型，拥有5400亿参数，与OpenAI的GPT系列或Meta的LLaMA系列模型类似，可执行各种文本生成和编辑任务。</p></li>
+<li><p>PaLM
+2是谷歌在2023年5月发布的PaLM的升级版，拥有5620亿参数，能通过"思考过程提示"获得更准确的逻辑推理能力，减少AI生成内容中的错误和胡言乱语.</p></li>
+<li><p>Gemini是谷歌DeepMind正在开发的一套新的大语言模型，它可以识别"合成生成的内容"，即由AI创建的文本、图像和镜头，并通过添加图像元数据，可以更轻松地识别合成图像。</p></li>
+<li><p>BERT是谷歌在2018年提出的一种预训练语言模型，全称为Bidirectional
+Encoder Representations from
+Transformers，它利用大量的无标注文本，通过两个任务来学习语言的表征：屏蔽语言模型和相邻句子预测。它的特点是使用了深层的双向Transformer编码器，能够同时利用左右两个方向的上下文信息。它可以被微调或者特征抽取来适应不同的自然语言处理任务，例如文本分类、阅读理解、命名实体识别等
+。</p></li>
+</ul>
+<ol start="4" type="1">
+<li>WizardLM：WizardLM是一个Meta开发的大型语言模型（LLM）。它是通过使用Evol-Instruct算法，利用LLM自身的能力，将初始的指令逐步改写成更复杂的指令，然后用这些指令数据对LLaMA模型进行微调得到的。WizardLM的目标是提升LLM的智能性和灵活性，使其能够处理各种不同领域和场景的指令。目前，WizardLM有7B和13B两个版本，分别在Alpaca数据集和ShareGPT数据集上进行了训练¹。人类评估结果显示，WizardLM在高复杂度的指令上优于ChatGPT。</li>
+</ol>
+<h3 id="国内闭源大模型">2.1.2 国内闭源大模型</h3>
+<ol type="1">
+<li><p>百度-文心一言：百度文心一言是一款基于文心大模型技术推出的生成式对话产品。它具备跨模态、跨语言的深度语义理解与生成能力，有五大能力，文学创作、商业文案创作、数理逻辑推算、中文理解、多模态生成。它可以根据用户的指令，完成问答、文本创作、代码查错等任务，应用于搜索问答、内容创作生成、智能办公等众多领域。</p></li>
+<li><p>腾讯-HunYuan：腾讯HunYuan是腾讯的AI预训练大模型和解决方案，覆盖了NLP、CV、多模态等基础大模型以及众多行业/领域任务模型。它基于腾讯的底层算力和低成本高速网络基础设施，推出了国内首个低成本、可落地的万亿NLP大模型HunYuan-NLP
+1T，并在多个国际和国内权威榜单中取得第一名23。它可以应用于搜索问答、内容创作生成、智能办公等众多领域。</p></li>
+<li><p>阿里-通义：阿里通义是阿里的AI预训练大模型和解决方案，覆盖了语言、听觉、多模态等领域。它致力于实现接近人类智慧的通用智能，让AI从"单一感官"到"五官全开"。它推出了通义千问大模型，可以根据用户的指令，完成问答、文本创作、代码查错等任务，应用于会议讨论、教学培训、调研访谈、视频观看等场景。</p></li>
+<li><p>华为-盘古：华为盘古是华为的AI预训练大模型和解决方案，包括NLP大模型、CV大模型、多模态大模型、科学计算大模型等。它是业界首个超千亿参数的中文预训练大模型，被认为是最接近人类中文理解能力的AI大模型。它可以应用于医疗、工业、交通、城市地质等领域。它还推出了盘古Chat，一款直接对标ChatGPT的多模态千亿级大模型产品，可以用于会议讨论、教学培训、调研访谈、视频观看等场景。</p></li>
+</ol>
+<h2 id="开源模型">2.2开源模型</h2>
+<h3 id="国外开源大模型">2.2.1国外开源大模型</h3>
+<ol type="1">
+<li><p>Meta-LLaMA：Meta
+AI推出的大语言模型LLaMA，其不同版本包括70亿、130亿、330亿和650亿的参数，虽然比GPT3还小，但LLaMA在许多任务上的性能都能够追平甚至超越GPT3。作为体量更小的模型，LLaMA不需要太多资源就能流畅运行，且LLaMA的训练成本及训练速度都要优于GPT3.5。而有趣的是，LLaMA起初并未开源，但在发布后不久，模型便在4chan论坛上泄露了。然而这个乌龙事件却也使LLaMA因祸得福，在"被迫"开源后，LLaMA引发了大量开发者的关注，基于其构建的模型也如雨后春笋般诞生。这场本应是不幸的事情也使得LLaMA成为了如今LLM领域最具影响力的创新来源之一。github.com/facebookresearch/llama</p></li>
+<li><p>斯坦福大学-Alpaca：Alpaca是斯坦福大学通过Meta的LLaMA
+70亿微调而成的全新模型，仅使用了52k数据，但其性能却基本达到了GPT3.5的水平。而Alpaca的关键优势则在于低到出奇的训练成本------仅需不到600美元。斯坦福大学的研究人员表示，Alpaca表现出了许多类似于OpenAI的GPT3模型的行为，但相比于GPT3，Alpaca的体积更小且各项能力更易于重现。https://github.com/tatsu-lab/stanford_alpaca</p></li>
+<li><p>伯克利-Vicuna：Vicuna是伯克利主导的团队训练出来的模型，基于
+Alpaca
+发展而来。从当前来看，可能是开源里和ChatGPT最接近（上面有提到当前在Arena
+评测上分数排名第一），而 13b 版本训练成本仅 300
+刀。https://github.com/lm-sys/FastChat</p></li>
+<li><p>阿卜杜拉国王科技大学-MiniGPT4：MiniGPT4是近期由沙特阿拉伯阿卜杜拉国王科技大学研究团队推出的一款全新开源模型。据研究人员透露，MiniGPT4具有许多类似于GPT4的功能。除了可执行复杂的视觉语言任务外，MiniGPT4还拥有与GPT4相似的图片解析功能。研究团队所发布的论文显示，为了构建MiniGPT4，研究人员使用了基于LLaMA所构建的Vicuna作为语言解码器，并使用BLIP-2视觉语言模型作为视觉解码器，且由于使用开源软件的缘故，MiniGPT可以用较少的数据和费用进行训练和微调。github.com/Vision-CAIR/MiniGPT-4</p></li>
+<li><p>Databricks-Dolly2.0：4月12日，Databricks发布了Dolly
+2.0大型语言模型。Databricks表示，Dolly2.0是业内第一个开源、指令跟随型LLM，其在透明免费的数据集上进行微调，可用于研究和商业用途。此外，Databricks还发布了Dolly
+2.0在其上进行微调的数据集，称为databricks-dolly-15k。作为Dolly模型的升级版，Dolly2.0使用了基于
+EleutherAI的Pythia模型家族中的120亿参数语言模型。虽然由于参数量和数据限制，Dolly2.0的综合性能表现略逊于同类型大模型，但对大部分开发者而言也已经足够了。由于Dolly2.0完全开源及可商用的属性，使其成为中小企业及个人开发者的福音。https://huggingface.co/databricks/dolly-v2-12b</p></li>
+<li><p>Hugging
+Face-BLOOM：BLOOM是去年由1000多名志愿者在一个名为BigScience的项目中创建的，该项目由AI初创公司Hugging
+Face利用法国政府的资金运作的。BLOOM拥有1760亿参数，研究人员表示它提供了与GPT3模型相似的准确性和有毒文本生成水平。作为目前体量最大的开源大型语言模型之一，BLOOM的训练集包含45种自然语言（含中文）和12种编程语言，1.5TB的预处理文本转化为了350B的唯一token。实验证明BLOOM在各种基准测试中都取得了有竞争力的表现，在经过多任务提示微调后也取得了更好的结果。huggingface.co/bigscience/bloom</p></li>
+<li><p>Stability-AIStableLM：4月19日，Stability
+AI发布了一个新的开源语言模型------StableLM。该模型的Alpha版本有30亿和70亿参数，后续还会推出150亿和650亿参数的版本。根据CC
+BY-SA-4.0许可证的条款，开发人员可以出于商业或研究目的自由检查、使用和修改我们的StableLM基本模型。据官方介绍，StableLM的构建基于非盈利研究中心EleutherAI所开源的多个语言模型，包括GPT-J，GPT-NeoX等，该模型在The
+Pile基础上构建的新数据集上进行训练，该数据集包含 1.5
+万亿个token。可支持4096的上下文宽度，且RL调试模型可用。但值得注意的是，该模型并为发布基准测试，也没有发布有关模型的详细信息，其基本型号上也存在一些限制性许可证。并且StableLM会抓取ChatGPT的输出内容，这会违反OpenAI的使用条款，OpenAI有权在收到通知后终止用户的访问。因此，在进行商用时，该模型依然存在一定的潜在风险。https://github.com/clue-ai/ChatYuan</p></li>
+</ol>
+<h3 id="国内开源大模型">2.2.2 国内开源大模型</h3>
+<ol type="1">
+<li><p>元语智能-ChatYuan：作为首个中文版开源对话模型，元语智能ChatYuan大模型自发布以来便在人工智能社区引发了广泛的讨论。而在近期，元语智能团队再次开源了一个全新ChatYuan系列大模型：ChatYuan-large-v2。据介绍，ChatYuan-large-v2支持在单张消费级显卡、PC甚至手机上进行推理使用。新版本支持中英双语、支持输入输出总长度最长4k，这也是继此前PromptCLUE-base、PromptCLUE-
+v1-5、ChatYuan-large-v1模型之后，元语智能的再一力作。技术方面，ChatYuan-large-v2使用了和v1版本相同的方案，并在指令微调、人类反馈强化学习、思维链等方面进行了优化。作为ChatYuan系列模型中的代表，ChatYuan-large-v2仅通过7亿参数量可以实现业界100亿参数模型的基础效果。https://github.com/clue-ai/ChatYuan</p></li>
+<li><p>清华大学-ChatGLM：ChatGLM是由清华技术成果转化的公司智谱AI开发的开源、支持中英双语的对话语言模型，基于General
+Language Model (GLM)
+架构研发，拥有62亿参数，支持在单张消费级显卡上进行推理使用，在保障平民消费能力的情况下，具有小而精的特点。ChatGLM当前版本模型的能力提升主要来源于独特的千亿基座模型GLM-130B。其不同于BERT、GPT-3以及T5架构，包含多目标函数的自回归预训练模型。研发团队参考了ChatGPT的设计思路，为ChatGLM在基座模型GLM-130B中注入了代码预训练，通过有监督微调等技术实现人类意图对齐。从具体数据及测试表现来看，ChatGLM具备兼具双语能力；易微调、部署门槛低；支持长对话与应用以及内容输出格式简单等优势。但由于模型容量较小，ChatGLM也不可避免的存在着模型记忆和语言能力较弱；可能产生错误内容和多轮对话能力不足等一些缺点。github.com/THUDM/ChatGLM-6B</p></li>
+<li><p>复旦大学-Moss：MOSS是一个支持中英双语和多种插件的开源对话语言模型，moss-moon系列模型具有160亿参数，在FP16精度下可在单张A100/A800或两张3090显卡运行，在INT4/8精度下可在单张3090显卡运行。MOSS基座语言模型在约七千亿中英文以及代码单词上预训练得到，后续经过对话指令微调、插件增强学习和人类偏好训练具备多轮对话能力及使用多种插件的能力。https://github.com/OpenLMLab/MOSS</p></li>
+<li><p>香港中文大学-LLMZoo：作为一个开源项目，它提供了大型语言模型（LLM）的数据、模型和评估基准。该项目的目标是打破"AI霸权"和民主化
+ChatGPT，让 ChatGPT 这样的 LLM
+能够跨国家和语言使用。该项目还提供了训练代码和部署方法，让用户可以自己复现一个多语言的命令跟随
+LLM。该项目已经发布了 Phoenix（支持所有语言）和
+Chimera（支持拉丁语系语言）两个模型。https://github.com/FreedomIntelligence/LLMZoo</p></li>
+<li><p>IDEA研究院-Ziya-LLaMA-13B：5 月 17 日，IDEA 研究院 CCNL
+正式推出开源通用大模型"姜子牙"系列并开源封神榜第99个通用大模型"姜子牙通用大模型v1。姜子牙通用大模型v1（Ziya-LLaMA-13B-v1）拥有130亿参数，从LLaMA-13B开始重新构建中文词表，进行千亿token量级的已知的最大规模继续预训练，使模型具备原生中文能力。再经过500万条多任务样本的有监督微调(SFT)和综合人类反馈训练（RM+PPO+HFFT+COHFT+RBRS)，进一步激发和加强各种AI任务能力。https://github.com/IDEA-CCNL/Fengshenbang-LM</p></li>
+<li><p>中文LLaMA&amp;Alpaca大模型：Chinese-LLaMA-Alpaca是一个开源项目，旨在提供中文大语言模型（Large
+Language Model,
+LLM）的训练和部署方案。该项目基于Facebook的LLaMA模型，扩充了中文词表，并使用中文数据进行二次预训练，得到了中文LLaMA模型。同时，该项目还使用了中文指令数据对中文LLaMA模型进行了精调，得到了中文Alpaca模型，提升了模型对指令的理解和执行能力。该项目还提供了预训练脚本、指令精调脚本、量化部署脚本等，方便用户自行训练和使用大语言模型。https://github.com/ymcui/Chinese-LLaMA-Alpaca</p></li>
+<li><p>Chineses-Vicuna：Chinese-Vicuna
+是一个中文低资源的llama+lora方案，结构参考alpaca。它是一个遵循指令的中文LLaMA模型，可以在单个Nvidia
+RTX-2080TI上运行，也可以在单个Nvidia
+RTX-3090上进行多轮对话。它的目标是训练一个像Vicuna一样的中文小羊驼，小而强大。https://github.com/Facico/Chinese-Vicuna</p></li>
+<li><p>阿里达摩院-ChatPLUG：ChatPLUG模型是基于PLUG的一个对话大模型，通过引入外部知识、人设信息等并采用FID(Fuse-in-Decoder)架构进行instruction微调得到，模型支持高效的输入多段外部知识、人设信息等文本进行知识增强。https://github.com/X-PLUG/ChatPLUG</p></li>
+</ol>
+<h1 id="三llm训练方式">三、LLM训练方式</h1>
+<p>LLM（Language
+Model）的训练方式通常包括两个主要步骤：预训练和微调。</p>
+<p>1.
+预训练（Pre-training）：在预训练阶段，LLM模型通过在大规模的未标记文本语料上进行训练来学习语言知识和上下文关系。这些文本可以是互联网上的大量网页、维基百科、书籍等。预训练的目标是让模型通过自我监督学习的方式，尽可能地预测下一个单词或句子在给定上下文中的出现概率。在预训练过程中，通常使用Transformer架构作为基础模型。Transformer是一种自注意力机制（self-attention）的深度神经网络架构，能够捕捉到长距离的上下文依赖关系。</p>
+<p>2.
+微调（Fine-tuning）：在预训练完成后，LLM模型需要进行微调，以适应特定的任务或领域。微调阶段使用带标签的任务特定数据集进行训练，如文本分类、问答、机器翻译等。通过在任务特定数据集上进行有监督学习，LLM模型可以学习到特定任务的特征和语言规律，进一步提升其性能。在微调过程中，一般使用梯度下降等优化算法来更新模型参数，以最小化任务特定数据集上的损失函数。微调的过程通常需要相对较少的标注数据，因为预训练的模型已经具备了一定的语言理解能力。</p>
+<p>需要注意的是，LLM的训练过程需要大量的计算资源和时间。预训练通常需要在大规模的分布式计算环境中进行，使用多个GPU或TPU进行加速。这样的规模要求限制了大部分研究人员和组织在训练LLM模型方面的能力，使得许多主流的LLM模型成为闭源或由大型技术公司提供的服务。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>只想买点薯条</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="李博洋 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.png" alt="李博洋 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" rel="tag"># 人工智能</a>
+              <a href="/tags/%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/" rel="tag"># 大语言模型</a>
+              <a href="/tags/ChatGPT/" rel="tag"># ChatGPT</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/04/15/attention/" rel="prev" title="Why attention is all you need?">
+                  <i class="fa fa-chevron-left"></i> Why attention is all you need?
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李博洋</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.1/es5/tex-mml-chtml.js","integrity":"sha256-hlC2uSQYTmPsrzGZTEQEg9PZ1a/+SV6VBCTclohf2og="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
