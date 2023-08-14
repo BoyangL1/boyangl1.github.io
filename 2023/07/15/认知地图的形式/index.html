@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.boyangl1.cn","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.12.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="认知距离与空间扭曲 由于个体的空间偏好、所处的地理环境以及社会经济环境的不同，认知地图中对于物体位置的感知与实际空间存在差异，这一差异被称作空间扭曲，其中对于距离的认知是导致空间扭曲的重要因素(Montello, 1997)。Tobler(1970)的地理学第一定律指出：&quot;万物都是空间相关的，距离邻近的事物空间相关性更大&quot;，这里的距离往往指地理距离。然而在人们的日常空间行为决策中，扭曲的认知距">
+<meta property="og:type" content="article">
+<meta property="og:title" content="认知地图的扭曲形式">
+<meta property="og:url" content="http://www.boyangl1.cn/2023/07/15/%E8%AE%A4%E7%9F%A5%E5%9C%B0%E5%9B%BE%E7%9A%84%E5%BD%A2%E5%BC%8F/index.html">
+<meta property="og:site_name" content="Boyang&#39;s blog">
+<meta property="og:description" content="认知距离与空间扭曲 由于个体的空间偏好、所处的地理环境以及社会经济环境的不同，认知地图中对于物体位置的感知与实际空间存在差异，这一差异被称作空间扭曲，其中对于距离的认知是导致空间扭曲的重要因素(Montello, 1997)。Tobler(1970)的地理学第一定律指出：&quot;万物都是空间相关的，距离邻近的事物空间相关性更大&quot;，这里的距离往往指地理距离。然而在人们的日常空间行为决策中，扭曲的认知距">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-07-15T08:36:06.000Z">
+<meta property="article:modified_time" content="2023-08-14T16:25:34.533Z">
+<meta property="article:author" content="李博洋">
+<meta property="article:tag" content="认知地图">
+<meta property="article:tag" content="神经科学">
+<meta property="article:tag" content="空间认知">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://www.boyangl1.cn/2023/07/15/%E8%AE%A4%E7%9F%A5%E5%9C%B0%E5%9B%BE%E7%9A%84%E5%BD%A2%E5%BC%8F/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://www.boyangl1.cn/2023/07/15/%E8%AE%A4%E7%9F%A5%E5%9C%B0%E5%9B%BE%E7%9A%84%E5%BD%A2%E5%BC%8F/","path":"2023/07/15/认知地图的形式/","title":"认知地图的扭曲形式"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>认知地图的扭曲形式 | Boyang's blog</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Boyang's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">分享生活，交流知识</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">22</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">3</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">20</span></a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A4%E7%9F%A5%E8%B7%9D%E7%A6%BB%E4%B8%8E%E7%A9%BA%E9%97%B4%E6%89%AD%E6%9B%B2"><span class="nav-number">1.</span> <span class="nav-text">认知距离与空间扭曲</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A4%E7%9F%A5%E5%9C%B0%E5%9B%BE%E7%9A%84%E5%BD%A2%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">认知地图的形式</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="李博洋"
+      src="/images/cat.png">
+  <p class="site-author-name" itemprop="name">李博洋</p>
+  <div class="site-description" itemprop="description">生命太短暂，不要去做一些根本没有人想要的东西。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com//BoyangL1" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;&#x2F;BoyangL1" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:liboyang0209@gmail.com" title="E-Mail → mailto:liboyang0209@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.boyangl1.cn/2023/07/15/%E8%AE%A4%E7%9F%A5%E5%9C%B0%E5%9B%BE%E7%9A%84%E5%BD%A2%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="李博洋">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boyang's blog">
+      <meta itemprop="description" content="生命太短暂，不要去做一些根本没有人想要的东西。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="认知地图的扭曲形式 | Boyang's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          认知地图的扭曲形式
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-07-15 16:36:06" itemprop="dateCreated datePublished" datetime="2023-07-15T16:36:06+08:00">2023-07-15</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="认知距离与空间扭曲">认知距离与空间扭曲</h1>
+<p>由于个体的空间偏好、所处的地理环境以及社会经济环境的不同，认知地图中对于物体位置的感知与实际空间存在差异，这一差异被称作空间扭曲，其中对于距离的认知是导致空间扭曲的重要因素(Montello,
+1997)。Tobler(1970)的地理学第一定律指出："万物都是空间相关的，距离邻近的事物空间相关性更大"，这里的距离往往指地理距离。然而在人们的日常空间行为决策中，扭曲的认知距离往往发挥着更加重要的作用，因此在预测人们的空间行为时，如消费者的商店选择和路径选择行为的模型中，使用认知距离会得到更加合理的结果(Manley
+et al., 2021)。</p>
+<p><span id="more"></span></p>
+<p>空间分析的基础是欧式空间上的几何要素编码，欧式空间几何编码的好处是易测度、易转化、易编码，这也是GIS空间分析的基础。然而人们对城市空间内距离的感知存在不确定性，邻里区域、社会经济结构的影响无法通过GIS进行清晰的定义，直接在欧式空间进行分析可能导致有偏的结果(Kwan,2012)。鉴于这一局限性，许多基于非欧空间的模型被提出，用以对基于距离的空间分析框架进行重新定义。</p>
+<p>在时间地理学中，为了更好地描述人类的移动，研究者引入了欧几里得空间的时间维度增强方法。这种方法通过在欧几里得空间中添加时间维度，以时空棱镜的形式来计算时空可达性(Kwan,
+2013; Dodge &amp; Nelson,
+2023)。然而，这种表示也存在一些限制，它忽略了人们对于空间的主观认知。现实世界中的空间通常是复杂多样的，可能存在地理障碍、不规则的地形、非线性的移动路径等非欧几里得特性，认知地图的形成是基于个体或群体的主观认知和经验，而不仅仅是物理空间内锚点之间的连接关系。因此，这种方法可能无法很好地反映人们对于城市空间的认知结构。</p>
+<p>在空间数据分析中，除了传统的基于地理位置坐标的空间数据外，还可以利用空间特征之间的拓扑连通性来进行分析(Derrible
+&amp; Kennedy,
+2009)。这种拓扑连通性可以是空间的，比如地理空间中的邻接关系，也可以是非空间的，比如社交网络中的连接关系。在这种情况下，区域属性的计算可以基于各种拓扑因素，例如特征之间的流动（货物、人员、资源）、空间连通性的强度，以及基础设施的连接情况等(Barthélemy,
+2011)。这样的分析可以帮助我们更好地理解城市系统的特征，包括交通流动、人口流动和资源流动等，对城市规划和交通规划等方面有着重要的应用价值(Barthelemy,
+2016)。同时，将拓扑连通性纳入空间数据分析，可以使我们从不同的角度探索空间数据的内在结构和关联性。</p>
+<p>在空间交互领域，绝对的物理距离是衡量人口移动的糟糕指标(Plane,
+1984)，个人的空间行为受到个人效用函数以及心理要素的影响，例如对距离的感知(Halás
+et al.,
+2014)，因此距离衰减常与其他变量相结合(如出行效用、主观认知距离等)，用以修正重力模型来解释人口移动的空间交互行为(Vale
+&amp; Pereira, 2017; Gao et al.,
+2021)。大规模人类时空轨迹的出现也为空间交互问题提供了新的思考方案。Yang(2019)等基于深圳的手机信令首次填补了距离衰减的空间异质性分析空白。Šveda和Madajová(2023)基于捷克手机信令数据对城市内部尺度上的距离衰减进行分析，并对距离衰减的空间异质性问题进行进一步的探讨，给出了1km基于城市网格的最佳距离衰减模型。基于拓扑数据分析的认知地图构建方法可以帮助发现锚点之间的关联与结构，却无法定义边的联系权重，而基于距离衰减的重力模型则较好地解释了人口流动的空间交互，可以提供数据和现实世界的基础，作为构建认知地图时边权重的输入。</p>
+<p>上述模型从不同的角度对人类移动进行了分析，然而对于认知距离这一影响行为决策的核心变量讨论较少，如何将群体的系统性认知偏差整合到基于距离的空间分析模型中仍有待进一步探索。</p>
+<h1 id="认知地图的形式">认知地图的形式</h1>
+<p>认知地图不等同于一般的测绘地图，而且客观实体和人们对这一实体的认知地图之间也不存在一个简单的一一对应的投影关系，而是被认为是对真实世界的一个不完整的、歪曲的、多尺度的描述(Golledge,
+1997)。对于认知地图是一种怎样的形式，存在两种不同的隐喻，一些证据表明认知结构与欧式空间存在高度相关性(Golledge
+&amp; Spector, 1978; Widdowson &amp; Wang,
+2022)，但同时也有大量证据表明，人们会按照拓扑结构来组织认知地图 (Haq
+&amp; Zimring, 2003; Dabaghian et al.,
+2014)。因此，当前一些研究者试图统一这两种理论，将欧式信息与拓扑结构融合在认知地图中。</p>
+<p>位置细胞和网格细胞的发现为欧式空间的假设提供了生理学基础。位置细胞会在生物体处于特定位置时被激活，作为首次发现位置细胞的学者，O'Keefe与Nadel(1979)认为真实世界到认知地图的投影过程是符合三维欧式法则的，认知地图同测绘地图一样符合欧式空间的比例，这样一致的结构有助于生物体实现灵活的空间行为。网络细胞的激活方式则类似蜂巢的六边形网络，帮助大脑形成一幅高精度的认识地图(Moser
+et al.,
+2008)。这两种细胞共同实现了对三维空间的地标锚定与背景尺度划分。</p>
+<p>不过也有研究发现人类的空间认知违背了欧式几何的假设(Madl et al.,
+2015)，人们对于距离估计往往不满足对称性原理(Moar &amp; Carleton, 1985;
+Bongiorno et al.,
+2021)。Eichenbaum(1999)对欧式空间的假设提出了质疑，他的记忆空间理论认为认知地图是在一个复杂的记忆空间中形成的，对物理空间的表征不过是记忆节点的连接。在记忆空间理论的启发下，一些学者提出了拓扑图作为认知地图形式的假设。不同于欧式地图的精准度量，拓扑图侧重于位置之间的连接性，将地标或锚点作为拓扑图中的认知节点(Epstein
+&amp; Vass, 2014; Yesiltepe et al.,
+2021)，而边则代表位置之间的连接关系。与欧式地图假设相比，拓扑图对记忆资源的的占用更少，这一假设也启发了机器人同步建图(SLAM)领域对于地图的构建(Beeson
+et al., 2010; Blochliger et al.,
+2018)。然而，虽然一些研究指出海马体产生了空间环境的拓扑表示 (Javadi et
+al., 2017; Babichev et al.,
+2019)，但拓扑形式的认知地图仍然缺乏直接的神经科学证据。此外，在图模式中，拓扑图的连接序列必须实际轨迹序列保持一致(Babichev
+et al.,
+2016)，这导致纯粹的拓扑形式的认知地图在解释寻路捷径行为时面临障碍。</p>
+<p>基于两种方法的优势与不足，部分学者试图进行融合，将欧式度量与拓扑连接信息统一进认知地图中。SMP模型提供了一种类似的认知地图表达方式(Uria
+et al., 2020)，该模型由两个关键部分组成：(1)
+一个抽象的路径整合模块，该模块类似于地图的网格，可在不同的环境构建类似的欧式空间感知；(2)
+一个关系记忆模块，该模块像地址簿一样，将抽象的位置表征与感觉表征联系起来。此外，Whittington等(2020)提出TEM模型，试图统一空间知识与关系记忆。TEM模型同样将认知划分为图结构-感官表征两大部分，图结构指的是空间或关系中隐藏的欧式结构表征，而感官观察指的是我们从环境中得到的关键拓扑认知节点。作为一种关系记忆模型，TEM认为不同的空间/关系中的结构表征可以跨环境保存，并提供了一种结构泛化的机制来统一空间与非空间的知识。尽管TEM和SMP在概念上类似的模型，但它们有不同的实现方式。SMP用机器学习中的循环神经网络来实现记忆，而TEM使用更符合生物现实的Hebbian学习与Hopfield网络。最后，SR模型认为欧式地图和拓扑图表征只是相同潜在神经编码的不同表现(吴文雅
+&amp; 王亮,
+2023)，该模型认为未来预期奖励最大的状态更有可能被人所认知。在拓扑图结构中,
+每个状态为一个节点, 状态间的转移概率为节点间的联结权重，而在欧式地图中,
+每个状态为一个关键的欧式位置, 状态间转移则对应于不同位置间的路径。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>只想买点薯条</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="李博洋 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.png" alt="李博洋 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A4%E7%9F%A5%E5%9C%B0%E5%9B%BE/" rel="tag"># 认知地图</a>
+              <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%A7%91%E5%AD%A6/" rel="tag"># 神经科学</a>
+              <a href="/tags/%E7%A9%BA%E9%97%B4%E8%AE%A4%E7%9F%A5/" rel="tag"># 空间认知</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/05/15/LLM/" rel="prev" title="LLM发展——拥抱大模型时代">
+                  <i class="fa fa-chevron-left"></i> LLM发展——拥抱大模型时代
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李博洋</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.1/es5/tex-mml-chtml.js","integrity":"sha256-hlC2uSQYTmPsrzGZTEQEg9PZ1a/+SV6VBCTclohf2og="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
