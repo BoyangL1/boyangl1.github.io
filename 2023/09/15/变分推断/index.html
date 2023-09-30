@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.boyangl1.cn","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.12.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="简介 变分推断（Variational Inference）是一种概率图模型推断方法，用于估计复杂概率分布的后验分布。它的目标是通过一个简单的参数化分布（通常称为变分分布或近似分布）来近似表示复杂的后验分布，从而使推断问题变得更加可行。 在概率图模型中，我们通常希望找到给定一些观察数据的情况下，未观察到的随机变量的后验分布。这个后验分布通常是难以直接计算的，特别是对于高维复杂模型。变分推断的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="变分推断推到">
+<meta property="og:url" content="http://www.boyangl1.cn/2023/09/15/%E5%8F%98%E5%88%86%E6%8E%A8%E6%96%AD/index.html">
+<meta property="og:site_name" content="Boyang&#39;s blog">
+<meta property="og:description" content="简介 变分推断（Variational Inference）是一种概率图模型推断方法，用于估计复杂概率分布的后验分布。它的目标是通过一个简单的参数化分布（通常称为变分分布或近似分布）来近似表示复杂的后验分布，从而使推断问题变得更加可行。 在概率图模型中，我们通常希望找到给定一些观察数据的情况下，未观察到的随机变量的后验分布。这个后验分布通常是难以直接计算的，特别是对于高维复杂模型。变分推断的">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-09-15T08:36:06.000Z">
+<meta property="article:modified_time" content="2023-09-30T06:37:29.929Z">
+<meta property="article:author" content="李博洋">
+<meta property="article:tag" content="逆向强化学习">
+<meta property="article:tag" content="贝叶斯">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://www.boyangl1.cn/2023/09/15/%E5%8F%98%E5%88%86%E6%8E%A8%E6%96%AD/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://www.boyangl1.cn/2023/09/15/%E5%8F%98%E5%88%86%E6%8E%A8%E6%96%AD/","path":"2023/09/15/变分推断/","title":"变分推断推到"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>变分推断推到 | Boyang's blog</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Boyang's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">分享生活，交流知识</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">23</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">3</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">21</span></a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E5%AE%9A%E4%B9%89"><span class="nav-number">2.</span> <span class="nav-text">问题定义</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#elbo"><span class="nav-number">3.</span> <span class="nav-text">ELBO</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%98%E5%88%86%E6%8E%A8%E6%96%AD"><span class="nav-number">4.</span> <span class="nav-text">变分推断</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="李博洋"
+      src="/images/cat.png">
+  <p class="site-author-name" itemprop="name">李博洋</p>
+  <div class="site-description" itemprop="description">生命太短暂，不要去做一些根本没有人想要的东西。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com//BoyangL1" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;&#x2F;BoyangL1" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:liboyang0209@gmail.com" title="E-Mail → mailto:liboyang0209@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.boyangl1.cn/2023/09/15/%E5%8F%98%E5%88%86%E6%8E%A8%E6%96%AD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="李博洋">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boyang's blog">
+      <meta itemprop="description" content="生命太短暂，不要去做一些根本没有人想要的东西。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="变分推断推到 | Boyang's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          变分推断推到
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-09-15 16:36:06" itemprop="dateCreated datePublished" datetime="2023-09-15T16:36:06+08:00">2023-09-15</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="简介">简介</h1>
+<p>变分推断（Variational
+Inference）是一种概率图模型推断方法，用于<strong>估计复杂概率分布的后验分布</strong>。它的目标是通过一个简单的参数化分布（通常称为变分分布或近似分布）来近似表示复杂的后验分布，从而使推断问题变得更加可行。</p>
+<p>在概率图模型中，我们通常希望找到给定一些观察数据的情况下，未观察到的随机变量的后验分布。这个后验分布通常是难以直接计算的，特别是对于高维复杂模型。变分推断的基本思想是将后验推断问题转化为一个优化问题，其中我们试图找到一个变分分布，使其在某种度量下最接近真实的后验分布。</p>
+<span id="more"></span>
+<h1 id="问题定义">问题定义</h1>
+<p>我们以贝叶斯逆向强化学习为例去介绍变分推断的过程。逆向强化学习是一种从观察到的代理智能行为中推断出代理智能目标函数（通常称为奖励函数）的方法。贝叶斯逆向强化学习扩展了这一思想，引入了贝叶斯方法，以处理不确定性，并提供了一种概率框架来估计奖励函数。假设我们一系列观测变量<span
+class="math inline">\(x\)</span>（专家轨迹），想要推断出隐变量<span
+class="math inline">\(z\)</span>（状态对应的奖励值）的分布，我们可以将这一过程写为后验概率的形式<span
+class="math inline">\(p(z|x)\)</span>。</p>
+<p>但由于<span
+class="math inline">\(p(z|x)\)</span>难以求解，因此我们希望找到一个最优的替代分布<span
+class="math inline">\(q(z)\)</span>，其是距离<span
+class="math inline">\(p(z|x)\)</span>最近的分布。假设<span
+class="math inline">\(L\)</span>是空间<span
+class="math inline">\(Q\)</span>上的距离函数，那么要寻找的概率分布可以定义为下式：</p>
+<p><span class="math display">\[q^{*}\left( z \right) =
+\underset{q\left( z \right) \in Q}{\text{argmin}}L(q\left( z
+\right),p(z|x))\]</span></p>
+<p>如果能找到这样的分布，就可以替代原来不好计算的<span
+class="math inline">\(p(z|x)\)</span>。</p>
+<h1 id="elbo">ELBO</h1>
+<p>当我们取距离函数<span
+class="math inline">\(L\)</span>为KL散度时，这一问题就变成了变分推断问题，最优化公式可以写为：</p>
+<p><span class="math display">\[{q^{*}\left( z \right) =
+\underset{q\left( z \right) \in Q}{\text{argmin}}\ KL\left( q\left( z
+\right),p\left( z \middle| x \right) \right)
+}{= \underset{q\left( z \right) \in Q}{\text{argmin}} -
+\int_{}^{}{q(z)log\lbrack\frac{p(z|x)}{q(z)}\rbrack dz}}\]</span></p>
+<p>展开上式</p>
+<p><span class="math display">\[\ KL\left( q\left( z \right),p\left( z
+\middle| x \right) \right) = \int_{}^{}{q\left( z
+\right)\text{logq}\left( z \right)\text{dz}} -
+\int_{}^{}{q(z)logp(z|x)dz}\]</span></p>
+<p>这里关于<span class="math inline">\(q(z)\)</span>对<span
+class="math inline">\(z\)</span>积分，其实就是关于<span
+class="math inline">\(q(z)\)</span>的期望，即<span
+class="math inline">\(\int_{}^{}{q\left( z \right)f(z, \cdot )\text{dz}}
+= \mathbb{E}_{q}\lbrack f(z, \cdot
+)\rbrack\)</span>，那么上式能写成期望的形式：</p>
+<p><span class="math display">\[{KL\left( q\left( z \right),p\left( z
+\middle| x \right) \right) = \mathbb{E}_{q}\left\lbrack \log q\left( z
+\right) \right\rbrack - \mathbb{E}_{q}\left\lbrack \text{logp}\left( z
+\middle| x \right) \right\rbrack
+}{= \mathbb{E}_{q}\left\lbrack \log q\left( z \right) \right\rbrack -
+\mathbb{E}_{q}\left\lbrack \log\left\lbrack \frac{p\left( x,z
+\right)}{p\left( x \right)} \right\rbrack \right\rbrack
+}{= \mathbb{E}_{q}\left\lbrack \log q\left( z \right) \right\rbrack -
+\mathbb{E}_{q}\left\lbrack \text{logp}\left( x,z \right) \right\rbrack +
+\mathbb{E}_{q}\lbrack logp(x)\rbrack}\]</span></p>
+<p>其中最后一项与期望对象<span
+class="math inline">\(q(z)\)</span>无关，因此期望符号可以去掉。此时前两项能够被称为<span
+class="math inline">\(- ELBO\)</span>。那么关于<span
+class="math inline">\(q(z)\)</span>的<span
+class="math inline">\(\text{ELBO}\)</span>可以被表示成以下形式计算：</p>
+<p><span class="math display">\[{\text{ELBO}\left( q \right) =
+\mathbb{E}_{q}\left\lbrack \text{logp}\left( x,z \right) \right\rbrack -
+\mathbb{E}_{q}\left\lbrack \text{logq}\left( z \right) \right\rbrack
+}{= \mathbb{E}_{q}\left\lbrack \text{logp}\left( x|z \right)p\left( z
+\right) \right\rbrack - \mathbb{E}_{q}\left\lbrack \text{logq}\left( z
+\right) \right\rbrack
+}{= \mathbb{E}_{q}\left\lbrack \text{logp}\left( x \middle| z \right)
+\right\rbrack + \mathbb{E}_{q}\left\lbrack \frac{\text{logp}\left( z
+\right)}{\text{logq}\left( z \right)} \right\rbrack
+}{= \mathbb{E}_{q}\left\lbrack \text{logp}\left( x \middle| z \right)
+\right\rbrack + \int_{}^{}{q\left( z \right)\frac{\text{logp}\left( z
+\right)}{\text{logq}\left( z \right)}\text{dz}}
+}{= \mathbb{E}_{q}\left\lbrack \text{logp}\left( x \middle| z \right)
+\right\rbrack - KL(q\left( z \right),p(z))}\]</span></p>
+<p>把<span
+class="math inline">\(\text{ELBO}\)</span>移到等式左边，此时：</p>
+<p><span class="math display">\[KL\left( q\left( z \right),p\left( z
+\middle| x \right) \right) + E\text{LBO}\left( q \right) =
+logp(x)\]</span></p>
+<p>因为<span
+class="math inline">\(logp(x)\)</span>是常数，目标是最小化<span
+class="math inline">\(\text{KL}\)</span>项，那么我们的目的就是最大化<span
+class="math inline">\(ELBO(q)\)</span>。由于KL散度永远大于0，因此：</p>
+<p><span class="math display">\[\log p\left( x \right) = ELBO\left( q
+\right) + KL\left( q\left( z \right),p\left( z \middle| x \right)
+\right) \geq ELBO(q)\]</span></p>
+<p>因此这一项被称为Evidence Lower Bound。</p>
+<h1 id="变分推断">变分推断</h1>
+<p>我们对<span
+class="math inline">\(\text{ELBO}\)</span>的表达式进行进一步分析</p>
+<p><span class="math display">\[\text{ELBO}\left( q \right) =
+\mathbb{E}_{q}\left\lbrack \text{logp}\left( x \middle| z \right)
+\right\rbrack - KL(q\left( z \right),p(z))\]</span></p>
+<p>第一项是重建loss，第二项是对隐变量空间施加的约束，当假设<span
+class="math inline">\(p\left( z \right)\mathcal{=
+N(}0,1)\)</span>，<span class="math inline">\(q_{\theta}\left( z
+\right)\mathcal{= N(}z;\mu_{\theta}\left( x
+\right),\sigma_{\theta}^{2}(x))\)</span>时，上述第二项可以写作</p>
+<p><span class="math display">\[\text{KL}\left( q_{\theta}\left( z
+\right),p\left( z \right) \right) = \frac{1}{2}(\mu_{\theta}^{2}\left( x
+\right) + \sigma_{\theta}^{2}\left( x \right) -
+ln\sigma_{\theta}^{2}\left( x \right) - 1)\]</span></p>
+<p>第一项<span class="math inline">\(p\left( x \middle| z
+\right)\)</span>的形式并不确定，我们可以假设他的分布，既可以是高斯分布，也可以是伯努利分布。当属于高斯分布，且方差为1时，<span
+class="math inline">\(\text{ELBO}\)</span>就简化为了一般的MSE
+Loss。同样如果是伯努利分布，那么最后将得到一个交叉熵</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>只想买点薯条</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="李博洋 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.png" alt="李博洋 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E9%80%86%E5%90%91%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" rel="tag"># 逆向强化学习</a>
+              <a href="/tags/%E8%B4%9D%E5%8F%B6%E6%96%AF/" rel="tag"># 贝叶斯</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/07/15/%E8%AE%A4%E7%9F%A5%E5%9C%B0%E5%9B%BE%E7%9A%84%E5%BD%A2%E5%BC%8F/" rel="prev" title="认知地图的扭曲形式">
+                  <i class="fa fa-chevron-left"></i> 认知地图的扭曲形式
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李博洋</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.1/es5/tex-mml-chtml.js","integrity":"sha256-hlC2uSQYTmPsrzGZTEQEg9PZ1a/+SV6VBCTclohf2og="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
