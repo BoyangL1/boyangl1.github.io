@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.boyangl1.cn","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.12.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="空间认知的层次 空间认知的层次指的是人们理解和处理空间信息的不同阶段和方式。这通常包括以下几个层次：  感知层次：在这一层次上，人们直接感知周围的空间环境。这包括对大小、形状、距离和方向等基本空间特征的感知。 描述层次：在这一层次上，人们开始用语言或其他符号系统来描述他们对空间的感知。例如，通过描述物体的位置或方向。 概念层次：这一层次涉及到对空间信息的更高级的理解和组织。例如，人们可能">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大模型的空间认知">
+<meta property="og:url" content="http://www.boyangl1.cn/2023/12/15/%E7%A9%BA%E9%97%B4%E8%AE%A4%E7%9F%A5/index.html">
+<meta property="og:site_name" content="Boyang&#39;s blog">
+<meta property="og:description" content="空间认知的层次 空间认知的层次指的是人们理解和处理空间信息的不同阶段和方式。这通常包括以下几个层次：  感知层次：在这一层次上，人们直接感知周围的空间环境。这包括对大小、形状、距离和方向等基本空间特征的感知。 描述层次：在这一层次上，人们开始用语言或其他符号系统来描述他们对空间的感知。例如，通过描述物体的位置或方向。 概念层次：这一层次涉及到对空间信息的更高级的理解和组织。例如，人们可能">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.boyangl1.cn/2023/12/15/%E7%A9%BA%E9%97%B4%E8%AE%A4%E7%9F%A5/image.png">
+<meta property="article:published_time" content="2023-12-15T10:02:23.000Z">
+<meta property="article:modified_time" content="2023-12-28T13:18:33.202Z">
+<meta property="article:author" content="李博洋">
+<meta property="article:tag" content="空间认知">
+<meta property="article:tag" content="大模型">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.boyangl1.cn/2023/12/15/%E7%A9%BA%E9%97%B4%E8%AE%A4%E7%9F%A5/image.png">
+
+
+<link rel="canonical" href="http://www.boyangl1.cn/2023/12/15/%E7%A9%BA%E9%97%B4%E8%AE%A4%E7%9F%A5/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://www.boyangl1.cn/2023/12/15/%E7%A9%BA%E9%97%B4%E8%AE%A4%E7%9F%A5/","path":"2023/12/15/空间认知/","title":"大模型的空间认知"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>大模型的空间认知 | Boyang's blog</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Boyang's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">分享生活，交流知识</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">25</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">3</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">23</span></a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A9%BA%E9%97%B4%E8%AE%A4%E7%9F%A5%E7%9A%84%E5%B1%82%E6%AC%A1"><span class="nav-number">1.</span> <span class="nav-text">空间认知的层次</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A9%BA%E9%97%B4%E5%85%B3%E7%B3%BB%E8%AE%A4%E7%9F%A5%E7%9A%84%E4%B8%89%E4%B8%AA%E5%B1%82%E6%AC%A1"><span class="nav-number">2.</span> <span class="nav-text">空间关系认知的三个层次</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AF%AD%E8%A8%80%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%85%B7%E6%9C%89%E7%90%86%E8%A7%A3%E9%AB%98%E7%BB%B4%E7%A9%BA%E9%97%B4%E7%9A%84%E8%83%BD%E5%8A%9B%E4%B9%88"><span class="nav-number">3.</span> <span class="nav-text">语言大模型具有理解高维空间的能力么</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A9%BA%E9%97%B4%E8%AE%A4%E7%9F%A5%E7%9A%84%E7%BB%8F%E5%85%B8%E5%AE%9E%E9%AA%8C"><span class="nav-number">4.</span> <span class="nav-text">空间认知的经典实验</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A9%BA%E9%97%B4%E8%AE%A4%E7%9F%A5%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%B1%82%E6%AC%A1"><span class="nav-number">4.1.</span> <span class="nav-text">空间认知的第一个层次</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BE%E5%BD%A2%E6%97%8B%E8%BD%AC%E4%BB%BB%E5%8A%A1mental-rotation-task"><span class="nav-number">4.1.1.</span> <span class="nav-text">图形旋转任务（Mental
+Rotation Task）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A9%BA%E9%97%B4%E8%AE%A4%E7%9F%A5%E7%9A%84%E7%AC%AC%E4%BA%8C%E4%B8%AA%E5%B1%82%E6%AC%A1"><span class="nav-number">4.2.</span> <span class="nav-text">空间认知的第二个层次</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%8F%E5%85%B8tolman%E8%BF%B7%E5%AE%AB%E5%AE%9E%E9%AA%8C"><span class="nav-number">4.2.1.</span> <span class="nav-text">经典Tolman迷宫实验</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E5%92%8C%E7%BB%93%E6%9E%84"><span class="nav-number">4.2.1.1.</span> <span class="nav-text">设计和结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B"><span class="nav-number">4.2.1.2.</span> <span class="nav-text">实验过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%93%E6%9E%9C%E5%92%8C%E5%BD%B1%E5%93%8D"><span class="nav-number">4.2.1.3.</span> <span class="nav-text">结果和影响</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%AF%E5%BE%84%E6%95%B4%E5%90%88%E5%AE%9E%E9%AA%8Cpath-integration"><span class="nav-number">4.2.2.</span> <span class="nav-text">路径整合实验（Path
+Integration）：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E8%AE%BE%E8%AE%A1"><span class="nav-number">4.2.2.1.</span> <span class="nav-text">实验设计</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%BA%E5%BA%A6%E7%A9%BA%E9%97%B4%E8%AE%A4%E7%9F%A5%E5%AE%9E%E9%AA%8C"><span class="nav-number">4.2.3.</span> <span class="nav-text">尺度空间认知实验：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B0%8F%E5%B0%BA%E5%BA%A6%E7%A9%BA%E9%97%B4%E8%AE%A4%E7%9F%A5micro-scale-spatial-cognition"><span class="nav-number">4.2.3.1.</span> <span class="nav-text">小尺度空间认知（Micro-Scale
+Spatial Cognition）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%AD%E5%B0%BA%E5%BA%A6%E7%A9%BA%E9%97%B4%E8%AE%A4%E7%9F%A5meso-scale-spatial-cognition"><span class="nav-number">4.2.3.2.</span> <span class="nav-text">中尺度空间认知（Meso-Scale
+Spatial Cognition）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%A7%E5%B0%BA%E5%BA%A6%E7%A9%BA%E9%97%B4%E8%AE%A4%E7%9F%A5macro-scale-spatial-cognition"><span class="nav-number">4.2.3.3.</span> <span class="nav-text">大尺度空间认知（Macro-Scale
+Spatial Cognition）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A9%BA%E9%97%B4%E8%AE%A4%E7%9F%A5%E7%9A%84%E7%AC%AC%E4%B8%89%E4%B8%AA%E5%B1%82%E6%AC%A1"><span class="nav-number">4.3.</span> <span class="nav-text">空间认知的第三个层次</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%BA%E6%99%AF%E9%87%8D%E6%9E%84%E5%AE%9E%E9%AA%8C"><span class="nav-number">4.3.1.</span> <span class="nav-text">场景重构实验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E5%B1%B1%E5%AE%9E%E9%AA%8Cthree-mountain-task"><span class="nav-number">4.3.2.</span> <span class="nav-text">三山实验（Three Mountain
+Task）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E8%AE%BE%E8%AE%A1-1"><span class="nav-number">4.3.2.1.</span> <span class="nav-text">实验设计</span></a></li></ol></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="李博洋"
+      src="/images/cat.png">
+  <p class="site-author-name" itemprop="name">李博洋</p>
+  <div class="site-description" itemprop="description">生命太短暂，不要去做一些根本没有人想要的东西。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com//BoyangL1" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;&#x2F;BoyangL1" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:liboyang0209@gmail.com" title="E-Mail → mailto:liboyang0209@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.boyangl1.cn/2023/12/15/%E7%A9%BA%E9%97%B4%E8%AE%A4%E7%9F%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="李博洋">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boyang's blog">
+      <meta itemprop="description" content="生命太短暂，不要去做一些根本没有人想要的东西。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="大模型的空间认知 | Boyang's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          大模型的空间认知
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-12-15 18:02:23" itemprop="dateCreated datePublished" datetime="2023-12-15T18:02:23+08:00">2023-12-15</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="空间认知的层次">空间认知的层次</h1>
+<p>空间认知的层次指的是人们理解和处理空间信息的不同阶段和方式。这通常包括以下几个层次：</p>
+<ol type="1">
+<li><p><strong>感知层次</strong>：在这一层次上，人们直接感知周围的空间环境。这包括对大小、形状、距离和方向等基本空间特征的感知。</p></li>
+<li><p><strong>描述层次</strong>：在这一层次上，人们开始用语言或其他符号系统来描述他们对空间的感知。例如，通过描述物体的位置或方向。</p></li>
+<li><p><strong>概念层次</strong>：这一层次涉及到对空间信息的更高级的理解和组织。例如，人们可能会形成关于空间关系的抽象概念，如“上”和“下”、“前”和“后”等。</p></li>
+<li><p><strong>推理层次</strong>：在这个层次上，人们使用他们对空间的理解来进行推理和解决问题。例如，规划从一个地方到另一个地方的最短路径。</p></li>
+<li><p><strong>应用层次</strong>：最高层次的空间认知涉及将空间理解应用于复杂的任务和决策中，如建筑设计、城市规划或导航。</p></li>
+</ol>
+<p><span id="more"></span></p>
+<p>空间认知可以划分为三个递进的组成部分： 空间可视化（spatial
+visualization）、空间关系（spatial relations）、和空间定向（spatial
+orientation）：</p>
+<ol type="1">
+<li><strong>空间可视化（Spatial Visualization）</strong>：
+<ul>
+<li>这是指能够在心理上操纵、旋转、扭转或反转一个或一组视觉呈现的刺激物体的能力。这种能力通常涉及到对复杂刺激和连续变换的心理图像的操作，这可能需要时间来完成。例如，当尝试解决立体拼图或进行工程绘图时，就会使用到空间可视化能力。</li>
+</ul></li>
+<li><strong>空间关系（Spatial Relations）</strong>：
+<ul>
+<li>空间关系与空间可视化不同，它涉及对简单空间关系的更快速和直观的理解。这通常涉及到辨识物体及其各部分之间的位置和方向关系，而不需要复杂的或顺序的变换。例如，在快速判断两个形状是否相同但是在不同方向时，就是在使用空间关系能力。</li>
+</ul></li>
+<li><strong>空间定向（Spatial Orientation）</strong>：
+<ul>
+<li>空间定向指的是理解和预测在环境中变换观察点时，物体或图案如何变化的能力。它涉及到从一个新的视角来想象或理解视觉刺激模式的排列。例如，当你阅读地图并确定从当前位置到另一个位置如何移动时，你就在使用空间定向能力。</li>
+</ul></li>
+</ol>
+<p>空间认知涉及的感知、决策到行为的过程体现了我们如何理解和互动于周遭的世界。每个认知层次都是在前一层次的基础上进一步发展的，需要更加高级的认知处理能力。这些能力在驾驶、阅读地图、解析复杂图像或进行空间规划等日常活动中都发挥着关键作用。空间可视化和空间定向尤其依赖视觉能力，但在大模型的评估中，我们主要关注空间关系，这是因为它是理解和操纵空间元素间关系的基础能力，对于我们日常生活及专业领域的许多活动都是不可或缺的。</p>
+<h1 id="空间关系认知的三个层次">空间关系认知的三个层次</h1>
+<p>空间关系认知的几个层次可以这样划分：</p>
+<ol type="1">
+<li><p><strong>地标知识</strong>：这是空间认知的最基本层次，涉及对环境中显著对象的记忆，但最初不包括任何度量关系的信息。这些地标是个人在空间导航中的参照点。</p></li>
+<li><p><strong>路径知识</strong>：当人们在地标之间移动时，他们逐渐发展出路径知识。这种知识被看作是连接地标的空间序列信息，涵盖了从一个地标到另一个地标的具体路径或顺序。</p></li>
+<li><p><strong>测量知识</strong>：随着对环境熟悉度的增加，测量知识的发展将地标和路径知识整合起来，并将其与固定的坐标系统相关联。这种知识使人能够理解度量关系和绝对方位（如罗盘方位），并能够尝试以前从未走过的捷径。</p></li>
+<li><figure>
+<img src="image.png" alt="测量知识的三种形式" />
+<figcaption aria-hidden="true">测量知识的三种形式</figcaption>
+</figure></li>
+</ol>
+<p>测量知识又可以分为三个层次：</p>
+<ol type="a">
+<li><p><strong>图知识（Graph
+Knowledge）</strong>：这一层次代表了对环境的基本理解，环境被看作是节点（包括交叉点的可识别地点）和边（节点之间的可通行路径）的网络，但不包含度量信息。它显示了环境的连通性，但没有提供关于距离或方向的具体信息。</p></li>
+<li><p><strong>标注图（Labeled
+Graph）</strong>：在这个层次，空间知识包含了局部的度量信息。图知识中加入了地点之间的距离和路径之间的角度。这些信息可能不是完全准确或全局一致的，但提供的细节比基本的拓扑图更多。这里，图上标注了大约的距离（如~3,
+<sub>2）和角度（如</sub>45°,
+~90°），表示了对空间关系更进一步的理解。</p></li>
+<li><p><strong>调查知识（Survey
+Knowledge）</strong>：图中显示的最高级别的空间知识是测量知识，它类似于地图，并且是构型的。它将位置嵌入到一个共同的坐标系统中，提供了整个区域内准确和一致的度量信息。给出了特定点的坐标，表明了二维空间中的精确位置。</p></li>
+</ol>
+<p>这三个层次展示了从简单、定性的空间关系理解到复杂、定量的、精确的度量表征的发展过程，类似于人类在空间理解上的认知发展。</p>
+<h1
+id="语言大模型具有理解高维空间的能力么">语言大模型具有理解高维空间的能力么</h1>
+<p>ChatGPT和其他基于Transformer的大型语言模型确实主要处理语言作为一种一维序列。这些模型在处理文本时，将文本视为一系列词汇、词组或字符的线性排列。然而，处理这种一维序列的能力并不意味着模型仅限于理解一维结构。以下是一些关键点：</p>
+<ol type="1">
+<li><strong>高维特征表示</strong>：
+<ul>
+<li>尽管输入本身是一维的（即文本序列），但模型内部通过词嵌入和隐藏层将这些输入转换为高维特征空间中的表示。这意味着每个词或词组被转化为高维空间中的一个点，其中包含丰富的语义和语法信息。</li>
+</ul></li>
+<li><strong>上下文理解能力</strong>：
+<ul>
+<li>大型语言模型如ChatGPT利用自注意力机制来理解文本中的上下文。它能够关注输入序列中的所有元素，并根据这些元素之间的关系调整每个元素的表示。这超越了简单的一维顺序处理，涉及到在更高维度上理解和整合信息。</li>
+</ul></li>
+<li><strong>处理多维语言特征</strong>：
+<ul>
+<li>虽然语言表达本身是线性的，但语言的意义和结构是多维的。大型语言模型能够在一定程度上捕捉这种多维性，如理解句法结构、语义关系、语言中的隐含意义和语境等。</li>
+</ul></li>
+<li><strong>限制和挑战</strong>：
+<ul>
+<li>尽管如此，目前的大型语言模型在理解非线性、多维语言现象（如诗歌、双关语、高度隐喻性或抽象的语言）时仍然面临挑战。</li>
+<li>此外，这些模型通常不处理跨媒体的多维数据，如结合文本和视觉信息的场景。</li>
+</ul></li>
+</ol>
+<p>尽管大型语言模型如ChatGPT在处理和生成文本时主要关注一维序列，但它们内部的处理机制涉及到将这些序列转换和理解为高维特征空间中的复杂表示。这使得它们能够在一定程度上理解和处理语言的多维复杂性。然而，它们在处理高度抽象或复杂的多维语言现象时仍有局限性。</p>
+<h1 id="空间认知的经典实验">空间认知的经典实验</h1>
+<h2 id="空间认知的第一个层次">空间认知的第一个层次</h2>
+<h3 id="图形旋转任务mental-rotation-task"><strong>图形旋转任务（Mental
+Rotation Task）</strong></h3>
+<ul>
+<li>这是一种评估人类空间视觉化能力的实验。</li>
+<li>参与者需要在心中旋转二维或三维的图形，以判断它们是否与给定的参照图形相同。</li>
+<li>这个任务测试了空间变换能力和旋转物体的心理表示能力。</li>
+<li>主要来自<strong>Ishikawa</strong>的书里的实验，可以通过语言来进行描述。</li>
+<li>例如：门棱实验 (Door Frame
+Experiment)：这个实验是由美国心理学家罗杰·谢帕德和杰奎琳·梅茨勒进行的。它涉及到观察者对旋转的三维对象（如门框）的认知，用于研究空间旋转能力。</li>
+</ul>
+<h2 id="空间认知的第二个层次">空间认知的第二个层次</h2>
+<h3 id="经典tolman迷宫实验">经典Tolman迷宫实验</h3>
+<p>变种0 ：经典的Tolman迷宫实验(实验迷宫可以自定)</p>
+<ol type="1">
+<li><p><strong>多路径迷宫</strong>：在一个典型的实验中，老鼠被放入一个具有多个分支和选择点的复杂迷宫中。迷宫的设计允许测试动物学习和记忆迷宫的整体布局，而不仅仅是单一的刺激-反应路径。</p></li>
+<li><p><strong>阻塞和替代路径</strong>：在一些实验中，托尔曼会阻塞通往奖励的常规路径，迫使老鼠寻找替代路径。这样的设计有助于观察动物是否能够灵活地使用其对迷宫布局的记忆来找到新的路线。</p></li>
+<li><p><strong>变化起点或目标位置</strong>：在另一些实验中，起点或食物的位置被改变，以测试老鼠是否能够根据迷宫的整体布局找到目标。</p></li>
+</ol>
+<p>举例实验：一只老鼠被放在一个十字形的迷宫里自由探索。在最初的探索之后，老鼠被放在十字架的一个臂上，食物被放在紧邻右边的下一个臂上。大鼠很快学会了在十字路口向右转，以获得食物。然而，当老鼠被放置在十字迷宫的不同臂上时，大鼠仍然朝着正确的方向去获取食物，找到通往食物的捷径。也就是说，老鼠的行为并不是由行为-奖赏之间的条件反射机械地决定，而是会自发学习迷宫的空间布局，即构建认知地图，并借此可以推断出通往食物的捷径。</p>
+<p>变种1： T or
+Y形迷宫(https://zhuanlan.zhihu.com/p/480665753)(https://zhuanlan.zhihu.com/p/604193655)</p>
+<p>变种2： 放射状迷宫(https://zhuanlan.zhihu.com/p/356283688)</p>
+<p>变种3： 莫里斯水迷宫</p>
+<h4 id="设计和结构">设计和结构</h4>
+<ol type="1">
+<li><p><strong>迷宫本身</strong>：莫里斯水迷宫通常是一个圆形的大容器，直径大约为1.2到1.8米。容器填满温水，通常保持在约22至26摄氏度之间。</p></li>
+<li><p><strong>水的颜色</strong>：为了使水不透明，通常会加入白色的无毒颜料。这样做是为了隐藏水下的平台，使老鼠无法依靠视觉找到它。</p></li>
+<li><p><strong>隐藏平台</strong>：迷宫中有一个小平台，位于水面下大约1至2厘米。这个平台使老鼠能够站立并休息，但对于游泳中的老鼠来说不是显而易见的。</p></li>
+<li><p><strong>环境线索</strong>：迷宫周围通常放置几个显著的、不动的视觉线索，如图案、颜色或形状，帮助动物定位。</p></li>
+</ol>
+<h4 id="实验过程">实验过程</h4>
+<ol type="1">
+<li><p><strong>适应阶段</strong>：实验开始前，动物通常被允许适应水的温度和环境。</p></li>
+<li><p><strong>训练阶段</strong>：在训练阶段，老鼠被放入水中并开始寻找隐藏的平台。动物被从不同的起点放入水中，以避免它们仅依赖开始位置的记忆。</p></li>
+<li><p><strong>记忆测试</strong>：在经过一系列训练后，进行记忆测试，以评估动物记住平台位置的能力。这可以通过移除平台并观察动物在水中搜索平台的位置的时间和路径来实现。</p></li>
+<li><p><strong>变体</strong>：实验的变体可能包括改变平台的位置或使用不同的环境线索，以测试动物的学习和适应能力。</p></li>
+</ol>
+<h4 id="结果和影响">结果和影响</h4>
+<p>托尔曼的实验结果支持了他的认知地图理论，即动物（和人类）在其环境中导航时，不仅仅是依赖简单的刺激-反应机制，而是形成了一个复杂的、关于环境的心理表征。这一发现挑战了当时主流的行为主义观点，即所有学习都是通过条件反射和强化来实现的。</p>
+<h3 id="路径整合实验path-integration"><strong>路径整合实验（Path
+Integration）</strong>：</h3>
+<ul>
+<li>路径整合是一种空间导航技能，指的是在没有环境线索的情况下通过自己的运动来估算位置的能力。</li>
+<li>实验通常涉及让个体在没有可视地标的情况下移动，然后要求他们返回起点。</li>
+<li>这种实验有助于了解人类和动物如何使用运动感知和内部感觉来导航。</li>
+</ul>
+<h4 id="实验设计">实验设计</h4>
+<ul>
+<li>只给大模型提供矢量轨迹，问从某一个点到另外一个点的最短路径</li>
+<li>分别构建从一维空间到高维空间的不同轨迹</li>
+<li>构建两组：1、要求大模型不使用其他工具
+2、要求大模型可以使用pyhton等分析能力</li>
+</ul>
+<h3 id="尺度空间认知实验"><strong>尺度空间认知实验</strong>：</h3>
+<p>空间认知的尺度可以分为小尺度、中尺度和大尺度，这些尺度涉及不同的环境大小和范围，以及人们在这些环境中如何理解和导航空间。每个尺度层面对应不同的空间处理和认知任务。</p>
+<h4
+id="小尺度空间认知micro-scale-spatial-cognition">小尺度空间认知（Micro-Scale
+Spatial Cognition）</h4>
+<ul>
+<li><strong>定义</strong>：涉及到个人的直接身体空间，即一个人可以在不移动其位置的情况下到达和操作的范围。</li>
+<li><strong>实例</strong>：操作桌面上的物品、在一个房间内的移动、使用工具和设备等。</li>
+<li><strong>认知特点</strong>：在这个尺度上，空间认知通常涉及对物体的直接感知、操作和互动，如手眼协调、物体大小和形状的感知。</li>
+</ul>
+<h4
+id="中尺度空间认知meso-scale-spatial-cognition">中尺度空间认知（Meso-Scale
+Spatial Cognition）</h4>
+<ul>
+<li><strong>定义</strong>：涉及到可以通过短距离移动来经历的空间，如单个房间、建筑物或小型户外空间。</li>
+<li><strong>实例</strong>：在一个办公室、家庭或学校内导航，或在一个小公园里散步。</li>
+<li><strong>认知特点</strong>：这一层面的空间认知涉及到对更广范围内的环境布局和方位的理解，需要记忆和导航技能，如记住不同房间的位置、识别地标等。</li>
+</ul>
+<h4
+id="大尺度空间认知macro-scale-spatial-cognition">大尺度空间认知（Macro-Scale
+Spatial Cognition）</h4>
+<ul>
+<li><strong>定义</strong>：涉及到广阔的、需要较长时间和距离移动才能经历的空间，如整个城市、地区或自然景观。</li>
+<li><strong>实例</strong>：在一个城市中导航，长途旅行，或在广阔的自然环境中定位。</li>
+<li><strong>认知特点</strong>：大尺度空间认知通常需要对广阔空间和远距离地理特征的理解，包括地图阅读、路线规划、方向感以及对大范围地标的记忆。</li>
+</ul>
+<p>小尺度更侧重于感知和操作，中尺度结合了感知、记忆和导航，而大尺度则依赖于对广阔空间的理解和复杂的导航策略。<strong><em>为大模型构建不同尺度的空间与轨迹描述，询问对于整体空间关系的认知记忆。</em></strong></p>
+<h2 id="空间认知的第三个层次">空间认知的第三个层次</h2>
+<h3 id="场景重构实验">场景重构实验</h3>
+<p>参与者在观察一个场景或布局后，被要求从记忆中重建该场景。这可以在物理环境中进行，也可以通过绘制或使用计算机软件完成。
+#### 实验设计 -
+实验材料：可以包括实际的物理空间、模型或通过虚拟现实技术创建的环境。 -
+实验过程：参与者可能会被要求在观察或探索一个场景之后，从记忆中重建该场景。
+-
+（为大模型提供不同的轨迹，让他重构整个空间；提问不同位置上，观测到的地物的遮挡关系等，空间关系与空间位置能力）</p>
+<h3 id="三山实验three-mountain-task">三山实验（Three Mountain
+Task）</h3>
+<p>三山实验是由让·皮亚杰和巴尔贝·因赫尔德在1956年设计的，旨在评估儿童对不同视角下的空间关系的理解。这项实验对儿童的认知发展，特别是他们理解他人视角的能力，有着重要的启示。</p>
+<h4 id="实验设计-1">实验设计</h4>
+<ul>
+<li><strong>实验材料</strong>：实验使用一个小模型，包含三座不同大小和形状的山，山上可能有不同的标记（如房子、树木）。</li>
+<li><strong>实验过程</strong>：儿童被要求从不同的位置观看这个模型，并描述从这些不同位置看到的景象。接着，他们被要求选择或描述从一个不在场的玩偶的视角看到的景象。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>只想买点薯条</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="李博洋 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.png" alt="李博洋 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E7%A9%BA%E9%97%B4%E8%AE%A4%E7%9F%A5/" rel="tag"># 空间认知</a>
+              <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" rel="tag"># 大模型</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/10/15/mapInspired/" rel="prev" title="地图启发的神经网络技术思考">
+                  <i class="fa fa-chevron-left"></i> 地图启发的神经网络技术思考
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李博洋</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.1/es5/tex-mml-chtml.js","integrity":"sha256-hlC2uSQYTmPsrzGZTEQEg9PZ1a/+SV6VBCTclohf2og="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
